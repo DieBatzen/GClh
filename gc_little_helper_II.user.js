@@ -11118,28 +11118,39 @@ var mainGC = function() {
                 } else {waitCount++; if (waitCount <= 200) setTimeout(function(){searchThisArea(waitCount);}, 50);}
             }
 
-            // Preserve zoom parameter in URLs.
-            // (on page load zoom parameter in URL is ignored and zoom level defaults to 14)
+            // Preserve zoom parameter in URLs on page load (for Leaflet maps).
+            // (GS ignores zoom levels from URLs)
             let use_zoom_from_url = true;
-//xxx deaktiviert
             function setZoom() {
-                if (use_zoom_from_url && unsafeWindow.MapSettings && unsafeWindow.MapSettings.Map) {
-                    // Only once on page load.
+                if (use_zoom_from_url && unsafeWindow.MapSettings?.Map) {
+                    // Run only once.
                     use_zoom_from_url = false;
-                    const urlSearchParams = new URLSearchParams(window.location.search),
-                        zoom = urlSearchParams.has('zoom') ? Number(urlSearchParams.get('zoom')) : 14;
-                    if (zoom !== 14) {
-                        unsafeWindow.MapSettings.Map.setZoom(zoom);
-                    }
+                    // Get specified zoom level from __NEXT_DATA__ and set zoom. If none is present, do nothing.
+                    const zoom = unsafeWindow.__NEXT_DATA__?.query?.zoom*1;
+                    if (!isNaN(zoom)) unsafeWindow.MapSettings.Map.setZoom(zoom);
                 }
             }
+            // Two different document states can occur when script starts to run:
+            // 1) document.readyState === "interactive" (page not fully loaded yet)
+            //    - in Chrome always -> window.history.pushState triggers 'setZoom' -> OK
+            //    - in FF sometimes -> zoom level in URL is already altered, therefore 'history.pushState', and thus 'setZoom' don't get triggered
+            //      in this case, we simply trigger a delayed 'setZoom' call manually
+            // 2) document.readyState === "complete" (page fully loaded)
+            //    - in FF most of the time -> zoom level in URL is already altered, therefore 'history.pushState', and thus 'setZoom' don't get triggered
+            //      in this case, we simply trigger a delayed 'setZoom' call manually
+            $(document).ready(() => {
+                setTimeout(() => {
+                    use_zoom_from_url = true;
+                    setZoom();
+                }, 2000);
+            });
 
             // Each map movement or zoom change alters the URL by triggering 'window.history.pushState', therefore we add custom calls inside.
             // (for reference: https://stackoverflow.com/a/64927639)
             window.history.pushState = new Proxy(window.history.pushState, {
                 apply: (target, thisArg, argArray) => {
+                    setZoom();
 //xxx deaktiviert
-//                    setZoom();
 //                    searchThisArea(0);
                     return target.apply(thisArg, argArray);
                 }
