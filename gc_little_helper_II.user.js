@@ -10659,7 +10659,7 @@ var mainGC = function() {
                         .append(
                         '<div class="gclh_grid_container">' +
                         // Cache statuses.
-                        '<br><div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Show / Hide by Cache Status</u></div>' +
+                        '<br><div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Show / Hide Caches by Status</u></div>' +
                         '<div><svg id="gclh_hideLegendGray_svg" style="width: 0.75em !important;margin-right: 0.5em;"><title>All statuses</title><use href="#cache_icon_small_disabled"></use></svg><input type="checkbox" id="gclh_hideLegendGray" ' + (hideLegendGray ? 'checked' : '') + ' style="display:none"></div>' +
                         '<div><span id="gclh_separatorGray" class="gclh_separator" style="width: 4px;height: 20px;background-color: lightgray;display:block;"></span></div>' +
                         '<div><svg id="gclh_hideFinds_svg"><title>My Finds</title><use href="#smiley"></use></svg><input type="checkbox" class="gclh-checkbox-gray" id="gclh_hideFinds" ' + (hideFinds ? 'checked' : '') + ' style="display:none"></div>' +
@@ -10667,7 +10667,7 @@ var mainGC = function() {
                         '<div><svg id="gclh_hideDNFIcons_svg"><title>My DNFs</title><use href="#dnf"></use></svg><input type="checkbox" class="gclh-checkbox-gray" id="gclh_hideDNFIcons" ' + (hideDNFIcons ? 'checked' : '') + ' style="display:none"></div>' +
                         '<div><svg id="gclh_hidePastEvents_svg"><title>Past Events</title><use href="#event_disabled"></use></svg><input type="checkbox" class="gclh-checkbox-gray" id="gclh_hidePastEvents" ' + (hidePastEvents ? 'checked' : '') + ' style="display:none"></div>' +
                         // Cache types.
-                        '<br><div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Show / Hide by Cache Type</u></div>' +
+                        '<br><div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Show / Hide Caches by Type</u></div>' +
                         '<div><svg id="gclh_hideLegendGreen_svg" style="width: 0.75em !important;margin-right: 0.5em;"><title>All green types</title><use href="#cache_icon_small_traditional"></use></svg><input type="checkbox" id="gclh_hideLegendGreen" ' + (hideLegendGreen ? 'checked' : '') + ' style="display:none"></div>' +
                         '<div><span id="gclh_separatorGreen" class="gclh_separator" style="width: 4px;height: 20px;background-color: forestgreen;display:block;"></span></div>' +
                         '<div style="grid-column: 3 / span 4;"><svg id="gclh_hideTradis_svg"><title>Traditionals</title><use href="#traditional"></use></svg><input type="checkbox" class="gclh-checkbox-green" id="gclh_hideTradis" ' + (hideTradis ? 'checked' : '') + ' style="display:none"></div>' +
@@ -10705,13 +10705,15 @@ var mainGC = function() {
                     // Close options on 'mouseleave'.
                     $('.gclh_display_options_list').mouseleave(function() {
                         $(this).css('display', 'none');
+                        // Ensure that tooltip will be closed in any case.
+                        $('.gclh_options_info').css('display', 'none');
                     });
                     // Open tooltip on 'click'.
                     $("#gclh_options_info").click(function() {
                         $('.gclh_options_info').css('display', 'block');
                     });
                     // Close tooltip on 'mouseleave'.
-                    $('#gclh_options_info').mouseleave(function() {
+                    $('.gclh_options_info').mouseleave(function() {
                         $('.gclh_options_info').css('display', 'none');
                     });
 
