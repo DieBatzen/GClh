@@ -10539,9 +10539,6 @@ var mainGC = function() {
 
             // Handle cache properties.
             const processCaches = (layout) => {
-                // Don't run if display options button is disabled.
-                if (document.querySelector('#gclh_display_options_control')?.hasAttribute('disabled')) return;
-
                 // Since the content of searchResults is read-only most of the time, we overwrite it with a writable clone.
                 // Otherwise cache properties cannot be set.
                 layout.props.searchResults = structuredClone(layout.props.searchResults);
@@ -10658,11 +10655,11 @@ var mainGC = function() {
 
                     // Options list.
                     $("#gclh_display_options_list")
-                        .append('<b>Display Options for Search Results</b><svg id="gclh_options_info"><title>Info</title><use href="#tooltip"></use></svg><div class="gclh_options_info">These GClh options allow you to control the display of your search results.<br><br>If some caches seem to be missing (e.g. your finds), please check your search filters.</div>')
+                        .append('<b>Display Options for Search Results</b><svg id="gclh_options_info" style="vertical-align: text-bottom;display: inline-block;"><title>Info</title><use href="#tooltip"></use></svg><div class="gclh_options_info">These GClh options allow you to control the display of your search results.<br><br>If some caches seem to be missing (e.g. your finds), please check your <a href="#" onclick="document.querySelector(\'button.gc-filter-toggle\').click(); return false;">search filters</a>.</div>')
                         .append(
                         '<div class="gclh_grid_container">' +
                         // Cache statuses.
-                        '<br><div style="grid-column: 1 / span 6; margin-bottom: 5px;">Filter by Cache Status</div>' +
+                        '<br><div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Show / Hide by Cache Status</u></div>' +
                         '<div><svg id="gclh_hideLegendGray_svg" style="width: 0.75em !important;margin-right: 0.5em;"><title>All statuses</title><use href="#cache_icon_small_disabled"></use></svg><input type="checkbox" id="gclh_hideLegendGray" ' + (hideLegendGray ? 'checked' : '') + ' style="display:none"></div>' +
                         '<div><span id="gclh_separatorGray" class="gclh_separator" style="width: 4px;height: 20px;background-color: lightgray;display:block;"></span></div>' +
                         '<div><svg id="gclh_hideFinds_svg"><title>My Finds</title><use href="#smiley"></use></svg><input type="checkbox" class="gclh-checkbox-gray" id="gclh_hideFinds" ' + (hideFinds ? 'checked' : '') + ' style="display:none"></div>' +
@@ -10670,7 +10667,7 @@ var mainGC = function() {
                         '<div><svg id="gclh_hideDNFIcons_svg"><title>My DNFs</title><use href="#dnf"></use></svg><input type="checkbox" class="gclh-checkbox-gray" id="gclh_hideDNFIcons" ' + (hideDNFIcons ? 'checked' : '') + ' style="display:none"></div>' +
                         '<div><svg id="gclh_hidePastEvents_svg"><title>Past Events</title><use href="#event_disabled"></use></svg><input type="checkbox" class="gclh-checkbox-gray" id="gclh_hidePastEvents" ' + (hidePastEvents ? 'checked' : '') + ' style="display:none"></div>' +
                         // Cache types.
-                        '<br><div style="grid-column: 1 / span 6; margin-bottom: 5px;">Filter by Cache Type</div>' +
+                        '<br><div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Show / Hide by Cache Type</u></div>' +
                         '<div><svg id="gclh_hideLegendGreen_svg" style="width: 0.75em !important;margin-right: 0.5em;"><title>All green types</title><use href="#cache_icon_small_traditional"></use></svg><input type="checkbox" id="gclh_hideLegendGreen" ' + (hideLegendGreen ? 'checked' : '') + ' style="display:none"></div>' +
                         '<div><span id="gclh_separatorGreen" class="gclh_separator" style="width: 4px;height: 20px;background-color: forestgreen;display:block;"></span></div>' +
                         '<div style="grid-column: 3 / span 4;"><svg id="gclh_hideTradis_svg"><title>Traditionals</title><use href="#traditional"></use></svg><input type="checkbox" class="gclh-checkbox-green" id="gclh_hideTradis" ' + (hideTradis ? 'checked' : '') + ' style="display:none"></div>' +
@@ -10693,12 +10690,13 @@ var mainGC = function() {
                         '<div><svg id="gclh_hideMysteries_svg"><title>Mysteries</title><use href="#mystery"></use></svg><input type="checkbox" class="gclh-checkbox-blue" id="gclh_hideMysteries" ' + (hideMysteries ? 'checked' : '') + ' style="display:none"></div>' +
                         '<div><svg id="gclh_hideLetterboxes_svg"><title>Letterboxes</title><use href="#letterbox"></use></svg><input type="checkbox" class="gclh-checkbox-blue" id="gclh_hideLetterboxes" ' + (hideLetterboxes ? 'checked' : '') + ' style="display:none"></div>' +
                         '<div style="grid-column: 5 / span 2;"><svg id="gclh_hideWherigos_svg"><title>Wherigos</title><use href="#wherigo"></use></svg><input type="checkbox" class="gclh-checkbox-blue" id="gclh_hideWherigos" ' + (hideWherigos ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div style="grid-column: 1 / span 6;"><a id="hide_all_cachetypes" title="Hide all cache types" href="#">Hide all cache types</a></div>' +
                         '<div style="grid-column: 1 / span 6;"><a id="show_all_cachetypes"title="Show all cache types" href="#">Show all cache types</a></div>' +
+                        '<div style="grid-column: 1 / span 6;"><a id="hide_all_cachetypes" title="Hide all cache types" href="#">Hide all cache types</a></div>' +
                         '</div>'
                         )
                         // Corrected coords.
-                        .append('<br><label for="gclh_showAtCorrectedCoords"><svg id="gclh_showAtCorrectedCoords_svg"><title>Show finds at corrected coordinates</title><use href="#solved"></use></svg><input type="checkbox" id="gclh_showAtCorrectedCoords" ' + (showAtCorrectedCoords ? 'checked' : '') + '>Show finds at corrected coordinates</label>');
+                        .append('<br><div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Relocate Caches</u></div>')
+                        .append('<label for="gclh_showAtCorrectedCoords"><svg id="gclh_showAtCorrectedCoords_svg"><title>Show finds at corrected coordinates</title><use href="#solved"></use></svg><input type="checkbox" id="gclh_showAtCorrectedCoords" ' + (showAtCorrectedCoords ? 'checked' : '') + '>Show finds at corrected coordinates</label>');
 
                     // Open options on 'click'.
                     $("#gclh_display_options_control").click(function() {
@@ -10820,19 +10818,30 @@ var mainGC = function() {
                         const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
                         document.getElementById("gclh_hideLegend" + color).checked = allChecked;
                         setValue('set_switch_SM_hideLegend' + color, allChecked);
+
+                        // Invert button colors if any status or type is checked.
+                        const divs = document.querySelectorAll('div.gclh_grid_container > div');
+                        const checked = Array.from(divs).find(div => div.querySelector('input[type="checkbox"]:checked'));
+                        if (checked) {
+                            $('#gclh_display_options_control').addClass('bg-green-500');
+                            $('#gclh_display_options_control > svg').css('color', 'white');
+                        } else {
+                            $('#gclh_display_options_control').removeClass('bg-green-500');
+                            $('#gclh_display_options_control > svg').css('color', 'rgb(0, 178, 101)');
+                        }
                     };
 
                     // Styling.
                     const opacity = 0.25;
                     let css = '';
                     css += '.gclh_display_options_control > svg {height: 1.9em !important;}';
-                    css += '.gclh_display_options_list {max-height: 60vh; overflow-y: auto; display: none; position: absolute; right: 0px; top: 0px; width: max-content; border-radius: inherit; box-shadow: 0 1px 7px rgba(0,0,0,0.4); background-color: inherit; padding: 15px; z-index: 1000; color: black; font-family: "Noto Sans", Arial, Helvetica, sans-serif; cursor: default; text-align: left;}';
+                    css += '.gclh_display_options_list {max-height: 65vh; overflow-y: auto; display: none; position: absolute; right: 0px; top: -15vh; width: max-content; border-radius: inherit; box-shadow: 0 1px 7px rgba(0,0,0,0.4); background-color: white; padding: 15px; z-index: 1000; color: black; font-family: "Noto Sans", Arial, Helvetica, sans-serif; cursor: default; text-align: left;}';
                     css += '.gclh_display_options_list > label {display: flex; align-items: center; padding: 2px 2px; font-size: 13px;}';
                     css += '.gclh_display_options_list > label:hover {background-color: #e6f7ef; cursor: pointer;}';
                     css += '.gclh_display_options_list > label > input[type="checkbox"]:checked {accent-color: rgb(0 125 70);}';
                     css += '.gclh_display_options_list svg {width: 1.5em !important; height: 1.5em !important; margin-left: 0.5em; margin-right: 0.5em}';
                     css += '.gclh_display_options_list svg:hover {cursor: pointer;}';
-                    css += '.gclh_grid_container {display: grid !important;grid-template-columns: 25px 4px 30px 30px 30px 30px;justify-items: start;}';
+                    css += '.gclh_grid_container {display: grid !important;grid-template-columns: 25px 4px 30px 30px 30px 90px;justify-items: start;}';
                     css += '.gclh_grid_container > div:has(input[type="checkbox"]:checked) {opacity: '+opacity+';}';
                     css += '.gclh_grid_container > div:has(input[type="checkbox"]:checked) + div .gclh_separator {opacity: '+opacity+';}';
                     css += '.gclh_options_info {display: none; position: absolute; right: 1em; top: 50px; width: 280px; border-radius: inherit; box-shadow: 0 1px 7px rgba(0,0,0,0.4); background-color: inherit; padding: 15px; z-index: 1001; color: black; font-family: "Noto Sans", Arial, Helvetica, sans-serif; cursor: default; text-align: left; font-size: 13px;}';
@@ -10842,28 +10851,28 @@ var mainGC = function() {
 
             // Add button for additional geocache display options.
             if (settings_searchmap_show_cache_display_options && settings_use_gclh_layercontrol && settings_use_gclh_layercontrol_on_search_map) {
-                var hideFinds = getValue('set_switch_SM_hideFinds', false);
-                var hideOwned = getValue('set_switch_SM_hideOwned', false);
-                var hideDNFIcons = getValue('set_switch_SM_hideDNFIcons', false);
-                var hidePastEvents = getValue('set_switch_SM_hidePastEvents', false);
-                var hideTradis = getValue('set_switch_SM_hideTradis', false);
-                var hideMultis = getValue('set_switch_SM_hideMultis', false);
-                var hideEvents = getValue('set_switch_SM_hideEvents', false);
-                var hideCitos = getValue('set_switch_SM_hideCitos', false);
-                var hideMegas = getValue('set_switch_SM_hideMegas', false);
-                var hideGigas = getValue('set_switch_SM_hideGigas', false);
-                var hideEarthcaches = getValue('set_switch_SM_hideEarthcaches', false);
-                var hideVirtuals = getValue('set_switch_SM_hideVirtuals', false);
-                var hideWebcams = getValue('set_switch_SM_hideWebcams', false);
-                var hideMysteries = getValue('set_switch_SM_hideMysteries', false);
-                var hideLetterboxes = getValue('set_switch_SM_hideLetterboxes', false);
-                var hideWherigos = getValue('set_switch_SM_hideWherigos', false);
-                var hideLegendGray = getValue('set_switch_SM_hideLegendGray', false);
-                var hideLegendGreen = getValue('set_switch_SM_hideLegendGreen', false);
-                var hideLegendOrange = getValue('set_switch_SM_hideLegendOrange', false);
-                var hideLegendRed = getValue('set_switch_SM_hideLegendRed', false);
-                var hideLegendTurquoise = getValue('set_switch_SM_hideLegendTurquoise', false);
-                var hideLegendBlue = getValue('set_switch_SM_hideLegendBlue', false);
+                var hideFinds = false;
+                var hideOwned = false;
+                var hideDNFIcons = false;
+                var hidePastEvents = false;
+                var hideTradis = false;
+                var hideMultis = false;
+                var hideEvents = false;
+                var hideCitos = false;
+                var hideMegas = false;
+                var hideGigas = false;
+                var hideEarthcaches = false;
+                var hideVirtuals = false;
+                var hideWebcams = false;
+                var hideMysteries = false;
+                var hideLetterboxes = false;
+                var hideWherigos = false;
+                var hideLegendGray = false;
+                var hideLegendGreen = false;
+                var hideLegendOrange = false;
+                var hideLegendRed = false;
+                var hideLegendTurquoise = false;
+                var hideLegendBlue = false;
                 var showAtCorrectedCoords = getValue('set_switch_SM_showAtCorrectedCoords', false);
 
                 // Add button with small delay to ensure it is always at the top (necessary for FF).
@@ -10877,17 +10886,16 @@ var mainGC = function() {
                     if (document.querySelector('li.bg-green-500[data-testid="search-mode-item"]')) {
                         if ($('#gclh_display_options_control').hasClass('gclh-bml')) {
                             $('#gclh_display_options_control').removeClass('gclh-bml');
-                            document.querySelector('#gclh_display_options_control')?.removeAttribute('disabled', '');
-                            // Reinitialize map bounds.
-                            [latHighG, latLowG, lngHighG, lngLowG] = getMapBounds();
-                            // Disable 'moveend' and 'zoomend' event handlers.
                             moveend_zoomend = false;
+
+                            setTimeout(() => {
+                                $('[data-event-label="Map - Search This Area"]').first().click();
+                                },1000);
                         }
                     } else {
                         if (getURLParam('bmCode')) {
                             $('#gclh_display_options_control').addClass('gclh-bml');
-                            document.querySelector('#gclh_display_options_control')?.setAttribute('disabled', '');
-                            forceCachesRefresh();
+                            forceCachesRefresh(); // seems not necessary anymore (maybe since diplay filters are active??)
                         }
                         // Ensure proper zooming in BML by enabling 'moveend' and 'zoomend' event handlers.
                         moveend_zoomend = true;
