@@ -10648,64 +10648,292 @@ var mainGC = function() {
             function addCacheDisplayOptionsButton() {
                 waitForElementThenRun("button.map-control", function() {
                     // Button.
-                    $('button.map-control').first().parent().parent().prepend('<button id="gclh_display_options_control" class="gclh_display_options_control map-control"></button>');
-                    $('#gclh_display_options_control')
-                        .append('<svg><title>Display Options for Search Results</title><use href="#filters"></use></svg>')
-                        .append('<div id="gclh_display_options_list" class="gclh_display_options_list"></div>');
+                    const $parent = $('button.map-control').first().parent().parent();
+                    $parent.prepend(`
+                        <button id="gclh_display_options_control" class="gclh_display_options_control map-control"></button>
+                    `);
+                    const $control = $('#gclh_display_options_control');
+                    $control.append(`
+                        <svg>
+                            <title>Display Options for Search Results</title>
+                            <use href="#filters"></use>
+                        </svg>
+                        <div id="gclh_display_options_list" class="gclh_display_options_list"></div>
+                    `);
 
                     // Options list.
-                    $("#gclh_display_options_list")
-                        .append('<b style="font-size: 16px;">Display Options for Search Results</b><svg id="gclh_options_info" style="vertical-align: text-bottom;display: inline-block;"><title>Info</title><use href="#tooltip"></use></svg><div class="gclh_options_info">These GClh options allow you to control how the current search results are displayed.<br><br>You can hide caches by status and type during the current session.<br>Additionally, there are some remembered display options that can be saved across sessions.<br><br>Please note that if some caches appear to be missing (e.g. your finds), you may want to check your <a href="#" onclick="document.querySelector(\'button.gc-filter-toggle\').click(); return false;">search filters</a>.</div>')
-                        .append(
-                        '<div class="gclh_grid_container">' +
-                        // Cache statuses.
-                        '<br><div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Show / Hide Caches by Status</u></div>' +
-                        '<div><svg id="gclh_hideLegendGray_svg" style="width: 0.75em !important;margin-right: 0.5em;"><title>All statuses</title><use href="#cache_icon_small_disabled"></use></svg><input type="checkbox" id="gclh_hideLegendGray" ' + (hideLegendGray ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><span id="gclh_separatorGray" class="gclh_separator" style="width: 4px;height: 20px;background-color: lightgray;display:block;"></span></div>' +
-                        '<div><svg id="gclh_hideFinds_svg"><title>My Finds</title><use href="#smiley"></use></svg><input type="checkbox" class="gclh-checkbox-gray" id="gclh_hideFinds" ' + (hideFinds ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><svg id="gclh_hideOwned_svg"><title>My Hides</title><use href="#owned"></use></svg><input type="checkbox" class="gclh-checkbox-gray" id="gclh_hideOwned" ' + (hideOwned ? 'checked' : '') + ' style="display:none"></div>' +
-                        //'<div><svg id="gclh_hideDNFIcons_svg"><title>My DNFs</title><use href="#dnf"></use></svg><input type="checkbox" class="gclh-checkbox-gray" id="gclh_hideDNFIcons" ' + (hideDNFIcons ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><svg id="gclh_hidePastEvents_svg"><title>Past Events</title><use href="#event_disabled"></use></svg><input type="checkbox" class="gclh-checkbox-gray" id="gclh_hidePastEvents" ' + (hidePastEvents ? 'checked' : '') + ' style="display:none"></div>' +
-                        // Cache types.
-                        '<br><br><div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Show / Hide Caches by Type</u></div>' +
-                        '<div><svg id="gclh_hideLegendGreen_svg" style="width: 0.75em !important;margin-right: 0.5em;"><title>All green types</title><use href="#cache_icon_small_traditional"></use></svg><input type="checkbox" id="gclh_hideLegendGreen" ' + (hideLegendGreen ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><span id="gclh_separatorGreen" class="gclh_separator" style="width: 4px;height: 20px;background-color: forestgreen;display:block;"></span></div>' +
-                        '<div style="grid-column: 3 / span 4;"><svg id="gclh_hideTradis_svg"><title>Traditionals</title><use href="#traditional"></use></svg><input type="checkbox" class="gclh-checkbox-green" id="gclh_hideTradis" ' + (hideTradis ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><svg id="gclh_hideLegendOrange_svg" style="width: 0.75em !important;margin-right: 0.5em;"><title>All orange types</title><use href="#cache_icon_small_multi"></use></svg><input type="checkbox" id="gclh_hideLegendOrange" ' + (hideLegendOrange ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><span id="gclh_separatorOrange" class="gclh_separator" style="width: 4px;height: 20px;background-color: darkorange;display:block;"></span></div>' +
-                        '<div style="grid-column: 3 / span 4;"><svg id="gclh_hideMultis_svg"><title>Multi-Caches</title><use href="#multi"></use></svg><input type="checkbox" class="gclh-checkbox-orange" id="gclh_hideMultis" ' + (hideMultis ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><svg id="gclh_hideLegendRed_svg" style="width: 0.75em !important;margin-right: 0.5em;"><title>All red types</title><use href="#cache_icon_small_event"></use></svg><input type="checkbox" id="gclh_hideLegendRed" ' + (hideLegendRed ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><span id="gclh_separatorRed" class="gclh_separator" style="width: 4px;height: 20px;background-color: darkred;display:block;"></span></div>' +
-                        '<div><svg id="gclh_hideEvents_svg"><title>Events / Community Celebration Events</title><use href="#event"></use></svg><input type="checkbox" class="gclh-checkbox-red" id="gclh_hideEvents" ' + (hideEvents ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><svg id="gclh_hideCitos_svg"><title>Cache In Trash Out Events</title><use href="#cito"></use></svg><input type="checkbox" class="gclh-checkbox-red" id="gclh_hideCitos" ' + (hideCitos ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><svg id="gclh_hideMegas_svg"><title>Mega-Events</title><use href="#mega"></use></svg><input type="checkbox" class="gclh-checkbox-red" id="gclh_hideMegas" ' + (hideMegas ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><svg id="gclh_hideGigas_svg"><title>Giga-Events</title><use href="#giga"></use></svg><input type="checkbox" class="gclh-checkbox-red" id="gclh_hideGigas" ' + (hideGigas ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><svg id="gclh_hideLegendTurquoise_svg" style="width: 0.75em !important;margin-right: 0.5em;"><title>All turquoise types</title><use href="#cache_icon_small_virtual"></use></svg><input type="checkbox" id="gclh_hideLegendTurquoise" ' + (hideLegendTurquoise ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><span id="gclh_separatorTurquoise" class="gclh_separator" style="width: 4px;height: 20px;background-color: #009bbb;display:block;"></span></div>' +
-                        '<div><svg id="gclh_hideEarthcaches_svg"><title>EarthCaches</title><use href="#earth"></use></svg><input type="checkbox" class="gclh-checkbox-turquoise" id="gclh_hideEarthcaches" ' + (hideEarthcaches ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><svg id="gclh_hideVirtuals_svg"><title>Virtuals</title><use href="#virtual"></use></svg><input type="checkbox" class="gclh-checkbox-turquoise" id="gclh_hideVirtuals" ' + (hideVirtuals ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div style="grid-column: 5 / span 2;"><svg id="gclh_hideWebcams_svg"><title>Webcams</title><use href="#webcam"></use></svg><input type="checkbox" class="gclh-checkbox-turquoise" id="gclh_hideWebcams" ' + (hideWebcams ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><svg id="gclh_hideLegendBlue_svg" style="width: 0.75em !important;margin-right: 0.5em;"><title>All blue types</title><use href="#cache_icon_small_mystery"></use></svg><input type="checkbox" id="gclh_hideLegendBlue" ' + (hideLegendBlue ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><span id="gclh_separatorBlue" class="gclh_separator" style="width: 4px;height: 20px;background-color: #12508c;display: block;"></span></div>' +
-                        '<div><svg id="gclh_hideMysteries_svg"><title>Mysteries</title><use href="#mystery"></use></svg><input type="checkbox" class="gclh-checkbox-blue" id="gclh_hideMysteries" ' + (hideMysteries ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div><svg id="gclh_hideLetterboxes_svg"><title>Letterboxes</title><use href="#letterbox"></use></svg><input type="checkbox" class="gclh-checkbox-blue" id="gclh_hideLetterboxes" ' + (hideLetterboxes ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div style="grid-column: 5 / span 2;"><svg id="gclh_hideWherigos_svg"><title>Wherigos</title><use href="#wherigo"></use></svg><input type="checkbox" class="gclh-checkbox-blue" id="gclh_hideWherigos" ' + (hideWherigos ? 'checked' : '') + ' style="display:none"></div>' +
-                        '<div style="grid-column: 1 / span 6;"><a class="no-underline hover:underline focus:underline" id="show_all_cachetypes"title="Show all cache types" href="#">Show all cache types</a></div>' +
-                        '<div style="grid-column: 1 / span 6;"><a class="no-underline hover:underline focus:underline" id="hide_all_cachetypes" title="Hide all cache types" href="#">Hide all cache types</a></div>' +
-                        '</div>'
-                        )
-                        // Remembered options.
-                        .append('<br><div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Remembered Display Options</u></div>')
-                        .append('<label for="gclh_showAtCorrectedCoords"><svg id="gclh_showAtCorrectedCoords_svg"><use href="#solved"></use></svg><input type="checkbox" id="gclh_showAtCorrectedCoords" ' + (showAtCorrectedCoords ? 'checked' : '') + '>Show finds at corrected coordinates</label>')
-                        .append('<label for="gclh_hideDNFIcons"><svg id="gclh_hideDNFIcons_svg"><use href="#dnf"></use></svg><input type="checkbox" id="gclh_hideDNFIcons" ' + (hideDNFIcons ? 'checked' : '') + '>Show cache type for DNFs</label>');
+                    const $list = $("#gclh_display_options_list");
+                    // Header and tooltip.
+                    $list.append(`
+                        <b style="font-size: 16px;">Display Options for Search Results</b>
+                        <svg id="gclh_options_info" style="vertical-align: text-bottom; display: inline-block;">
+                            <title>Info</title>
+                            <use href="#tooltip"></use>
+                        </svg>
+                        <div class="gclh_options_info">
+                            These GClh options allow you to control the display of the current search results.<br><br>
+                            Caches can be hidden for the current session based on their status and type.<br><br>
+                            In addition, there are several other display options in the lower section that can be saved across multiple sessions.<br><br>
+                            Note: These options do not perform a new search themselves; they only affect the display of the current search results.
+                            <!--
+                            <br><br>
+                            Please note that if some caches appear to be missing (e.g. your finds), you may want to check your 
+                            <a href="#" onclick="document.querySelector('button.gc-filter-toggle').click(); return false;">search filters</a>.
+                            -->
+                        </div>
+                    `);
+                    // Cache statuses and types.
+                    $list.append(`
+                        <div class="gclh_grid_container">
+                            <!-- Cache statuses -->
+                            <br>
+                            <div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Show / Hide Caches by Status</u></div>
+                            <div>
+                                <svg id="gclh_hideLegendGray_svg" style="width: 0.75em !important; margin-right: 0.5em;">
+                                    <title>All statuses</title>
+                                    <use href="#cache_icon_small_disabled"></use>
+                                </svg>
+                                <input type="checkbox" id="gclh_hideLegendGray" ${hideLegendGray ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div>
+                                <span id="gclh_separatorGray" class="gclh_separator" style="width: 4px; height: 20px; background-color: lightgray; display: block;"></span>
+                            </div>
+                            <div>
+                                <svg id="gclh_hideFinds_svg">
+                                    <title>My Finds</title>
+                                    <use href="#smiley"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-gray" id="gclh_hideFinds" ${hideFinds ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div>
+                                <svg id="gclh_hideOwned_svg">
+                                    <title>My Hides</title>
+                                    <use href="#owned"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-gray" id="gclh_hideOwned" ${hideOwned ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div>
+                                <svg id="gclh_hidePastEvents_svg">
+                                    <title>Past Events</title>
+                                    <use href="#event_disabled"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-gray" id="gclh_hidePastEvents" ${hidePastEvents ? 'checked' : ''} style="display:none">
+                            </div>
+                            
+                            <!-- Cache types -->
+                            <br><br>
+                            <div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Show / Hide Caches by Type</u></div>
+                            <!-- Green types -->
+                            <div>
+                                <svg id="gclh_hideLegendGreen_svg" style="width: 0.75em !important; margin-right: 0.5em;">
+                                    <title>All green types</title>
+                                    <use href="#cache_icon_small_traditional"></use>
+                                </svg>
+                                <input type="checkbox" id="gclh_hideLegendGreen" ${hideLegendGreen ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div>
+                                <span id="gclh_separatorGreen" class="gclh_separator" style="width: 4px; height: 20px; background-color: forestgreen; display: block;"></span>
+                            </div>
+                            <div style="grid-column: 3 / span 4;">
+                                <svg id="gclh_hideTradis_svg">
+                                    <title>Traditionals</title>
+                                    <use href="#traditional"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-green" id="gclh_hideTradis" ${hideTradis ? 'checked' : ''} style="display:none">
+                            </div>
+                            <!-- Orange types -->
+                            <div>
+                                <svg id="gclh_hideLegendOrange_svg" style="width: 0.75em !important; margin-right: 0.5em;">
+                                    <title>All orange types</title>
+                                    <use href="#cache_icon_small_multi"></use>
+                                </svg>
+                                <input type="checkbox" id="gclh_hideLegendOrange" ${hideLegendOrange ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div>
+                                <span id="gclh_separatorOrange" class="gclh_separator" style="width: 4px; height: 20px; background-color: darkorange; display: block;"></span>
+                            </div>
+                            <div style="grid-column: 3 / span 4;">
+                                <svg id="gclh_hideMultis_svg">
+                                    <title>Multi-Caches</title>
+                                    <use href="#multi"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-orange" id="gclh_hideMultis" ${hideMultis ? 'checked' : ''} style="display:none">
+                            </div>
+                            <!-- Red types -->
+                            <div>
+                                <svg id="gclh_hideLegendRed_svg" style="width: 0.75em !important; margin-right: 0.5em;">
+                                    <title>All red types</title>
+                                    <use href="#cache_icon_small_event"></use>
+                                </svg>
+                                <input type="checkbox" id="gclh_hideLegendRed" ${hideLegendRed ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div>
+                                <span id="gclh_separatorRed" class="gclh_separator" style="width: 4px; height: 20px; background-color: darkred; display: block;"></span>
+                            </div>
+                            <div>
+                                <svg id="gclh_hideEvents_svg">
+                                    <title>Events / Community Celebration Events</title>
+                                    <use href="#event"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-red" id="gclh_hideEvents" ${hideEvents ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div>
+                                <svg id="gclh_hideCitos_svg">
+                                    <title>Cache In Trash Out Events</title>
+                                    <use href="#cito"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-red" id="gclh_hideCitos" ${hideCitos ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div>
+                                <svg id="gclh_hideMegas_svg">
+                                    <title>Mega-Events</title>
+                                    <use href="#mega"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-red" id="gclh_hideMegas" ${hideMegas ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div>
+                                <svg id="gclh_hideGigas_svg">
+                                    <title>Giga-Events</title>
+                                    <use href="#giga"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-red" id="gclh_hideGigas" ${hideGigas ? 'checked' : ''} style="display:none">
+                            </div>
+                            <!-- Turquoise types -->
+                            <div>
+                                <svg id="gclh_hideLegendTurquoise_svg" style="width: 0.75em !important; margin-right: 0.5em;">
+                                    <title>All turquoise types</title>
+                                    <use href="#cache_icon_small_virtual"></use>
+                                </svg>
+                                <input type="checkbox" id="gclh_hideLegendTurquoise" ${hideLegendTurquoise ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div>
+                                <span id="gclh_separatorTurquoise" class="gclh_separator" style="width: 4px; height: 20px; background-color: #009bbb; display: block;"></span>
+                            </div>
+                            <div>
+                                <svg id="gclh_hideEarthcaches_svg">
+                                    <title>EarthCaches</title>
+                                    <use href="#earth"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-turquoise" id="gclh_hideEarthcaches" ${hideEarthcaches ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div>
+                                <svg id="gclh_hideVirtuals_svg">
+                                    <title>Virtuals</title>
+                                    <use href="#virtual"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-turquoise" id="gclh_hideVirtuals" ${hideVirtuals ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div style="grid-column: 5 / span 2;">
+                                <svg id="gclh_hideWebcams_svg">
+                                    <title>Webcams</title>
+                                    <use href="#webcam"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-turquoise" id="gclh_hideWebcams" ${hideWebcams ? 'checked' : ''} style="display:none">
+                            </div>
+                            <!-- Blue types -->
+                            <div>
+                                <svg id="gclh_hideLegendBlue_svg" style="width: 0.75em !important; margin-right: 0.5em;">
+                                    <title>All blue types</title>
+                                    <use href="#cache_icon_small_mystery"></use>
+                                </svg>
+                                <input type="checkbox" id="gclh_hideLegendBlue" ${hideLegendBlue ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div>
+                                <span id="gclh_separatorBlue" class="gclh_separator" style="width: 4px; height: 20px; background-color: #12508c; display: block;"></span>
+                            </div>
+                            <div>
+                                <svg id="gclh_hideMysteries_svg">
+                                    <title>Mysteries</title>
+                                    <use href="#mystery"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-blue" id="gclh_hideMysteries" ${hideMysteries ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div>
+                                <svg id="gclh_hideLetterboxes_svg">
+                                    <title>Letterboxes</title>
+                                    <use href="#letterbox"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-blue" id="gclh_hideLetterboxes" ${hideLetterboxes ? 'checked' : ''} style="display:none">
+                            </div>
+                            <div style="grid-column: 5 / span 2;">
+                                <svg id="gclh_hideWherigos_svg">
+                                    <title>Wherigos</title>
+                                    <use href="#wherigo"></use>
+                                </svg>
+                                <input type="checkbox" class="gclh-checkbox-blue" id="gclh_hideWherigos" ${hideWherigos ? 'checked' : ''} style="display:none">
+                            </div>
+                            <!-- Show/Hide all cache types -->
+                            <div style="grid-column: 1 / span 6;">
+                                <a class="no-underline hover:underline focus:underline" id="show_all_cachetypes" title="Show all cache types" href="#" style="margin-left: 0.5em;">Show all cache types</a>
+                            </div>
+                            <div style="grid-column: 1 / span 6;">
+                                <a class="no-underline hover:underline focus:underline" id="hide_all_cachetypes" title="Hide all cache types" href="#" style="margin-left: 0.5em;">Hide all cache types</a>
+                            </div>
+                        </div>
+                    `);
+
+                    // Remembered options.
+                    $list.append(`
+                        <br>
+                        <div style="margin-bottom: 5px;"><u>Remembered Display Options</u></div>
+                    `);
+                    // Show at corrected coordinates.
+                    $list.append(`
+                        <label for="gclh_showAtCorrectedCoords">
+                            <svg id="gclh_showAtCorrectedCoords_svg"><use href="#solved"></use></svg>
+                            <input type="checkbox" id="gclh_showAtCorrectedCoords" ${showAtCorrectedCoords ? 'checked' : ''}>
+                            Show finds at corrected coordinates
+                        </label>
+                    `);
+                    // Show cache type for DNFs.
+                    $list.append(`
+                        <label for="gclh_hideDNFIcons">
+                            <svg id="gclh_hideDNFIcons_svg"><use href="#dnf"></use></svg>
+                            <input type="checkbox" id="gclh_hideDNFIcons" ${hideDNFIcons ? 'checked' : ''}>
+                            Show cache type for DNFs
+                        </label>
+                    `);
 
                     // Open options on 'click'.
+                    const cacheId = [2, 3, 6, 13, 453, 7005, 137, 4, 11, 8, 5, 1858];
                     $("#gclh_display_options_control").click(function() {
                         const $optionsList = $('#gclh_display_options_list');
                         // If options list is already open, do nothing.
                         if ($optionsList.is(':visible')) return;
 
+                        // Hide options that are excluded in search filters.
+                        let param = getURLParam('hf');
+                        if (param === "1") $('#gclh_hideFinds_svg').hide();
+                        else $('#gclh_hideFinds_svg').show();
+
+                        param = getURLParam('ho');
+                        if (param === "1") $('#gclh_hideOwned_svg').hide();
+                        else $('#gclh_hideOwned_svg').show();
+
+                        param = getURLParam('ct');
+                        if (param) {
+                            const arr = decodeURIComponent(param).split(',').map(Number);
+                            let i = 0;
+                            for (const color in types) {
+                                // Omit statuses.
+                                if (color === 'Gray') continue;
+                                types[color].forEach(function(type) {
+                                    if (arr.includes(cacheId[i++])) $('#gclh_hide'+type+'_svg').show();
+                                    else $('#gclh_hide'+type+'_svg').hide();
+                                });
+                            }
+                        } else {
+                            for (const color in types) {
+                                // Omit statuses.
+                                if (color === 'Gray') continue;
+                                types[color].forEach(function(type) {
+                                    $('#gclh_hide'+type+'_svg').show();
+                                });
+                            }
+                        }
+
                         $optionsList.show();
+
                         // Show display options tooltip when opening options for the first time.
                         if (getValue('set_switch_SM_show_options_tooltip', true)) {
                             $("#gclh_options_info").click();
@@ -10719,6 +10947,7 @@ var mainGC = function() {
                         $('.gclh_options_info').hide();
                         $('#gclh_options_info').css('opacity', 1);
                     });
+
                     // Open tooltip on 'click'.
                     const opacity = 0.25;
                     $("#gclh_options_info").click(function() {
@@ -10731,7 +10960,7 @@ var mainGC = function() {
                         $('#gclh_options_info').css('opacity', 1);
                     });
 
-                    // Handle clicks on type and status icons.
+                    // Handle clicks on status and type icons.
                     function createTypeAndStatusClickHandlers(name,color) {
                         $("#gclh_hide"+name+"_svg").click(function() {
                             // Toggle checkbox.
@@ -10769,9 +10998,8 @@ var mainGC = function() {
                             eval('hideLegend'+color+' = !hideLegend'+color+';');
                         });
                     }
-                    // Generate click handlers for legend icons and type/status icons.
+                    // Generate click handlers for legend and status/type icons.
                     const types = {
-                        //Gray: ['Finds','Owned','DNFIcons','PastEvents'],
                         Gray: ['Finds','Owned','PastEvents'],
                         Green: ['Tradis'],
                         Orange: ['Multis'],
@@ -10782,13 +11010,13 @@ var mainGC = function() {
                     for (const color in types) {
                         // Legend icons.
                         createLegendClickHandlers(color);
-                        // Type/Status icons.
+                        // Status/Type icons.
                         types[color].forEach(function(type) {
                             createTypeAndStatusClickHandlers(type, color);
                         });
                     }
 
-                    // Handle clicks on corrected coords label.
+                    // Handle clicks on corrected coords option.
                     $("#gclh_showAtCorrectedCoords").click(function() {
                         forceCachesRefresh();
                         // Clear possible cache selection.
@@ -10798,7 +11026,7 @@ var mainGC = function() {
                         // Save state.
                         setValue('set_switch_SM_show_at_corrected_coords', showAtCorrectedCoords);
                     });
-                    // Handle clicks on hide DNF icons.
+                    // Handle clicks on hide DNF icons option.
                     $("#gclh_hideDNFIcons").click(function() {
                         forceCachesRefresh();
                         // Clear possible cache selection.
@@ -10809,27 +11037,26 @@ var mainGC = function() {
                         setValue('set_switch_SM_hide_dnf_icons', hideDNFIcons);
                     });
 
-                    // Hide all cache types.
-                    $('#hide_all_cachetypes').click(function() {
-                        let checkbox;
-                        for (const color in types) {
-                            // Omit statuses.
-                            if (color === 'Gray') continue;
-                            checkbox = document.getElementById("gclh_hideLegend"+color);
-                            if (!checkbox.checked) $("#gclh_hideLegend"+color+"_svg").trigger('click');
-                        }
-                    });
                     // Show all cache types.
                     $('#show_all_cachetypes').click(function() {
-                        let checkbox;
                         for (const color in types) {
                             // Omit statuses.
                             if (color === 'Gray') continue;
-                            checkbox = document.getElementById("gclh_hideLegend"+color);
+                            const checkbox = document.getElementById("gclh_hideLegend"+color);
                             // If checked, uncheck.
-                            if (checkbox.checked) $("#gclh_hideLegend"+color+"_svg").trigger('click');
+                            if (checkbox?.checked) $("#gclh_hideLegend"+color+"_svg").trigger('click');
                             // If unchecked, check and immediately uncheck again (this ensures that whole row is unchecked).
                             else $("#gclh_hideLegend"+color+"_svg").trigger('click').trigger('click');
+                        }
+                    });
+                    // Hide all cache types.
+                    $('#hide_all_cachetypes').click(function() {
+                        for (const color in types) {
+                            // Omit statuses.
+                            if (color === 'Gray') continue;
+                            const checkbox = document.getElementById("gclh_hideLegend"+color);
+                            // If unchecked, check.
+                            if (!checkbox?.checked) $("#gclh_hideLegend"+color+"_svg").trigger('click');
                         }
                     });
 
@@ -10854,18 +11081,80 @@ var mainGC = function() {
                     };
 
                     // Styling.
-                    let css = '';
-                    css += '.gclh_display_options_control > svg {height: 1.9em !important;}';
-                    css += '.gclh_display_options_list {max-height: 65vh; overflow-y: auto; display: none; position: absolute; right: 0px; top: -15vh; width: max-content; border-radius: inherit; box-shadow: 0 1px 7px rgba(0,0,0,0.4); background-color: white; padding: 15px; z-index: 1000; color: black; font-family: "Noto Sans", Arial, Helvetica, sans-serif; font-size: 14px; cursor: default; text-align: left;}';
-                    css += '.gclh_display_options_list > label {display: flex; align-items: center; padding: 2px 2px; font-size: 14px !important;}';
-                    css += '.gclh_display_options_list > label:hover {background-color: #e6f7ef; cursor: pointer;}';
-                    css += '.gclh_display_options_list > label > input[type="checkbox"]:checked {accent-color: rgb(0 125 70);}';
-                    css += '.gclh_display_options_list svg {width: 1.5em !important; height: 1.5em !important; margin-left: 0.5em; margin-right: 0.5em}';
-                    css += '.gclh_display_options_list svg:hover {cursor: pointer;}';
-                    css += '.gclh_grid_container {display: grid !important;grid-template-columns: 25px 4px 30px 30px 30px 90px;justify-items: start;}';
-                    css += '.gclh_grid_container > div:has(input[type="checkbox"]:checked) {opacity: '+opacity+';}';
-                    css += '.gclh_grid_container > div:has(input[type="checkbox"]:checked) + div .gclh_separator {opacity: '+opacity+';}';
-                    css += '.gclh_options_info {display: none; position: absolute; right: 5px; top: 45px; width: 280px; border-radius: inherit; box-shadow: 0 1px 7px rgba(0,0,0,0.4); background-color: inherit; padding: 15px; z-index: 1001; color: black; font-family: "Noto Sans", Arial, Helvetica, sans-serif; font-size: 14px; cursor: default; text-align: left;}';
+                    const css = `
+                    .gclh_display_options_control > svg {
+                        height: 1.9em !important;
+                    }
+                    .gclh_display_options_list {
+                        max-height: 65vh;
+                        overflow-y: auto;
+                        display: none;
+                        position: absolute;
+                        right: 0;
+                        top: -15vh;
+                        width: max-content;
+                        border-radius: inherit;
+                        box-shadow: 0 1px 7px rgba(0,0,0,0.4);
+                        background-color: white;
+                        padding: 15px;
+                        z-index: 1000;
+                        color: black;
+                        font-family: "Noto Sans", Arial, Helvetica, sans-serif;
+                        font-size: 14px;
+                        cursor: default;
+                        text-align: left;
+                    }
+                    .gclh_display_options_list > label {
+                        display: flex;
+                        align-items: center;
+                        padding: 2px 2px;
+                        font-size: 14px !important;
+                    }
+                    .gclh_display_options_list > label:hover {
+                        background-color: #e6f7ef;
+                        cursor: pointer;
+                    }
+                    .gclh_display_options_list > label > input[type="checkbox"]:checked {
+                        accent-color: rgb(0 125 70);
+                    }
+                    .gclh_display_options_list svg {
+                        width: 1.5em !important;
+                        height: 1.5em !important;
+                        margin-left: 0.5em;
+                        margin-right: 0.5em;
+                    }
+                    .gclh_display_options_list svg:hover {
+                        cursor: pointer;
+                    }
+                    .gclh_grid_container {
+                        display: grid !important;
+                        grid-template-columns: 25px 4px 30px 30px 30px 90px;
+                        justify-items: start;
+                    }
+                    .gclh_grid_container > div:has(input[type="checkbox"]:checked) {
+                        opacity: ${opacity};
+                    }
+                    .gclh_grid_container > div:has(input[type="checkbox"]:checked) + div .gclh_separator {
+                        opacity: ${opacity};
+                    }
+                    .gclh_options_info {
+                        display: none;
+                        position: absolute;
+                        right: 5px;
+                        top: 45px;
+                        width: 280px;
+                        border-radius: inherit;
+                        box-shadow: 0 1px 7px rgba(0,0,0,0.4);
+                        background-color: inherit;
+                        padding: 15px;
+                        z-index: 1001;
+                        color: black;
+                        font-family: "Noto Sans", Arial, Helvetica, sans-serif;
+                        font-size: 14px;
+                        cursor: default;
+                        text-align: left;
+                    }
+                    `;
                     appendCssStyle(css);
                 });
             }
@@ -10874,7 +11163,6 @@ var mainGC = function() {
             if (settings_searchmap_show_cache_display_options && settings_use_gclh_layercontrol && settings_use_gclh_layercontrol_on_search_map) {
                 var hideFinds = false;
                 var hideOwned = false;
-                //var hideDNFIcons = false;
                 var hidePastEvents = false;
                 var hideTradis = false;
                 var hideMultis = false;
@@ -10910,6 +11198,7 @@ var mainGC = function() {
                             $('#gclh_display_options_control').removeClass('gclh-bml');
                             moveend_zoomend = false;
 
+                            // Run box search s.t. results match map view.
                             setTimeout(() => {
                                 $('[data-event-label="Map - Search This Area"]').first().click();
                             },1000);
@@ -10917,7 +11206,7 @@ var mainGC = function() {
                     } else {
                         if (getURLParam('bmCode')) {
                             $('#gclh_display_options_control').addClass('gclh-bml');
-                            forceCachesRefresh(); // seems not necessary anymore (maybe since diplay filters are active??)
+                            forceCachesRefresh();
                         }
                         // Ensure proper zooming in BML by enabling 'moveend' and 'zoomend' event handlers.
                         moveend_zoomend = true;
