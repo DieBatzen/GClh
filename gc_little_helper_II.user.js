@@ -10880,7 +10880,6 @@ var mainGC = function() {
                     // Show at corrected coordinates.
                     $list.append(`
                         <label for="gclh_showAtCorrectedCoords">
-                            <svg id="gclh_showAtCorrectedCoords_svg"><use href="#solved"></use></svg>
                             <input type="checkbox" id="gclh_showAtCorrectedCoords" ${showAtCorrectedCoords ? 'checked' : ''}>
                             Show finds at corrected coordinates
                         </label>
@@ -10888,7 +10887,6 @@ var mainGC = function() {
                     // Show cache type for DNFs.
                     $list.append(`
                         <label for="gclh_hideDNFIcons">
-                            <svg id="gclh_hideDNFIcons_svg"><use href="#dnf"></use></svg>
                             <input type="checkbox" id="gclh_hideDNFIcons" ${hideDNFIcons ? 'checked' : ''}>
                             Show cache type for DNFs
                         </label>
