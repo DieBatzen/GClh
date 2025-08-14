@@ -10675,18 +10675,13 @@ var mainGC = function() {
                             Caches can be hidden for the current session based on their status and type.<br><br>
                             In addition, there are several other display options in the lower section that can be saved across multiple sessions.<br><br>
                             Note: These options do not perform a new search themselves; they only affect the display of the current search results.
-                            <!--
-                            <br><br>
-                            Please note that if some caches appear to be missing (e.g. your finds), you may want to check your 
-                            <a href="#" onclick="document.querySelector('button.gc-filter-toggle').click(); return false;">search filters</a>.
-                            -->
                         </div>
                     `);
                     // Cache statuses and types.
                     $list.append(`
                         <div class="gclh_grid_container">
+                            <div style="grid-column: 1 / span 6; height: 1em;"></div>
                             <!-- Cache statuses -->
-                            <br>
                             <div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Show / Hide Caches by Status</u></div>
                             <div>
                                 <svg id="gclh_hideLegendGray_svg" style="width: 0.75em !important; margin-right: 0.5em;">
@@ -10721,7 +10716,7 @@ var mainGC = function() {
                             </div>
                             
                             <!-- Cache types -->
-                            <br><br>
+                            <div style="grid-column: 1 / span 6; height: 1em;"></div>
                             <div style="grid-column: 1 / span 6; margin-bottom: 5px;"><u>Show / Hide Caches by Type</u></div>
                             <!-- Green types -->
                             <div>
@@ -11101,6 +11096,7 @@ var mainGC = function() {
                         font-size: 14px;
                         cursor: default;
                         text-align: left;
+                        user-select: text;
                     }
                     .gclh_display_options_list > label {
                         display: flex;
