@@ -10888,42 +10888,10 @@ var mainGC = function() {
                     `);
 
                     // Open options on 'click'.
-                    const cacheId = [2, 3, 6, 13, 453, 7005, 137, 4, 11, 8, 5, 1858];
                     $("#gclh_display_options_control").click(function() {
                         const $optionsList = $('#gclh_display_options_list');
                         // If options list is already open, do nothing.
                         if ($optionsList.is(':visible')) return;
-
-                        // Hide options that are excluded in search filters.
-                        let param = getURLParam('hf');
-                        if (param === "1") $('#gclh_hideFinds_svg').hide();
-                        else $('#gclh_hideFinds_svg').show();
-
-                        param = getURLParam('ho');
-                        if (param === "1") $('#gclh_hideOwned_svg').hide();
-                        else $('#gclh_hideOwned_svg').show();
-
-                        param = getURLParam('ct');
-                        if (param) {
-                            const arr = decodeURIComponent(param).split(',').map(Number);
-                            let i = 0;
-                            for (const color in types) {
-                                // Omit statuses.
-                                if (color === 'Gray') continue;
-                                types[color].forEach(function(type) {
-                                    if (arr.includes(cacheId[i++])) $('#gclh_hide'+type+'_svg').show();
-                                    else $('#gclh_hide'+type+'_svg').hide();
-                                });
-                            }
-                        } else {
-                            for (const color in types) {
-                                // Omit statuses.
-                                if (color === 'Gray') continue;
-                                types[color].forEach(function(type) {
-                                    $('#gclh_hide'+type+'_svg').show();
-                                });
-                            }
-                        }
 
                         $optionsList.show();
 
