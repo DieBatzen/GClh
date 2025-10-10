@@ -11383,9 +11383,12 @@ var mainGC = function() {
 
             // Each map movement or zoom change alters the URL by triggering 'window.history.pushState', therefore we add custom calls inside.
             // (for reference: https://stackoverflow.com/a/64927639)
+            const pushState_orig = window.history.pushState;
             window.history.pushState = new Proxy(window.history.pushState, {
                 apply: (target, thisArg, argArray) => {
                     setZoom();
+                    // Restore original function (setZoom only needs to run once).
+                    window.history.pushState = pushState_orig;
                     return target.apply(thisArg, argArray);
                 }
             });
