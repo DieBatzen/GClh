@@ -11383,13 +11383,27 @@ var mainGC = function() {
 
             // Each map movement or zoom change alters the URL by triggering 'window.history.pushState', therefore we add custom calls inside.
             // (for reference: https://stackoverflow.com/a/64927639)
-            const pushState_orig = window.history.pushState;
+            let count = 0;
             window.history.pushState = new Proxy(window.history.pushState, {
                 apply: (target, thisArg, argArray) => {
+                    console.log(`GCLH debug: pushState ${++count}`);
                     setZoom();
-                    // Restore original function (setZoom only needs to run once).
-                    window.history.pushState = pushState_orig;
-                    return target.apply(thisArg, argArray);
+
+                    // For debugging if unnecessary calls to pushState occur.
+                    if (JSON.stringify(argArray[0]) === JSON.stringify(window.history.state)) {
+                        console.warn('GCLH debug: pushState - state unchanged');
+                        return;
+                    }
+
+                    // FF issue (https://github.com/2Abendsegler/GClh/issues/2889):
+                    // "Too many calls to location or history APIs in a short period of time" results in an exception
+                    // and therefore gclh code stops. This exception is catched here and logged as a warning.
+                    // Not an issue in Chrome.
+                    try {
+                        return target.apply(thisArg, argArray);
+                    } catch(e) {
+                        console.warn(e);
+                    }
                 }
             });
 
