@@ -11386,7 +11386,7 @@ var mainGC = function() {
             let count = 0;
             window.history.pushState = new Proxy(window.history.pushState, {
                 apply: (target, thisArg, argArray) => {
-                    console.log(`GCLH debug: pushState ${++count}`);
+                    //console.log(`GCLH debug: pushState ${++count}`);
                     setZoom();
 
                     // For debugging if unnecessary calls to pushState occur.
@@ -11396,7 +11396,7 @@ var mainGC = function() {
                     }
 
                     // FF issue (https://github.com/2Abendsegler/GClh/issues/2889):
-                    // "Too many calls to location or history APIs in a short period of time" results in an exception
+                    // "Too many calls to Location or History APIs in a short period of time" results in an exception
                     // and therefore gclh code stops. This exception is catched here and logged as a warning.
                     // Not an issue in Chrome.
                     try {
@@ -11406,6 +11406,84 @@ var mainGC = function() {
                     }
                 }
             });
+            (function() {
+                const originalBack = history.back;
+                const originalForward = history.forward;
+                const originalGo = history.go;
+                const originalPushState = history.pushState;
+                const originalReplaceState = history.replaceState;
+
+                // Counter for History API calls
+                let historyCallCount = 0;
+
+                // Function to increment the counter
+                const incrementCounter = (methodName) => {
+                    historyCallCount++;
+                    console.log(`History API (${methodName}) called ${historyCallCount} times`);
+                };
+
+                // Wrap back
+                history.back = function() {
+                    incrementCounter('back');
+                    return originalBack.apply(this, arguments);
+                };
+
+                // Wrap forward
+                history.forward = function() {
+                    incrementCounter('forward');
+                    return originalForward.apply(this, arguments);
+                };
+
+                // Wrap go
+                history.go = function(delta) {
+                    incrementCounter('go');
+                    return originalGo.apply(this, arguments);
+                };
+
+                // Wrap pushState
+                history.pushState = function(state, title, url) {
+                    incrementCounter('pushState');
+                    return originalPushState.apply(this, arguments);
+                };
+
+                // Wrap replaceState
+                history.replaceState = function(state, title, url) {
+                    incrementCounter('replaceState');
+                    return originalReplaceState.apply(this, arguments);
+                };
+            })();
+            (function() {
+                const originalAssign = location.assign;
+                const originalReplace = location.replace;
+                const originalReload = location.reload;
+
+                // Counter for Location API calls
+                let locationCallCount = 0;
+
+                // Function to increment the counter
+                const incrementCounter = (methodName) => {
+                    locationCallCount++;
+                    console.log(`Location API (${methodName}) called ${locationCallCount} times`);
+                };
+
+                // Wrap assign
+                location.assign = function(url) {
+                    incrementCounter('assign');
+                    return originalAssign.apply(this, arguments);
+                };
+
+                // Wrap replace
+                location.replace = function(url) {
+                    incrementCounter('replace');
+                    return originalReplace.apply(this, arguments);
+                };
+
+                // Wrap reload
+                location.reload = function(forceGet) {
+                    incrementCounter('reload');
+                    return originalReload.apply(this, arguments);
+                };
+            })();
 
             // Set link to owner.
             function setLinkToOwner() {
