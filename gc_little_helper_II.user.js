@@ -13488,8 +13488,8 @@ var mainGC = function() {
         } catch(e) {gclh_error("Trackable map resizing and zooming with mouse wheel",e);}
     }
 
-// Dimmed style for lost trackabels on owned trackables view.
-    if (document.location.href.match(/\.com\/track\/search\.aspx\?o=1&uid=/) && settings_dim_lost_trackables) {
+// Dimmed style for lost trackabels on owned trackables view and search trackables view.
+    if (document.location.href.match(/\.com\/track\/search\.aspx/) && settings_dim_lost_trackables) {
         try {
             const $rows = $('table.Table td:nth-child(5)').not(':has(img[src^="/images/"])').closest('tr');
             $rows.find('td, a').css({ color: '#AFAFAF', textDecoration: 'line-through' });
@@ -17305,7 +17305,7 @@ var mainGC = function() {
             html += checkboxy('settings_improve_notifications', 'Improve notification list and notifications') + "<br>";
             html += newParameterVersionSetzen('0.15') + newParameterOff;
             html += newParameterOn1;
-            html += checkboxy('settings_dim_lost_trackables', 'Dim lost trackables in owned trackables view') + show_help("Lost trackables in owned trackables view can be visually dimmed so they are easier to distinguish from active trackables.") + "<br>";
+            html += checkboxy('settings_dim_lost_trackables', 'Dim lost trackables in "Search Trackables" result view') + show_help("Lost trackables in \"Search Trackables\" result view can be visually dimmed so they are easier to distinguish from active trackables.") + "<br>";
             html += newParameterVersionSetzen('0.17') + newParameterOff;
             html += "</div>";
 
