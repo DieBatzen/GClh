@@ -10029,7 +10029,6 @@ var mainGC = function() {
             // Hide right sidebar ("Events nearby" and "Geocaches nearby").
             waitForElementThenRun('div.sidebar-right', function() {
                 const $layoutFeed = $('#LayoutFeed');
-                const $layoutFeed_max_width = $layoutFeed.css('max-width');
                 const $sidebar_right = $('div.sidebar-right');
                 const $sidebar_right_max_width = $sidebar_right.css('max-width');
                 $sidebar_right.css('width', $sidebar_right_max_width);
@@ -10050,6 +10049,8 @@ var mainGC = function() {
                   </svg>`);
                 $sidebar_right.before($btn);
                 css += '#gclh_right_sidebar_toggle {position: absolute; margin-left: -19px; margin-top: 8px; padding: 0; border: none; cursor: pointer; background-color: unset;}';
+                css += '@media (max-width: 950px) {#gclh_right_sidebar_toggle {margin-left: 0px; margin-top: -5px;}}';
+                css += '@media (max-width: 600px) {#gclh_right_sidebar_toggle {margin-left: 0px; margin-top: -1px;}}';
                 css += '#gclh_right_sidebar_toggle svg {height: 18px; width: 18px; pointer-events: none;}';
 
                 const $svg = $btn.find('svg');
@@ -10057,18 +10058,21 @@ var mainGC = function() {
                     if ($sidebar_right.is(':visible')) hideSidebar();
                     else showSidebar();
                 });
+
                 function hideSidebar() {
+                    $layoutFeed.addClass('gclh_max_width_none');
+                    $sidebar_right.removeClass('flex');
                     $sidebar_right.hide('fast');
                     $svg.css('transform', 'rotate(90deg)');
-                    $layoutFeed.css('max-width', 'none');
                     $btn.attr('title', title_show);
                 }
                 function showSidebar() {
-                    $sidebar_right.show('fast');
+                    $sidebar_right.show('fast', () => { $layoutFeed.removeClass('gclh_max_width_none'); });
+                    $sidebar_right.addClass('flex');
                     $svg.css('transform', 'rotate(-90deg)');
-                    $layoutFeed.css('max-width', $layoutFeed_max_width);
                     $btn.attr('title', title_hide);
                 }
+                css += '.gclh_max_width_none {max-width: none !important;}';
 
                 if (settings_dashboard_hide_right_sidebar) hideSidebar();
                 else showSidebar();
