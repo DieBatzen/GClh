@@ -14152,6 +14152,7 @@ var mainGC = function() {
             }
             if ($('#ctl00_ContentBody_ProfilePanel1_dlCollectibles')[0]) gclh_coin_stats("ctl00_ContentBody_ProfilePanel1_dlCollectibles");
             if ($('#ctl00_ContentBody_ProfilePanel1_dlCollectiblesOwned')[0]) gclh_coin_stats("ctl00_ContentBody_ProfilePanel1_dlCollectiblesOwned");
+            appendCssStyle(".Table .AlignRight {word-break: normal !important;}");
         } catch(e) {gclh_error("Show Coin-Sums",e);}
     }
 
