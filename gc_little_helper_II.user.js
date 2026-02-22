@@ -13483,7 +13483,7 @@ var mainGC = function() {
         } catch(e) {gclh_error("Trackable map resizing and zooming with mouse wheel",e);}
     }
 
-// Dimmed style for lost trackabels on owned trackables view and trackables search view.
+// Dimmed style for lost trackabels on owned trackables view and search trackables view.
     if (document.location.href.match(/\.com\/track\/search\.aspx/) && settings_dim_lost_trackables) {
         try {
             const $rows = $('table.Table td:nth-child(5)').not(':has(img[src^="/images/"])').closest('tr');
