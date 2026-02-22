@@ -17300,7 +17300,7 @@ var mainGC = function() {
             html += checkboxy('settings_improve_notifications', 'Improve notification list and notifications') + "<br>";
             html += newParameterVersionSetzen('0.15') + newParameterOff;
             html += newParameterOn1;
-            html += checkboxy('settings_dim_lost_trackables', 'Dim lost trackables in owned and search trackables view') + show_help("Lost trackables in owned trackables view and search trackables view can be visually dimmed so they are easier to distinguish from active trackables.") + "<br>";
+            html += checkboxy('settings_dim_lost_trackables', 'Dim lost trackables in "Search Trackables" result view') + show_help("Lost trackables in \"Search Trackables\" result view can be visually dimmed so they are easier to distinguish from active trackables.") + "<br>";
             html += newParameterVersionSetzen('0.17') + newParameterOff;
             html += "</div>";
 
