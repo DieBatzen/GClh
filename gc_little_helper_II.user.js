@@ -9440,6 +9440,7 @@ var mainGC = function() {
                 css += ".clickPoint:hover {background-color: rgb(245 245 245);}";
                 css += ".clickPoint svg {height: 12px !important; width: 12px !important; opacity: 0.4;}";
                 css += ".clickPointHide svg {opacity: 1;}";
+                css += "#sidebarNavigation nav {overflow: unset;}";
                 // Hide rows which are marked for hide in left column.
                 css += ".clickSumHide .clickPointHide, .clickSumHide .clickPoint {display: none !important;}";
                 // In the middle and in the right column.
