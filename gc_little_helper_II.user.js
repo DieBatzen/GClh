@@ -12251,7 +12251,7 @@ var mainGC = function() {
                 geocacheActionBar(); // "Save as PQ" and "Hide Header".
                 // Prepare keydown F2 filter screen.
                 prepareKeydownF2InFilterScreen();
-                if (settings_searchmap_autoupdate_after_dragging && settings_use_gclh_layercontrol && settings_use_gclh_layercontrol_on_search_map) handleToggleBetweenSearchAndBMLTab();
+                if (!isGclhMatrix && settings_searchmap_autoupdate_after_dragging && settings_use_gclh_layercontrol && settings_use_gclh_layercontrol_on_search_map) handleToggleBetweenSearchAndBMLTab();
             }
 
             // Observer callback for body and checking existence of sidebar.
