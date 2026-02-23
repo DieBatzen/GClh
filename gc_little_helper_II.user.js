@@ -11456,7 +11456,7 @@ var mainGC = function() {
                 }
             }
 
-            if (settings_searchmap_autoupdate_after_dragging && settings_use_gclh_layercontrol && settings_use_gclh_layercontrol_on_search_map) {
+            if (!isGclhMatrix && settings_searchmap_autoupdate_after_dragging && settings_use_gclh_layercontrol && settings_use_gclh_layercontrol_on_search_map) {
                 // Set event listeners for dragging/zooming map and initialize map bounds, as soon as unsafeWindow.MapSettings.Map is ready.
                 const timeout_search = 2000;
                 let count = 0;
@@ -13563,7 +13563,7 @@ var mainGC = function() {
                                     cell.children[0].href = 'https://www.geocaching.com/play/map?lat=' + (getValue("home_lat") / 10000000)
                                                           + '&lng=' + (getValue("home_lng") / 10000000) + '&zoom=' + zoom
                                                           + '&asc=true&sort=distance&ot=coords&r=' + settings_count_own_matrix_links_radius
-                                                          + '&d=' + dt[1] + '&t=' + dt[2] + '&hf=1&nfb=' + global_me + '&gclhmatrix=1';
+                                                          + '&d=' + dt[1] + '&t=' + dt[2] + '&ho=1&hf=1&nfb=' + global_me + '&gclhmatrix=1';
                                     cell.children[0].title += ", on map";
                                 } else {
                                     cell.children[0].href += "#searchResultsTable";
