@@ -158,9 +158,9 @@ var constInit = function(c) {
     c.anzCustom = 10;
     c.anzTemplates = 10;
     c.bookmarks_def = new Array(31, 69, 14, 16, 32, 33, 48, "0", 8, 18, 54, 51, 55, 47, 10, 2, 35, 9, 17, 22, 66, 68);
-    c.defaultConfigLink = "/my/default.aspx#GClhShowConfig";
-    c.defaultSyncLink = "/my/default.aspx#GClhShowSync";
-    c.defaultFindPlayerLink = "/my/default.aspx#GClhShowFindPlayer";
+    c.defaultConfigLink = "/account/dashboard#GClhShowConfig";
+    c.defaultSyncLink = "/account/dashboard#GClhShowSync";
+    c.defaultFindPlayerLink = "/account/dashboard#GClhShowFindPlayer";
     c.urlScript = "https://raw.githubusercontent.com/2Abendsegler/GClh/master/gc_little_helper_II.user.js";
     c.urlLastVersion = "https://raw.githubusercontent.com/2Abendsegler/GClh/master/last_version.txt";
     c.urlConfigSt = "https://raw.githubusercontent.com/2Abendsegler/GClh/master/data/config_standard.txt";
@@ -197,7 +197,7 @@ var constInit = function(c) {
     bookmark("Logs Benchmarks", "/my/benchmarks.aspx", c.bookmarks);
     bookmark("Member Features", "/my/subscription.aspx", c.bookmarks);
     bookmark("Friends", "/my/myfriends.aspx", c.bookmarks);
-    bookmark("Account Details", "/account/default.aspx", c.bookmarks);
+    bookmark("Account Settings", "/account/settings", c.bookmarks);
     bookmark("Public Profile", "/profile/", c.bookmarks);
     bookmark("Search GC (old adv.)", "/seek/nearest.aspx", c.bookmarks);
     bookmark("Routes", "/my/userroutes.aspx#find", c.bookmarks);
@@ -210,7 +210,7 @@ var constInit = function(c) {
     bookmark("E-Mail", "/email/default.aspx", c.bookmarks);
     bookmark("Statbar", "/my/statbar.aspx", c.bookmarks);
     bookmark("Guidelines", "/about/guidelines.aspx", c.bookmarks);
-    profileSpecialBookmark("GClh II Config", "/my/default.aspx#GClhShowConfig", "lnk_gclhconfig", c.bookmarks);
+    profileSpecialBookmark("GClh II Config", "/account/dashboard#GClhShowConfig", "lnk_gclhconfig", c.bookmarks);
     externalBookmark("Forum Groundspeak", "https://forums.groundspeak.com/", c.bookmarks);
     externalBookmark("Blog Groundspeak", "/blog/", c.bookmarks);
     bookmark("Favorites", "/my/favorites.aspx", c.bookmarks);
@@ -219,7 +219,7 @@ var constInit = function(c) {
     bookmark("Public Profile Trackables", "/p/default.aspx?tab=trackables#profilepanel", c.bookmarks);
     bookmark("Public Profile Gallery", "/p/default.aspx?tab=gallery#profilepanel", c.bookmarks);
     bookmark("Public Profile Lists", "/p/default.aspx?tab=lists#profilepanel", c.bookmarks);
-    bookmark("Dashboard", "/my/", c.bookmarks);
+    bookmark("Dashboard", "/account/dashboard", c.bookmarks);
     profileSpecialBookmark("Nearest List", "/seek/nearest.aspx?#gclhpb#errhomecoord", "lnk_nearestlist", c.bookmarks);
     profileSpecialBookmark("Nearest Map", "/seek/nearest.aspx?#gclhpb#errhomecoord", "lnk_nearestmap", c.bookmarks);
     profileSpecialBookmark("Nearest List (w/o Founds)", "/seek/nearest.aspx?#gclhpb#errhomecoord", "lnk_nearestlist_wo", c.bookmarks);
@@ -536,7 +536,6 @@ var variablesInit = function(c) {
     c.settings_show_real_owner = getValue("settings_show_real_owner", false);
     c.settings_hide_archived_in_owned = getValue("settings_hide_archived_in_owned", false);
     c.settings_show_button_for_hide_archived = getValue("settings_show_button_for_hide_archived", true);
-    c.settings_hide_visits_in_profile = getValue("settings_hide_visits_in_profile", false);
     c.settings_add_log_templates = getValue("settings_add_log_templates", true);
     c.settings_add_cache_log_signature_as_log_template = getValue("settings_add_cache_log_signature_as_log_template", false);
     c.settings_add_tb_log_signature_as_log_template = getValue("settings_add_tb_log_signature_as_log_template", false);
@@ -1748,10 +1747,6 @@ var mainGC = function() {
     function changeHeaderLayout() {
         try {
             if (settings_change_header_layout) {
-                if (isMemberInPmoCache()) {
-                    if ($('#ctl00_siteHeader')[0]) $('#ctl00_siteHeader')[0].remove();
-                    return;
-                }
                 // Alle Seiten: Grundeinstellungen:
                 // ----------
                 var css = "";
@@ -1791,8 +1786,6 @@ var mainGC = function() {
                     new_width_menu = new_width - 261 + 20 - 190;
                     new_width_menu_cut_old = 190;
                 }
-                // Im neuen Dashboard Upgrade Erinnerung entfernen.
-                $('.sidebar-upsell').remove();
                 // Icons aus Play Menü entfernen.
                 $('#ctl00_gcNavigation .menu .charcoal').remove();
                 $('.li-attention').removeClass('li-attention').addClass('li-attention_gclh');
@@ -2234,7 +2227,7 @@ var mainGC = function() {
                              + "GC little helper II will save it automatically. You have nothing to do at the "
                              + "following page \"Dashboard\", except, to choose your link again.\n"
                              + "(But, please wait until page \"Dashboard\" is loading complete.)";
-                    if (window.confirm(mess)) document.location.href = "/my/default.aspx";
+                    if (window.confirm(mess)) document.location.href = "/account/dashboard";
                     else  document.location.href = document.location.href.replace("?#"+splitter[1]+"#"+splitter[2], "");
                 }
             }
@@ -7426,29 +7419,8 @@ var mainGC = function() {
         } catch(e) {gclh_error("New drafts page",e);}
     }
 
-// Linklist on old dashboard.
-    if (settings_bookmarks_show && is_page("profile") && $('#ctl00_ContentBody_WidgetMiniProfile1_LoggedInPanel')[0]) {
-        try {
-            var side = $('#ctl00_ContentBody_WidgetMiniProfile1_LoggedInPanel')[0];
-            var div0 = document.createElement("div");
-            div0.setAttribute("class", "YourProfileWidget");
-            div0.setAttribute("style", "margin-left: -1px; margin-right: -1px;");  // Wegen doppeltem Border 1px
-            var head = document.createElement("h3");
-            head.setAttribute("class", "WidgetHeader");
-            head.setAttribute("title", "Linklist");
-            head.appendChild(document.createTextNode(" Linklist"));
-            var div = document.createElement("div");
-            div.setAttribute("class", "WidgetBody");
-            var ul = document.createElement("ul");
-            buildBoxElementsLinklist(ul);
-            div.appendChild(ul);
-            div0.appendChild(head);
-            div0.appendChild(div);
-            side.appendChild(div0);
-        } catch(e) {gclh_error("Linklist on old dashboard",e);}
-    }
-
 // Loggen über Standard "Log It" Icons zu PMO Caches für Basic Members.
+// (This is also necessary for Recently Viewed Caches so that the links to premium caches can be executed.)
     if (settings_logit_for_basic_in_pmo && document.getElementsByClassName('premium').length > 0) {
         try {
             var premiumTeile = document.getElementsByClassName('premium');
@@ -7496,9 +7468,7 @@ var mainGC = function() {
              document.location.href.match(/\/live\/(?:log\/(?:gl|tl)|(?:geocache|trackable)\/(?:gc|tb))[a-z0-9]+/i) ||
              document.location.href.match(/\.com\/email\//)                      ||      // Mail schreiben
              document.location.href.match(/\.com\/my\/inventory\.aspx/)          ||      // TB Inventar
-             document.location.href.match(/\.com\/my/)                           ||      // Profil
              document.location.href.match(/\.com\/map/)                          ||      // Map (For enhanced Pop-up Informations)
-             document.location.href.match(/\.com\/my\/default\.aspx/)            ||      // Profil (Quicklist)
              document.location.href.match(/\.com\/account\/dashboard/)           ||      // Dashboard
              document.location.href.match(/\.com\/seek\/nearest\.aspx(.*)(\?ul|\?u|&ul|&u)=/) ||  // Nearest Lists mit User
              document.location.href.match(/\.com\/play\/(friendleague|leaderboard)/) ||  // Friend League, Leaderboard
@@ -7925,59 +7895,6 @@ var mainGC = function() {
                     }
                 };
                 gclh_build_vip_list();
-
-            // Old Dashboard:
-            // ----------
-            } else if (document.location.href.match(/\.com\/my\//) && $('#ctl00_ContentBody_uxBanManWidget')[0]) {
-                function build_box_vipvup(desc) {
-                    var widget = document.createElement("div");
-                    var headline = document.createElement("h3");
-                    var box = document.createElement("div");
-                    widget.setAttribute("class", "YourProfileWidget");
-                    headline.setAttribute("class", "WidgetHeader");
-                    headline.setAttribute("title", "All my " + (desc == 'vip' ? 'very important persons':'very unimportant persons'));
-                    headline.appendChild(document.createTextNode("All my " + desc.toUpperCase() + "s"));
-                    var box2 = document.createElement("div");
-                    box2.setAttribute("class", "WidgetBody");
-                    box2.setAttribute("style", "padding: 0;");   // Wegen 2 WidgetBodys.
-                    box.setAttribute("id", "box_" + desc + "s");
-                    box.setAttribute("class", "WidgetBody");
-                    widget.appendChild(headline);
-                    widget.appendChild(box2);
-                    box2.appendChild(box);
-                    $('#ctl00_ContentBody_uxBanManWidget')[0].parentNode.insertBefore(widget, $('#ctl00_ContentBody_uxBanManWidget')[0]);
-                }
-                function fill_box_vipvup(ary, desc) {
-                    var box = $('#box_' + desc + 's')[0];
-                    if (!box) return false;
-                    box.innerHTML = "";
-                    for (var i = 0; i < ary.length; i++) {
-                        var user = ary[i];
-                        var span = document.createElement("span");
-                        var profile = document.createElement("a");
-                        profile.setAttribute("href", "/profile/?u=" + urlencode(user));
-                        profile.innerHTML = user;
-                        span.appendChild(profile);
-                        // Build VIP, VUP Icon.
-                        link = gclh_build_vipvup(user, ary, desc);
-                        box.appendChild(span);
-                        box.appendChild(document.createTextNode("   "));
-                        box.appendChild(link);
-                        if (settings_show_mail_in_allmyvips && settings_show_mail && settings_show_vip_list) buildSendIcons(box, user, "per u");
-                        box.appendChild(document.createElement("br"));
-                    }
-                }
-                build_box_vipvup("vip");
-                fill_box_vipvup(global_vips, "vip");
-                if (settings_process_vup) {
-                    build_box_vipvup("vup");
-                    fill_box_vipvup(global_vups, "vup");
-                }
-                // Verarbeitung wird durch gclh_add... und gclh_del... angestoßen. Dadurch werden beide Listen hier neu aufgebaut.
-                gclh_build_vip_list = function() {
-                    fill_box_vipvup(global_vips, "vip");
-                    if (settings_process_vup) fill_box_vipvup(global_vups, "vup");
-                };
 
             // New Dashboard:
             // ----------
@@ -9330,75 +9247,6 @@ var mainGC = function() {
             }
         }
     } catch(e) {gclh_error("Color lines in lists",e);}
-
-// Improve old dashboard. (Muß nach VIP laufen.)
-    if (is_page("profile")) {
-        try {
-            var css = ".YourProfileWidget h3 {padding-left: 0.5em;} .YourProfileWidget h3 img {padding-right: 0.2em;}";
-            // Show/Hide einbauen in rechter Spalte.
-            var code = "function hide_box(i){";
-            code += "  if (document.getElementById('box_'+i).style.display == 'none') {";
-            code += "    document.getElementById('box_'+i).style.display = 'block';";
-            code += "    document.getElementById('lnk_'+i).src = '/images/minus.gif';";
-            code += "    document.getElementById('lnk_'+i).title = 'hide';";
-            code += "  }else{";
-            code += "    document.getElementById('box_'+i).style.display = 'none';";
-            code += "    document.getElementById('lnk_'+i).src = '/images/plus.gif';";
-            code += "    document.getElementById('lnk_'+i).title = 'show';";
-            code += "  }";
-            code += "}";
-            injectPageScript(code, "body");
-            var boxes = $('.WidgetHeader');
-            function saveStates() {
-                // Wenn Linklist angezeigt wird, dann mit Speicherindex "i" von Linklist beginnen, er ist 0. Ansonsten mit 1 beginnen.
-                if (settings_bookmarks_show) var i = 0;
-                else var i = 1;
-                // Alle gefundenen WidgetBody "wb" verarbeiten und ihnen den zugehörigen Speicherindex "i" zuordnen.
-                for (var wb = 0; wb < boxes.length; wb++) {
-                    var box = boxes[wb].parentNode.getElementsByClassName('WidgetBody')[0];
-                    if (typeof(box) == "undefined") continue;
-                    var show = box.style.display;
-                    if (typeof(show) == "undefined" || show != "none") show = "block";
-                    setValue("show_box[" + i + "]", show);
-                    i++;
-                }
-            }
-            // Wenn Linklist angezeigt wird, dann mit Speicherindex "i" von Linklist beginnen, er ist 0. Ansonsten mit 1 beginnen.
-            if (settings_bookmarks_show) var i = 0;
-            else var i = 1;
-            // Alle gefundenen WidgetBody "wb" verarbeiten und ihnen den zugehörigen Speicherindex "i" zuordnen.
-            for (var wb = 0; wb < boxes.length; wb++) {
-                var box = boxes[wb].parentNode.getElementsByClassName('WidgetBody')[0];
-                if (typeof(box) != "undefined") {
-                    box.setAttribute("id", "box_" + i);
-                    if (typeof(getValue("show_box[" + i + "]")) != "undefined") box.style.display = getValue("show_box[" + i + "]");
-                    if (box.style.display == "none") {
-                        boxes[wb].innerHTML = "<img id='lnk_" + i + "' src='/images/plus.gif' onClick='hide_box(\"" + i + "\");' title='show' style='cursor: pointer'> " + boxes[wb].innerHTML;
-                    } else {
-                        boxes[wb].innerHTML = "<img id='lnk_" + i + "' src='/images/minus.gif' onClick='hide_box(\"" + i + "\");' title='hide' style='cursor: pointer'> " + boxes[wb].innerHTML;
-                    }
-                    $('#lnk_' + i)[0].addEventListener("click", saveStates, false);
-                }
-                i++;
-            }
-            if ($('#ctl00_ContentBody_WidgetMiniProfile1_LoggedInPanel').length > 0) {
-                // Hide TBs/Coins.
-                if (settings_hide_visits_in_profile) {
-                    $(".Table.WordWrap tr").filter(function(index) {
-                        return $(this).find("img[src$='logtypes/75.png']").length !== 0;
-                    }).remove();
-                }
-                // Remove fixed column width in last 30 days logs for fewer linebreaks.
-                if ($('.Table.WordWrap tr').length > 0) {
-                    $('.Table.WordWrap')[0].setAttribute("style", "table-layout: unset;");
-                    $('.Table.WordWrap tr td').each(function() {
-                        this.setAttribute("style", "width: unset;" + (in_array(this.cellIndex, [0,1,4]) ? " white-space: nowrap;" : ""));
-                    });
-                }
-            }
-            appendCssStyle(css);
-        } catch(e) {gclh_error("Improve old dashboard",e);}
-    }
 
 // Improve new dashboard.
     if (is_page("dashboard")) {
@@ -14478,19 +14326,6 @@ var mainGC = function() {
         }
     }
 
-// Save uid of own trackables from old dashboard.
-    if (is_page("profile")) {
-       try {
-            var link = $('a[href*="/track/search.aspx?o=1&uid="]')[0];
-            if (link) {
-                var uid = link.href.match(/\/track\/search\.aspx\?o=1\&uid=(.*)/);
-                if (uid && uid[1]) {
-                    if (getValue("uid", "") != uid[1]) setValue("uid", uid[1]);
-                }
-            }
-        } catch(e) {gclh_error("Save uid of own trackable",e);}
-    }
-
 // Add links to finds and hides on new profilpage.
     if (is_page("publicProfile") && $('#ctl00_ProfileHead_ProfileHeader_divStats ul > li:nth-child(1)')[0] && $('#ctl00_ProfileHead_ProfileHeader_divStats ul > li:nth-child(2)')[0]) {
         try {
@@ -14536,7 +14371,7 @@ var mainGC = function() {
             head.style.cursor = "unset";
             head.style.opacity = "0.5";
             var link = document.createElement("a");
-            link.setAttribute("href", "/my/default.aspx#GClhShowConfig#a#settings_hide_avatar");
+            link.setAttribute("href", "/account/dashboard#GClhShowConfig#a#settings_hide_avatar");
             link.appendChild(document.createTextNode("here"));
             var hinweis = document.createElement("span");
             hinweis.setAttribute("class", "label");
@@ -14569,31 +14404,6 @@ var mainGC = function() {
         if (document.location.href.match(/#GClhShowFindPlayer/)) {
             document.location.href = clearUrlAppendix(document.location.href, true);
             setTimeout(createFindPlayerForm, 5);
-        }
-        // Old Dashboard (Profile). (Hier sind noch Teile vom new dashboard mit drin, das stört aber nicht.)
-        if (is_page('profile') && $('#ctl00_ContentBody_WidgetMiniProfile1_memberProfileLink')[0]) {
-            // Config, Sync und Changelog Links beim Avatar in Profile, Dashboard.
-            var lnk_config = "<a href='#GClhShowConfig' id='gclh_config_lnk' name='gclh_config_lnk' title='GC little helper II Config v" + scriptVersion + (settings_f4_call_gclh_config ? " / Key F4":"") + "' >GClh II Config</a>";
-            var lnk_sync = " | <a href='#GClhShowSync' id='gclh_sync_lnk' name='gclh_sync_lnk' title='GC little helper II Sync v" + scriptVersion + (settings_f10_call_gclh_sync ? " / Key F10":"") + "' >GClh II Sync</a>";
-            var lnk_changelog = " | <a href='"+urlChangelog+"' title='Documentation of changes and new features\nin GC little helper II on GitHub'>Changelog</a>";
-            if (is_page('profile')) $('#ctl00_ContentBody_WidgetMiniProfile1_memberProfileLink')[0].parentNode.innerHTML += " | <br>" + lnk_config + lnk_sync + lnk_changelog;
-            else $('.bio-meta')[0].innerHTML += '<span style="display:block;">' + lnk_config + lnk_sync + lnk_changelog + '</span>';
-            appendCssStyle(".bio-meta {font-size: 12px;}");
-            $('#gclh_config_lnk')[0].addEventListener('click', gclh_showConfig, false);
-            $('#gclh_sync_lnk')[0].addEventListener('click', gclh_showSync, false);
-            // Linklist Ablistung rechts im Profile.
-            if (document.getElementsByName("lnk_gclhconfig_profile")[0]) {
-                document.getElementsByName("lnk_gclhconfig_profile")[0].href = "#GClhShowConfig";
-                document.getElementsByName("lnk_gclhconfig_profile")[0].addEventListener('click', gclh_showConfig, false);
-            }
-            if (document.getElementsByName("lnk_gclhsync_profile")[0]) {
-                document.getElementsByName("lnk_gclhsync_profile")[0].href = "#GClhShowSync";
-                document.getElementsByName("lnk_gclhsync_profile")[0].addEventListener('click', gclh_showSync, false);
-            }
-            if (document.getElementsByName("lnk_findplayer_profile")[0]) {
-                document.getElementsByName("lnk_findplayer_profile")[0].href = "#GClhShowFindPlayer";
-                document.getElementsByName("lnk_findplayer_profile")[0].addEventListener('click', createFindPlayerForm, false);
-            }
         }
         // New dashboard: Config, Sync and Changelog Links.
         if (is_page("dashboard")) {
@@ -16997,7 +16807,7 @@ var mainGC = function() {
             html += "<input type='radio' name='rc' id='rc_homecoords' class='gclh_rc'><label for='rc_homecoords'>Reset your own home coordinates</label>" + show_help("This option could help you with problems around your home coordinates, like for example with your main homezone, with nearest lists or with your home coordinates itself. Your home coordinates are not deleted at GC, but only in GClh II Config. <br><br>After reset, you have to go to the account settings page of GC to the area \"Home Location\", so that GC little helper II can save your home coordinates again automatically. You have only to go to this page, you have nothing to do at this page, GC little helper II save your home coordinates automatically. <br>Or you enter your home coordinates manually in GClh II Config. <br><br>At last, choose button \"Close\".");
             html += "<font class='gclh_small'> (After reset, go to <a href='/account/settings/homelocation' target='_blank'>Home Location</a> )</font>" + "<br>";
             html += "<input type='radio' name='rc' id='rc_uid' class='gclh_rc'><label for='rc_uid'>Reset your own id for your trackables</label>" + show_help("This option could help you with problems with your own trackables lists, which based on an special id, the uid. The uid are not deleted at GC, but only in GClh II Config. <br><br>After reset, you have to go to your dashboard, so that GC little helper II can save your uid again automatically. You have only to go to this page, you have nothing to do at this page, GC little helper II save the uid automatically. <br><br>At last, choose button \"Close\".");
-            html += "<font class='gclh_small'> (After reset, go to <a href='/my/' target='_blank'>Dashboard</a> )</font>" + "<br><br>";
+            html += "<font class='gclh_small'> (After reset, go to <a href='/account/dashboard' target='_blank'>Dashboard</a> )</font>" + "<br><br>";
             html += "<div class='gclh_rc_area_button'>";
             html += "<img id='rc_doing' src='' title='' alt='' style='margin-top: 4px; margin-left: -25px; position: absolute;' /><input class='gclh_rc_form' type='button' value='Reset' id='rc_reset_button'> <input class='gclh_rc_form' type='button' value='Close' id='rc_close_button'>";
             html += "</div>";
@@ -17105,7 +16915,7 @@ var mainGC = function() {
             html += " &nbsp; &nbsp; " + checkboxy('settings_remove_logo', 'Remove GC logo top left') + show_help("With this option you can remove the GC logo top left on GC pages. This feature is not fully integrated in the diverse possibilities of the header layout and the navigation menus.") + "<br>";
             html += " &nbsp; " + checkboxy('settings_remove_message_in_header', 'Remove message center icon top right') + show_help("With this option you can remove the message center icon top right on GC pages. You will not be informed longer about new messages.") + "<br>";
             html += " &nbsp; " + checkboxy('settings_gc_tour_is_working', 'Reserve place for GC Tour icon') + show_help("If the script GC Tour is running, you can reserve a place top left on GC pages for the GC Tour icon.") + "<br>";
-            html += " &nbsp; " + checkboxy('settings_fixed_header_layout', 'Arrange header layout on content') + show_help("With this option you can arrange the header width on the width of the content of GC pages. This is an easy feature with some restrictions, like for example the available place, especially for horizontal navigation menues.<br><br>This feature is available on GC pages in the oldest design like for example cache and trackable listings, pocket queries, nearest lists, old dashboards (profiles), statistics, watchlists and drafts, to name just a few. <br><br>On map page and on pages in the newer and newest design it is not available, partly because the content on these pages are not yet in an accurate width, like the newer search cache page or the message center page. Also this feature is not fully integrated in the diverse possibilities of the header layout and the navigation menus. But we hope the friends of this specific header design can deal with it.") + "<br>";
+            html += " &nbsp; " + checkboxy('settings_fixed_header_layout', 'Arrange header layout on content') + show_help("With this option you can arrange the header width on the width of the content of GC pages. This is an easy feature with some restrictions, like for example the available place, especially for horizontal navigation menues.<br><br>This feature is available on GC pages in the oldest design like for example cache and trackable listings, pocket queries, nearest lists, statistics, watchlists and drafts, to name just a few. <br><br>On map page and on pages in the newer and newest design it is not available, partly because the content on these pages are not yet in an accurate width, like the newer search cache page or the message center page. Also this feature is not fully integrated in the diverse possibilities of the header layout and the navigation menus. But we hope the friends of this specific header design can deal with it.") + "<br>";
             html += checkboxy('settings_bookmarks_on_top', "Show <a class='gclh_ref' href='#gclh_linklist' title='Link to topic \"Linklist and Navigation\"' id='gclh_linklist_link_1'>Linklist</a> on top") + show_help("Show the Linklist on the top of GC pages, beside the other links. You can configure the links in the <a class='gclh_ref_ht_int' href='#gclh_linklist' title='Link to topic \"Linklist and Navigation\"'>Linklist</a> at the end of this configuration page.") + "<br>";
             html += checkboxy('settings_upgrade_button_header_remove', 'Remove Upgrade button (basic members)') + "<br>";
 
@@ -17530,22 +17340,31 @@ var mainGC = function() {
 
             html += "<h4 class='gclh_headline2'>"+prepareHideable.replace("#id#","db")+"<label for='lnk_gclh_config_db'>Dashboard</label></h4>";
             html += "<div id='gclh_config_db' class='gclh_block'>";
-            html += checkboxy('settings_bookmarks_show', "Show <a class='gclh_ref' href='#gclh_linklist' title='Link to topic \"Linklist and Navigation\"' id='gclh_linklist_link_2'>Linklist</a> on your dashboard") + show_help("Show the Linklist at the sidebar on your dashboard. You can configure the links in the <a class='gclh_ref_ht_int' href='#gclh_linklist' title='Link to topic \"Linklist and Navigation\"'>Linklist</a> at the end of this configuration page.") + "<br>";
-            html += checkboxy('settings_show_mail_in_allmyvips', 'Show mail link beside user in "All my VIPs/VUPs" list on your dashboard') + show_help("With this option there will be an small mail icon beside every user in the list with all your VIPs (All my VIPs) on your dashboard page. With this icon you get directly to the mail page to mail to this user.<br>(VIP: Very important person)<br><br>If VUP processing is activated, this also applies to your VUPs (All my VUPs).<br>(VUP: Very unimportant person)") + "<br>";
-
-            html += "<div class='gclh_old_new_line'>New Dashboard Only</div>";
-            html += checkboxy('settings_show_default_links', 'Show all default links on your dashboard') + show_help("Show all the default links for the Linklist sorted at the sidebar on your dashboard.") + "<br>";
+            html += newParameterOn1;
+            html += checkboxy('settings_dashboard_build_menu_old_db_in_new_db', 'Show menu under the header as in the old dashboard') + show_help('This option allows you to show a menu below the header, similar to what you know from the old dashboard.') + "<br>";
+            html += newParameterVersionSetzen('0.17') + newParameterOff;
+            html += checkboxy('settings_compact_layout_new_dashboard', 'Show compact layout on your dashboard') + "<br>";
+            html += newParameterOn3;
+            html += " &nbsp; " + checkboxy('settings_row_hide_new_dashboard', 'Hide individual rows in the navigation column of your dashboard') + show_help("This feature allows you to hide individual rows in the left column (navigation column) of your dashboard. Each row has an icon for marking it. Above all rows, there's another icon for activating the configuration.") + "<br>";
+            html += newParameterVersionSetzen('0.16') + newParameterOff;
             html += checkboxy('settings_but_search_map', 'Show buttons "Search" and "Browse Map" on your dashboard') + "<br>";
             html += " &nbsp; " + checkboxy('settings_but_search_map_new_tab', 'Open links in new browser tab') + "<br>";
             html += newParameterOn1;
             html += checkboxy('settings_but_searchmap', 'Show button "Search Map" on your dashboard') + "<br>";
             html += " &nbsp; " + checkboxy('settings_but_searchmap_new_tab', 'Open links in new browser tab') + "<br>";
             html += newParameterVersionSetzen('0.17') + newParameterOff;
-            html += checkboxy('settings_compact_layout_new_dashboard', 'Show compact layout on your dashboard') + "<br>";
-            html += newParameterOn3;
-            html += " &nbsp; " + checkboxy('settings_row_hide_new_dashboard', 'Hide individual rows in the navigation column of your dashboard') + show_help("This feature allows you to hide individual rows in the left column (navigation column) of your dashboard. Each row has an icon for marking it. Above all rows, there's another icon for activating the configuration.") + "<br>";
-            html += newParameterVersionSetzen('0.16') + newParameterOff;
-            html += checkboxy('settings_embedded_smartlink_ignorelist', 'Show link to ignore list in sidebar section Lists') + show_help("Embedded a link in the section Lists to your Ignore List into the sidebar of the new dashboard.") + "<br>";
+            html += checkboxy('settings_embedded_smartlink_ignorelist', 'Show link to ignore list in sidebar section \"Plan\" under link \"Lists\"') + show_help("Embedded a link in the section \"Plan\" under the link \"Lists\" to your Ignore List into the sidebar of the new dashboard.") + "<br>";
+            html += checkboxy('settings_show_mail_in_allmyvips', 'Show mail link beside user in "All my VIPs/VUPs" list on your dashboard') + show_help("With this option there will be an small mail icon beside every user in the list with all your VIPs (All my VIPs) on your dashboard page. With this icon you get directly to the mail page to mail to this user.<br>(VIP: Very important person)<br><br>If VUP processing is activated, this also applies to your VUPs (All my VUPs).<br>(VUP: Very unimportant person)") + "<br>";
+            html += checkboxy('settings_bookmarks_show', "Show <a class='gclh_ref' href='#gclh_linklist' title='Link to topic \"Linklist and Navigation\"' id='gclh_linklist_link_2'>Linklist</a> on your dashboard") + show_help("Show the Linklist at the sidebar on your dashboard. You can configure the links in the <a class='gclh_ref_ht_int' href='#gclh_linklist' title='Link to topic \"Linklist and Navigation\"'>Linklist</a> at the end of this configuration page.") + "<br>";
+            html += checkboxy('settings_show_default_links', 'Show all default links on your dashboard') + show_help("Show all the default links for the Linklist sorted at the sidebar on your dashboard.") + "<br>";
+            html += newParameterOn2;
+            html += checkboxy('settings_dashboard_hide_tb_activity', 'Hide all trackable logs in the Latest Activity') + "<br>";
+            html += newParameterVersionSetzen('0.15') + newParameterOff;
+            html += checkboxy('settings_dashboard_show_logs_in_markdown', 'Show log text in Markdown as it is in cache listing') + "<br>";
+            html += checkboxy('settings_show_edit_links_for_logs', 'Show edit links for your own logs') + show_help("With this option direct edit links are shown in your own logs on your dashboard. If you choose such a link, you are immediately in edit mode in your log.") + "<br>";
+            html += newParameterOn1;
+            html += checkboxy('settings_dashboard_hide_right_sidebar', 'Hide the sidebar on the far right (“Events nearby” etc.) by default') + show_help('This option allows you to hide the sidebar on the far right by default. This hides, for example, “Events nearby”, “Geocaches nearby”, “Unpublished Hides”.') + "<br>";
+            html += newParameterVersionSetzen('0.17') + newParameterOff;
             html += checkboxy('settings_showUnpublishedHides', 'Show unpublished caches on your dashboard') + "<br>";
             html += " &nbsp; " + checkboxy('settings_set_showUnpublishedHides_sort', 'Sort unpublished caches on your dashboard') + " ";
             html += "<select class='gclh_form' id='settings_showUnpublishedHides_sort'>";
@@ -17553,20 +17372,6 @@ var mainGC = function() {
             html += "  <option value='gcOld' " + (settings_showUnpublishedHides_sort == 'gcOld' ? "selected='selected'" : "") + "> GC-Code (Oldest first)</option>";
             html += "  <option value='gcNew' " + (settings_showUnpublishedHides_sort == 'gcNew' ? "selected='selected'" : "") + "> GC-Code (Newest first)</option>";
             html += "</select><br>";
-            html += checkboxy('settings_show_edit_links_for_logs', 'Show edit links for your own logs') + show_help("With this option direct edit links are shown in your own logs on your dashboard. If you choose such a link, you are immediately in edit mode in your log.") + "<br>";
-            html += checkboxy('settings_dashboard_show_logs_in_markdown', 'Show log text in Markdown as it is in cache listing') + "<br>";
-            html += newParameterOn2;
-            html += checkboxy('settings_dashboard_hide_tb_activity', 'Hide all trackable logs in the Latest Activity') + "<br>";
-            html += newParameterVersionSetzen('0.15') + newParameterOff;
-            html += newParameterOn1;
-            html += checkboxy('settings_dashboard_hide_right_sidebar', 'Hide the sidebar on the far right (“Events nearby” etc.) by default') + show_help('This option allows you to hide the sidebar on the far right by default. This hides, for example, “Events nearby”, “Geocaches nearby”, “Unpublished Hides”.') + "<br>";
-            html += checkboxy('settings_dashboard_build_menu_old_db_in_new_db', 'Show menu under the header as in the old dashboard') + show_help('This option allows you to show a menu below the header, similar to what you know from the old dashboard.') + "<br>";
-            html += newParameterVersionSetzen('0.17') + newParameterOff;
-
-            html += "<div class='gclh_old_new_line'>Old Dashboard Only</div>";
-            html += checkboxy('settings_hide_visits_in_profile', 'Hide trackable visits on your dashboard') + "<br>";
-            var content_settings_logit_for_basic_in_pmo = checkboxy('settings_logit_for_basic_in_pmo', 'Log PMO caches by standard \"Log It\" icon (for basic members)') + show_help("With this option basic members are able to choose the standard \"Log It\" icon to call the logging screen for premium member only (PMO) caches. The tool tipp blocked not longer this call. You can have the same result by using the right mouse across the \"Log It\" icon and then new tab. <br>The \"Log It\" icon is besides the caches for example in the \"Recently viewed caches list\" and next to the caches on your old dashboard.") + "<br>";
-            html += content_settings_logit_for_basic_in_pmo;
             html += "</div>";
 
             html += "<h4 class='gclh_headline2'>"+prepareHideable.replace("#id#","listing")+"<label for='lnk_gclh_config_listing'>Listing</label></h4>";
@@ -17853,7 +17658,7 @@ var mainGC = function() {
             html += "<div id='gclh_config_logging' class='gclh_block'>";
             html += checkboxy('settings_replace_log_by_last_log', 'Replace log by last log template') + show_help("If you enable this option, the last log template will replace the whole log. If you disable it, it will be appended to the log.") + "<br>";
             html += content_settings_show_log_it.replace("show_log_it", "show_log_itX2");
-            html += content_settings_logit_for_basic_in_pmo.replace("basic_in_pmo","basic_in_pmoX0");
+            html += checkboxy('settings_logit_for_basic_in_pmo', 'Log PMO caches by standard \"Log It\" icon (for basic members)') + show_help("With this option basic members are able to choose the standard \"Log It\" icon to call the logging screen for premium member only (PMO) caches. The tool tipp blocked not longer this call. You can have the same result by using the right mouse across the \"Log It\" icon and then new tab. <br>The \"Log It\" icon is besides the caches for example in the \"Recently viewed caches list\".") + "<br>";
             html += checkboxy('settings_improve_character_counter', 'Show length of logtext') + show_help("If you enable this option, a counter shows the length of your logtext and the maximum length.\nOn the old logging page this feature ist auto-enabled.") + "<br>";
             html += checkboxy('settings_unsaved_log_message', 'Show message in case of unsaved log') + "<br>";
             html += checkboxy('settings_show_add_cache_info_in_log_page', 'Show additional cache info') + show_help("If you enable this option, additional cache information such as the favorite points or the favorite percent are shown in the log form next to the cache name.<br><br>For basic members, no data is displayed for premium member only caches.") + "<br>";
@@ -18624,7 +18429,6 @@ var mainGC = function() {
             setEvForDouPara("settings_font_size_submenu", "input");
             setEvForDouPara("settings_distance_submenu", "input");
             setEvForDouPara("settings_show_log_it", "click");
-            setEvForDouPara("settings_logit_for_basic_in_pmo", "click");
             setEvForDouPara("settings_show_thumbnails", "click");
             setEvForDouPara("settings_hover_image_max_size", "input");
             setEvForDouPara("settings_imgcaption_on_top", "click");
@@ -19234,7 +19038,6 @@ var mainGC = function() {
                 'settings_show_real_owner',
                 'settings_hide_archived_in_owned',
                 'settings_show_button_for_hide_archived',
-                'settings_hide_visits_in_profile',
                 'settings_add_log_templates',
                 'settings_add_cache_log_signature_as_log_template',
                 'settings_add_tb_log_signature_as_log_template',
@@ -20684,9 +20487,7 @@ var mainGC = function() {
                         settings_sync_last = new Date();
                         settings_sync_hash = hash;
                         setValue("settings_sync_last", settings_sync_last.toString()).done(function() {
-                            setValue("settings_sync_hash", settings_sync_hash).done(function() {
-                                if (is_page("profile")) reloadPage();
-                            });
+                            setValue("settings_sync_hash", settings_sync_hash);
                         });
                     });
                 }
@@ -20795,7 +20596,7 @@ var mainGC = function() {
 
 // Is Basic Member in PMO Cache?
     function isMemberInPmoCache() {
-        if (is_page("cache_listing") && $('#premium-upgrade-widget')[0]) return true;
+        if (is_page("cache_listing") && $('.premium-upgrade-widget')[0]) return true;
         else return false;
     }
 
@@ -21424,8 +21225,6 @@ function is_page(name) {
         if (document.getElementsByClassName('UnpublishedCacheSearchWidget').length > 0) status = false;
     } else if (name == "unpublished_cache") {
         if (document.getElementById("unpublishedMessage") !== null || document.getElementById("ctl00_ContentBody_GeoNav_uxPostReviewerNoteLogType") !== null) status = true;
-    } else if (name == "profile") {
-        if (url.match(/^\/my(\/default\.aspx)?/)) status = true;
     } else if (name == "publicProfile") {
         if (url.match(/^\/(profile|p\/)/)) status = true;
     } else if (name == "lists") {
