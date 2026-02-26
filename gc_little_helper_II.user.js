@@ -7899,7 +7899,7 @@ var mainGC = function() {
 
             // New Dashboard:
             // ----------
-            } else if (document.location.href.match(/\.com\/account\/dashboard/)) {
+            } else if (document.location.href.match(/\.com\/account\/dashboard/) && !settings_dashboard_disable_all_features) {
                 function build_box_vipvup(desc) {
                     buildBoxDashboard(desc, "All my " + desc.toUpperCase() + "s", "All my " + (desc == 'vip' ? 'very important persons':'very unimportant persons'));
                 }
