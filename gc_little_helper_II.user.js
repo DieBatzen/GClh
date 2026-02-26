@@ -753,6 +753,7 @@ var variablesInit = function(c) {
     c.settings_hide_share_log_button_log_view = getValue("settings_hide_share_log_button_log_view", false);
     c.settings_dashboard_hide_tb_activity = getValue("settings_dashboard_hide_tb_activity", false);
     c.settings_dashboard_hide_right_sidebar = getValue("settings_dashboard_hide_right_sidebar", false);
+    c.settings_dashboard_disable_all_features = getValue("settings_dashboard_disable_all_features", false);
     c.settings_dashboard_build_menu_old_db_in_new_db = getValue("settings_dashboard_build_menu_old_db_in_new_db", false);
     c.settings_button_sort_tbs_by_name_log_form = getValue("settings_button_sort_tbs_by_name_log_form", true);
     c.settings_larger_content_width_log_form = getValue("settings_larger_content_width_log_form", true);
@@ -9249,11 +9250,13 @@ var mainGC = function() {
     } catch(e) {gclh_error("Color lines in lists",e);}
 
 // Improve new dashboard.
-    if (is_page("dashboard")) {
+    if (is_page("dashboard") && !settings_dashboard_disable_all_features) {
         try {
             var css = '';
             // Compact layout.
             if (settings_compact_layout_new_dashboard) {
+                // Main container same distance everywhere.
+                css += ".container {padding: 18px !important;}";
                 // Link at the top of the container.
                 if ($('.alert')[0]) {
                     css += ".alert {padding: 6px 20px 0px 20px;}";
@@ -9273,10 +9276,13 @@ var mainGC = function() {
                 css += "#sidebarNavigation > nav ul:not(.gclh) ul {padding-top: 0px !important; padding-bottom: 0px !important; margin-top: 0px !important; gap: 0px !important;}";
                 css += "button[aria-controls='trackableInventoryItems'] {margin-top: -2px !important;}";
                 css += "button[aria-controls='trackableInventoryItems'] svg {margin-right: 5px !important;}";
-                // Button to display or hide the configuration to hide rows in left column.
+                // clickSum button to display or hide the configuration to hide rows in left column.
                 css += ".clickSum {position: absolute; margin-top: -23px; margin-left: 1px; cursor: pointer;}";
                 css += ".clickSum svg {height: 20px; width: 20px; fill: #777; transition: all .3s ease; transform-origin: 50% 50%;}";
                 css += ".clickSumHide .clickSum svg {transform: rotate(90deg);}";
+                // Adjust position of clickSum button if cover/avatar (.bio_data) is hiding.
+                css += ".no_bio_data {padding-top: 12px !important;}";
+                css += ".no_bio_data .clickSum {margin-top: -11px !important;}";
                 // Buttons to mark rows for display or hide in left column.
                 css += ".clickPoint {position: absolute; padding: 2px 3px 0px 2px !important; cursor: pointer; color: rgb(110, 110, 110);}";
                 css += ".bio-data .clickPoint {margin: 120px 0px 0px -1px !important; display: block;}";
@@ -9305,7 +9311,7 @@ var mainGC = function() {
                 css += ".event-list-item > div:not(.event-list-item-details) > div:not(.event-list-item-map) {padding-top: 8px !important; padding-bottom: 3px !important;}";
                 css += "#EventsList > div > div:not(.events-list-container) {padding: 5px 40px !important;}";
                 // Hide tips and instruction container in the right column.
-                css += "#_Geocaching101Container {display: none;}";
+                css += "#_GeocachesNearbyContainer a[href*='/sites/education/'] {display: none !important;}";
             }
 
             // Save uid of own trackables from new dashboard.
@@ -9412,6 +9418,9 @@ var mainGC = function() {
                         $('.clickSum').closest('#DashboardSidebar').removeClass('clickSumHide');
                         $('.clickSum')[0].title = 'Click here to hide the configuration for hiding rows';
                     }
+                    // Adjust position of clickSum button if cover/avatar (.bio_data) is hiding.
+                    if ($('.clickSumHide')[0] && $('.bio-data.clickPointHide')[0]) $('.clickSum').parent().parent().addClass('no_bio_data');
+                    else $('.clickSum').parent().parent().removeClass('no_bio_data');
                 }
                 function saveClickSumDB() {
                     if ($('.clickSumHide')[0]) setValue('show_box_dashboard_0', false);
@@ -9438,7 +9447,6 @@ var mainGC = function() {
                     if ($('#user-bio-root')[0]) {
                         $($('#user-bio-root')[0]).prepend('<span class="clickSum"><svg><use xlink:href="/account/app/ui-icons/sprites/global.svg#icon-expand-svg-fill" title=""</use></svg></span>');
                         $('.clickSum')[0].addEventListener("click", saveClickSumDB, false);
-                        setClickSumDB();
                         // Build buttons to mark rows for display or hide.
                         function buildButtonToMarkRowDB(row, name) {
                             if (row && row.length == 1 && name && name != '') {
@@ -9501,6 +9509,7 @@ var mainGC = function() {
                                 }
                             }
                         }
+                        setClickSumDB();
                     }
                 }
 
@@ -9704,7 +9713,7 @@ var mainGC = function() {
                         panel += '    </div>';
                         panel += '</div>';
                         $('#_GeocachesNearbyContainer').after(panel);
-                        var button = $( $('#_GeocachesNearbyContainer button')[0] ).clone()[0];
+                        var button = $( $('#_EventsContainer button')[0] ).clone()[0];
                         $('#gclh_unpublishedCaches .panel-header')[0].append(button);
                         if (!getValue('unpublishedCaches_visible', false)) {
                             $('#gclh_unpublishedCaches .panel-header').removeClass('isActive');
@@ -17341,6 +17350,7 @@ var mainGC = function() {
             html += "<h4 class='gclh_headline2'>"+prepareHideable.replace("#id#","db")+"<label for='lnk_gclh_config_db'>Dashboard</label></h4>";
             html += "<div id='gclh_config_db' class='gclh_block'>";
             html += newParameterOn1;
+            html += checkboxy('settings_dashboard_disable_all_features', 'Disable all features for dashboard') + show_help('The website operator has announced numerous dashboard changes in the coming months. This option allows you to quickly and easily disable all GC little helper II dashboard features without much effort. Only the line in the dashboard with the links to the Configurator, the Synchronizer and the Changelog should remain. This is only useful if the dashboard changes conflict with the features of GC little helper II.<br>(Status as of 24.02.2026)') + "<br>";
             html += checkboxy('settings_dashboard_build_menu_old_db_in_new_db', 'Show menu under the header as in the old dashboard') + show_help('This option allows you to show a menu below the header, similar to what you know from the old dashboard.') + "<br>";
             html += newParameterVersionSetzen('0.17') + newParameterOff;
             html += checkboxy('settings_compact_layout_new_dashboard', 'Show compact layout on your dashboard') + "<br>";
@@ -19217,6 +19227,7 @@ var mainGC = function() {
                 'settings_hide_share_log_button_log_view',
                 'settings_dashboard_hide_tb_activity',
                 'settings_dashboard_hide_right_sidebar',
+                'settings_dashboard_disable_all_features',
                 'settings_dashboard_build_menu_old_db_in_new_db',
                 'settings_button_sort_tbs_by_name_log_form',
                 'settings_larger_content_width_log_form',
