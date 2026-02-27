@@ -607,8 +607,10 @@ var variablesInit = function(c) {
     c.settings_show_default_links = getValue("settings_show_default_links", true);
     c.settings_bm_changed_and_go = getValue("settings_bm_changed_and_go", true);
     c.settings_bml_changed_and_go = getValue("settings_bml_changed_and_go", true);
-    c.settings_but_search_map = getValue("settings_but_search_map", true);
-    c.settings_but_search_map_new_tab = getValue("settings_but_search_map_new_tab", false);
+    c.settings_dashboard_show_search = getValue("settings_dashboard_show_search", true);
+    c.settings_dashboard_show_search_new_tab = getValue("settings_dashboard_show_search_new_tab", false);
+    c.settings_dashboard_show_browsemap = getValue("settings_dashboard_show_browsemap", false);
+    c.settings_dashboard_show_browsemap_new_tab = getValue("settings_dashboard_show_browsemap_new_tab", false);
     c.settings_but_searchmap = getValue("settings_but_searchmap", false);
     c.settings_but_searchmap_new_tab = getValue("settings_but_searchmap_new_tab", false);
     c.settings_show_pseudo_as_owner = getValue("settings_show_pseudo_as_owner", true);
@@ -9358,8 +9360,10 @@ var mainGC = function() {
                     if (settings_but_searchmap) { // Search Map
                         var searchmapButt = $( $('#quickLinks ul li')[0] ).clone()[0];
                     }
-                    if (settings_but_search_map) { // Search and Browse Map
-                        var mapButt = $( $('#quickLinks ul li')[0] ).clone()[0];
+                    if (settings_dashboard_show_browsemap) { // Browse Map
+                        var browsemapButt = $( $('#quickLinks ul li')[0] ).clone()[0];
+                    }
+                    if (settings_dashboard_show_search) { // Search
                         var searchButt = $( $('#quickLinks ul li')[0] ).clone()[0];
                     }
                     if (searchmapButt && $(searchmapButt).find('a')[0] && $(searchmapButt).find('a')[0].childNodes[1] && $(searchmapButt).find('svg')[0]) {
@@ -9370,18 +9374,18 @@ var mainGC = function() {
                         $('#quickLinks ul li')[0].before(searchmapButt);
                         css += "#map--inline path {stroke-width: 2.0;}";
                     }
-                    if (mapButt && $(mapButt).find('a')[0] && $(mapButt).find('a')[0].childNodes[1] && $(mapButt).find('svg')[0]) {
-                        $(mapButt).find('a')[0].href = '/map';
-                        $(mapButt).find('a')[0].target = settings_but_search_map_new_tab ? "_blank" : "";
-                        $(mapButt).find('a')[0].childNodes[1].innerText = 'Browse Map';
-                        $(mapButt).find('svg')[0].innerHTML = $(browse_map_icon)[0].innerHTML;
-                        $(mapButt).find('svg').attr('viewBox', '0 0 24 24');
-                        $(mapButt).find('path').attr('stroke-width', '1.2');
-                        $('#quickLinks ul li')[0].before(mapButt);
+                    if (browsemapButt && $(browsemapButt).find('a')[0] && $(browsemapButt).find('a')[0].childNodes[1] && $(browsemapButt).find('svg')[0]) {
+                        $(browsemapButt).find('a')[0].href = '/map';
+                        $(browsemapButt).find('a')[0].target = settings_dashboard_show_browsemap_new_tab ? "_blank" : "";
+                        $(browsemapButt).find('a')[0].childNodes[1].innerText = 'Browse Map';
+                        $(browsemapButt).find('svg')[0].innerHTML = $(browse_map_icon)[0].innerHTML;
+                        $(browsemapButt).find('svg').attr('viewBox', '0 0 24 24');
+                        $(browsemapButt).find('path').attr('stroke-width', '1.2');
+                        $('#quickLinks ul li')[0].before(browsemapButt);
                     }
                     if (searchButt && $(searchButt).find('a')[0] && $(searchButt).find('a')[0].childNodes[1] && $(searchButt).find('svg')[0]) {
                         $(searchButt).find('a')[0].href = '/play/search';
-                        $(searchButt).find('a')[0].target = settings_but_search_map_new_tab ? "_blank" : "";
+                        $(searchButt).find('a')[0].target = settings_dashboard_show_search_new_tab ? "_blank" : "";
                         $(searchButt).find('a')[0].childNodes[1].innerText = 'Search';
                         $(searchButt).find('svg')[0].innerHTML = '<use href="#search--inline"></use>';
                         $('#quickLinks ul li')[0].before(searchButt);
@@ -15668,6 +15672,32 @@ var mainGC = function() {
             GM_setValue("CONFIG", JSON.stringify(CONFIG));
             setValue("migration_task_09", true);
         }
+        // Migrate parameters settings_but_search_map and settings_but_search_map_new_tab to new set of parameters (for v0.17.15).
+        if (!getValue("migration_task_10", false)) {
+            if (CONFIG['settings_but_search_map']) {
+                CONFIG['settings_dashboard_show_search'] = true;
+                CONFIG['settings_dashboard_show_browsemap'] = true;
+            } else {
+                CONFIG['settings_dashboard_show_search'] = false;
+                CONFIG['settings_dashboard_show_browsemap'] = false;
+            }
+            delete CONFIG['settings_but_search_map'];
+
+            if (CONFIG['settings_but_search_map_new_tab']) {
+                CONFIG['settings_dashboard_show_search_new_tab'] = true;
+                CONFIG['settings_dashboard_show_browsemap_new_tab'] = true;
+            } else {
+                CONFIG['settings_dashboard_show_search_new_tab'] = false;
+                CONFIG['settings_dashboard_show_browsemap_new_tab'] = false;
+            }
+            delete CONFIG['settings_but_search_map_new_tab'];
+
+            CONFIG['migration_task_10'] = true;
+            GM_setValue("CONFIG", JSON.stringify(CONFIG));
+
+            // The migrated parameters must be initialized to take effect immediately.
+            variablesInit(window);
+        }
     }
 
 // GC/TB Name, GC/TB Link, GC/TB Name Link, preliminary LogDate.
@@ -17357,9 +17387,11 @@ var mainGC = function() {
             html += newParameterOn3;
             html += " &nbsp; " + checkboxy('settings_row_hide_new_dashboard', 'Hide individual rows in the navigation column of your dashboard') + show_help("This feature allows you to hide individual rows in the left column (navigation column) of your dashboard. Each row has an icon for marking it. Above all rows, there's another icon for activating the configuration.") + "<br>";
             html += newParameterVersionSetzen('0.16') + newParameterOff;
-            html += checkboxy('settings_but_search_map', 'Show buttons "Search" and "Browse Map" on your dashboard') + "<br>";
-            html += " &nbsp; " + checkboxy('settings_but_search_map_new_tab', 'Open links in new browser tab') + "<br>";
             html += newParameterOn1;
+            html += checkboxy('settings_dashboard_show_search', 'Show button "Search" on your dashboard') + "<br>";
+            html += " &nbsp; " + checkboxy('settings_dashboard_show_search_new_tab', 'Open links in new browser tab') + "<br>";
+            html += checkboxy('settings_dashboard_show_browsemap', 'Show button "Browse Map" on your dashboard') + "<br>";
+            html += " &nbsp; " + checkboxy('settings_dashboard_show_browsemap_new_tab', 'Open links in new browser tab') + "<br>";
             html += checkboxy('settings_but_searchmap', 'Show button "Search Map" on your dashboard') + "<br>";
             html += " &nbsp; " + checkboxy('settings_but_searchmap_new_tab', 'Open links in new browser tab') + "<br>";
             html += newParameterVersionSetzen('0.17') + newParameterOff;
@@ -18587,7 +18619,8 @@ var mainGC = function() {
             setEvForDepPara("settings_strike_archived", "settings_highlight_usercoords");
             setEvForDepPara("settings_strike_archived", "settings_highlight_usercoords_bb");
             setEvForDepPara("settings_strike_archived", "settings_highlight_usercoords_it");
-            setEvForDepPara("settings_but_search_map", "settings_but_search_map_new_tab");
+            setEvForDepPara("settings_dashboard_show_search", "settings_dashboard_show_search_new_tab");
+            setEvForDepPara("settings_dashboard_show_browsemap", "settings_dashboard_show_browsemap_new_tab");
             setEvForDepPara("settings_but_searchmap", "settings_but_searchmap_new_tab");
             setEvForDepPara("settings_compact_layout_nearest", "settings_fav_proz_nearest");
             setEvForDepPara("settings_compact_layout_nearest", "settings_open_tabs_nearest");
@@ -19107,8 +19140,10 @@ var mainGC = function() {
                 'settings_show_default_links',
                 'settings_bm_changed_and_go',
                 'settings_bml_changed_and_go',
-                'settings_but_search_map',
-                'settings_but_search_map_new_tab',
+                'settings_dashboard_show_search',
+                'settings_dashboard_show_search_new_tab',
+                'settings_dashboard_show_browsemap',
+                'settings_dashboard_show_browsemap_new_tab',
                 'settings_but_searchmap',
                 'settings_but_searchmap_new_tab',
                 'settings_show_pseudo_as_owner',
