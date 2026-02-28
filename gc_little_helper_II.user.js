@@ -13349,13 +13349,13 @@ var mainGC = function() {
         } catch(e) {gclh_error("Trackable map resizing and zooming with mouse wheel",e);}
     }
 
-// Dimmed style for lost trackabels on owned trackables view and search trackables view.
+// Dimmed style for lost trackabels on search trackables view (inclusive owned trackables view).
     if (document.location.href.match(/\.com\/track\/search\.aspx/) && settings_dim_lost_trackables) {
         try {
             const $rows = $('table.Table td:nth-child(5)').not(':has(img[src^="/images/"])').closest('tr');
             $rows.find('td, a').css({ color: '#AFAFAF', textDecoration: 'line-through' });
             $rows.find('img').css({ opacity: 0.35 });
-        } catch(e) {gclh_error("Dimmed style for lost trackabels on owned trackables view",e);}
+        } catch(e) {gclh_error("Dimmed style for lost trackabels on search trackables view",e);}
     }
 
 // Improve cache matrix on statistics page and public profile page and handle cache search links in list or map.
@@ -15672,7 +15672,7 @@ var mainGC = function() {
             GM_setValue("CONFIG", JSON.stringify(CONFIG));
             setValue("migration_task_09", true);
         }
-        // Migrate parameters settings_but_search_map and settings_but_search_map_new_tab to new set of parameters (for v0.17.15).
+        // Migrate parameters settings_but_search_map and settings_but_search_map_new_tab to new set of parameters (for v0.18).
         if (!getValue("migration_task_10", false)) {
             if (CONFIG['settings_but_search_map']) {
                 CONFIG['settings_dashboard_show_search'] = true;
@@ -16925,7 +16925,8 @@ var mainGC = function() {
             html += thanksLineBuild("V60",                  "V60GC",                    false, false, false, true,  false);
             html += thanksLineBuild("vylda",                "",                         false, false, false, true,  false);
             html += thanksLineBuild("winkamol",             "",                         false, false, false, true,  false);
-            var thanksLastUpdate = "15.02.2026";
+            html += thanksLineBuild("Woody Woodpin",        "Scirocco53",               false, false, false, true,  false);
+            var thanksLastUpdate = "28.02.2026";
 //<-- $$006
             html += "    </tbody>";
             html += "</table>";
@@ -16973,7 +16974,7 @@ var mainGC = function() {
             html += checkboxy('settings_hide_facebook', 'Hide login procedures via Facebook, Google, Apple') + "<br>";
             html += checkboxy('settings_hide_socialshare', 'Hide social sharing via Facebook, Twitter (X)') + "<br>";
             html += checkboxy('settings_hide_feedback_icon', 'Hide feedbacks and surveys')  + show_help('With this option you can hide for example the green feedback icon bottom right on a page or the survey about the purpose of the visit of the cache owner dashboard page.') + "<br>";
-            html += checkboxy('settings_remove_banner', 'Hide a blue banner (added close button to each of them)') + show_help("With blue banners below the page header, new page layouts or new features are pointed out. If you don't want that, you don't have the option to hide the annoying banner. This parameter adds a button to decide which banners to hide. If the parameter is deactivated, the hidden banners are deleted again.") + "<br>";
+            html += checkboxy('settings_remove_banner', 'Hide a blue banner (added close button to each of them)') + show_help("With blue banners below the page header, new page layouts or new features are pointed out. If you don't want that, you don't have the option to hide the annoying banner. This parameter adds a button to decide which banners to hide. If the parameter is disabled, the hidden banners will be restored.") + "<br>";
 
             html += "<div style='margin-top: 9px; margin-left: 5px'><b>List Layout</b>" + "</div>";
             html += "<table class='gclh_list_layout' style='width: 550px; text-align: left;'>";
@@ -17332,7 +17333,7 @@ var mainGC = function() {
             html += "<div id='gclh_config_profile' class='gclh_block'>";
             html += checkboxy('settings_public_profile_avatar_show_thumbnail', 'Show bigger avatar image while hovering with the mouse') + show_help("This option requires \"Show thumbnails of images\".") + "<br>";
             html += checkboxy('settings_public_profile_smaller_privacy_btn', 'Show smaller privacy buttons') + show_help("Replace the text and links for privacy with a clickable icon button.") + "<br>";
-            html += "<div style='margin-left: 5px'><b>Geocaches</b></div>";
+            html += "<div style='margin-top: 9px; margin-left: 5px'><b>Geocaches</b></div>";
             html += checkboxy('settings_profile_old_links', 'Use old links to finds and hides caches') + show_help("The links to finds and hides caches in the public profile run through the new search. With this option you can use the old search again.") + "<br>";
             html += "<div style='margin-top: 9px; margin-left: 5px'><b>Trackables</b></div>";
             html += checkboxy('settings_faster_profile_trackables', 'Load trackables faster without images') + show_help("With this option you can stop the load on the trackable pages after the necessary data are loaded. You disclaim of the lengthy load of the images of the trackables. This procedure is much faster as load all data, because every image is loaded separate and not in a bigger bundle like it is for the non image data.") + "<br>";
