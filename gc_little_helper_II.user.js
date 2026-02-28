@@ -14362,7 +14362,7 @@ var mainGC = function() {
         // All hides.
         if ($('.hides-col-header .minorDetails a')[0]) $('.hides-col-header .minorDetails a')[0].href = '/seek/nearest.aspx?u='+urlencode($('#ctl00_ProfileHead_ProfileHeader_lblMemberName')[0].innerHTML);
         $('.finds-col table tbody tr a, .hides-col table tbody tr a').each(function() {
-            let match = /\/play\/results\?ct=(\d+).*&(fb|hb)=.*/gi.exec(this.href);
+            let match = /\/play\/search\?ct=(\d+).*&(fb|hb)=.*/gi.exec(this.href);
             if (match) {
                 let [_full, type, foundOrHide] = match;
                 foundOrHide = foundOrHide == 'fb' ? 'ul' : 'u';
