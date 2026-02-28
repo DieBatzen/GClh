@@ -46,7 +46,6 @@
 // @grant        GM.info
 // @grant        GM_addStyle
 // @grant        GM_registerMenuCommand
-////xxxx ok
 // @grant        GM_download
 // ==/UserScript==
 
@@ -588,13 +587,11 @@ var variablesInit = function(c) {
     c.settings_compact_layout_bm_lists = getValue("settings_compact_layout_bm_lists", true);
     c.settings_compact_layout_pqs = getValue("settings_compact_layout_pqs", true);
     c.settings_compact_layout_list_of_pqs = getValue("settings_compact_layout_list_of_pqs", true);
-//->xxxx ok
     c.settings_download_pqs = getValue("settings_download_pqs", true);
     c.settings_download_pqs_replace_file_name = getValue("settings_download_pqs_replace_file_name", true);
     c.settings_download_pqs_file_name = getValue("settings_download_pqs_file_name", "");
     c.settings_download_pqs_replace_file_name_founds = getValue("settings_download_pqs_replace_file_name_founds", true);
     c.settings_download_pqs_file_name_founds = getValue("settings_download_pqs_file_name_founds", "");
-//<-xxxx ok
     c.settings_compact_layout_nearest = getValue("settings_compact_layout_nearest", true);
     c.settings_compact_layout_recviewed = getValue("settings_compact_layout_recviewed", true);
     c.settings_map_links_statistic = getValue("settings_map_links_statistic", true);
@@ -3024,12 +3021,8 @@ var mainGC = function() {
                 el.value = el.value.replace(/#FavoPerc#/ig, ($('.gclh_favorite-score')[0] ? $('.gclh_favorite-score')[0].innerHTML : ''));
                 el.value = el.value.replace(/#Hints#/ig, (($('#div_hint')[0] && $('#div_hint')[0].innerHTML) ? $('#div_hint')[0].innerHTML.replace(/^(\s*)/,'').replace(/<br>/g,'\n') : ''));
                 el.value = el.value.replace(/#GCNote#/ig, $('#srOnlyCacheNote').html().replace(new RegExp('&gt;', 'g'),'>').replace(new RegExp('&lt;', 'g'),'<'));
-//xxxx ok
-//                // Photo file name: Remove the impossible characters for the file name "<>/\|:*?
                 // Photo file name: Remove impossible characters for a file name "<>/\|:*?
                 if ($(thisObject)[0].innerHTML && $(thisObject)[0].innerHTML.match(/Photo file name/)) {
-//xxxx ok
-//                    el.value = el.value.replace(/(\/|\\|\||\*|\?|:|"|<|>)/g, '');
                     el.value = removeNonFileNameSigns(el.value);
                 }
             }
@@ -5604,7 +5597,6 @@ var mainGC = function() {
                 }
             }
 
-//->xxxx ok
             // Download selected PQs.
             var html_green_tick = '<img class="gclh_green_tick gclh_tick gclh_hide" src="' + global_green_tick + '" title="PQ(s) downloaded" style="margin-bottom: -1px;">';
             var html_red_tick = '<img class="gclh_red_tick gclh_tick gclh_hide" src="' + global_red_tick + '" title="PQ(s) not downloaded" style="margin-bottom: -1px;">';
@@ -5804,7 +5796,6 @@ var mainGC = function() {
                 css += '#uxOfflinePQTable .gclh_hide {display: none;}';
                 css += '#uxOfflinePQTable .working input {cursor: default !important; opacity: 0.8;}';
             }
-//<-xxxx ok
 
             // Mark up to 10 PQs with right click in active and downloadable table.
             $('table.PocketQueryListTable tbody input[type*="checkbox"]').each(function() {
@@ -5827,8 +5818,6 @@ var mainGC = function() {
                 if ($(this).find('a')[0] && $(this).find('a')[0].innerHTML) {
                     $(this).find('a').css('color','inherit');
                     $(this).find('a').css('font','inherit');
-//xxxx ok
-//                    $(this).find('a')[0].innerHTML = '<input type="button" value="Delete Selected">';
                     $(this).find('a')[0].innerHTML = '<input type="button" value="' + (settings_download_pqs ? 'Delete' : 'Delete Selected') + '">';
                 }
             });
@@ -6493,10 +6482,7 @@ var mainGC = function() {
     }
 
 // Map on create pocket query page.
-//->xxxx ok
-//    if (settings_pq_previewmap && document.location.href.match(/\.com\/pocket\/gcquery\.aspx/)) {
     if (settings_pq_previewmap && document.location.href.match(/\.com\/pocket\/gcquery\.aspx/) && !global_isBasic) {
-//<-xxxx ok
         try {
             leafletInit();
             $('.LatLongTable').after('<div style="position:absolute;top: 8px; left: 300px;height:330px;width:470px;" id="gclh_map" ></div>').parent().css("style", "relative");
@@ -17428,7 +17414,6 @@ var mainGC = function() {
             html += checkboxy('settings_fixed_pq_header', 'Show fixed header and footer') + show_help("Convenient for large list of pocket queries. With this option, you get a permanent view of the headers (weekday information) and footer (the number of running / remaining PQs) even if your list of pocket quieries is larger than your monitor.") + "<br>"
             html += checkboxy('settings_compact_layout_list_of_pqs', 'Show compact layout') + "<br>";
             html += " &nbsp; " + checkboxy('settings_both_tabs_list_of_pqs_one_page', 'Show both tabs of one page') + show_help("Show the both tabs \"Active Pocket Queries\" and \"Pocket Queries Ready for Download\" together of one page.") + "<br>";
-//->xxxx ok
             var placeholderDescription = "Possible placeholders:<br>"
                    + "&nbsp; #PQId# : Pocket Query identfication<br>"
                    + "&nbsp; #PQName# : Pocket Query name<br>"
@@ -17449,7 +17434,6 @@ var mainGC = function() {
             html += " &nbsp; " + checkboxy('settings_download_pqs_replace_file_name_founds', 'Replace filename for \"My Finds\" PQ downloads') + show_help("With this option you can activate the replace of filenames for \"My Finds\" PQ downloads. There is a separate option for other PQ downloads. Several placeholders are available for generating a filename. Invalid characters in a filename are automatically removed. If no filename is specified, the standard filename from the PQ processing is used.<br><br>If a filename already exists, you can configure your browser to, for example, use numbering in brackets or replace the file.") + "&nbsp;( Possible placeholders" + show_help(placeholderDescription) + ")<br>";
             html += " &nbsp; &nbsp; &nbsp;" + "<input class='gclh_form' type='text' size='50' id='settings_download_pqs_file_name_founds' title='Filename' placeholder='Enter filename' value='" + repApo(getValue('settings_download_pqs_file_name_founds', '')) + "' style='margin-top: 2px;'>" + "<br>";
             html += newParameterVersionSetzen('0.17') + newParameterOff;
-//<-xxxx ok
 
             html += "<div style='margin-top: 9px; margin-left: 5px'><b>Pocket Query</b></div>";
             html += checkboxy('settings_pq_warning', "Show a message in case of wrong settings") + show_help("Show a message if one or more options are in conflict. This helps to avoid pocket queries without results.") + "<br>";
@@ -19119,14 +19103,12 @@ var mainGC = function() {
             setEvForDepPara("settings_use_gclh_layercontrol","settings_searchmap_show_cache_display_options");
             setEvForDepPara("settings_use_gclh_layercontrol_on_search_map","settings_searchmap_autoupdate_after_dragging");
             setEvForDepPara("settings_use_gclh_layercontrol_on_search_map","settings_searchmap_show_cache_display_options");
-//->xxxx ok
             setEvForDepPara("settings_download_pqs", "settings_download_pqs_replace_file_name");
             setEvForDepPara("settings_download_pqs", "settings_download_pqs_file_name");
             setEvForDepPara("settings_download_pqs", "settings_download_pqs_replace_file_name_founds");
             setEvForDepPara("settings_download_pqs", "settings_download_pqs_file_name_founds");
             setEvForDepPara("settings_download_pqs_replace_file_name", "settings_download_pqs_file_name");
             setEvForDepPara("settings_download_pqs_replace_file_name_founds", "settings_download_pqs_file_name_founds");
-//<-xxxx ok
 
             // Abhängigkeiten der Linklist Parameter.
             for (var i = 0; i < 100; i++) {
@@ -19318,10 +19300,8 @@ var mainGC = function() {
             setValue("settings_color_bo", document.getElementById('settings_color_bo').value.replace("#",""));
             setValue("settings_color_nv", document.getElementById('settings_color_nv').value.replace("#",""));
             setValue("settings_searchmap_improve_add_to_list_height", document.getElementById('settings_searchmap_improve_add_to_list_height').value);
-//->xxxx ok
             setValue("settings_download_pqs_file_name", removeNonFileNameSigns(document.getElementById('settings_download_pqs_file_name').value.replace(/‌/g, "").trim()));
             setValue("settings_download_pqs_file_name_founds", removeNonFileNameSigns(document.getElementById('settings_download_pqs_file_name_founds').value.replace(/‌/g, "").trim()));
-//<-xxxx ok
 
             // Map Layers in vorgegebener Reihenfolge übernehmen.
             var new_map_layers_available = document.getElementById('settings_maplayers_available');
@@ -19573,11 +19553,9 @@ var mainGC = function() {
                 'settings_gclherror_alert',
                 'settings_embedded_smartlink_ignorelist',
                 'settings_both_tabs_list_of_pqs_one_page',
-//->xxxx ok
                 'settings_download_pqs',
                 'settings_download_pqs_replace_file_name',
                 'settings_download_pqs_replace_file_name_founds',
-//<-xxxx ok
                 'settings_past_events_on_bm',
                 'settings_show_log_totals',
                 'settings_show_reviewer_as_vip',
@@ -21501,12 +21479,10 @@ const insertCountyInformation = (lat, lon, func) => {
     } catch (e) {gclh_error("insertCountyInformation", e);}
 }
 
-//->xxxx ok
 // Remove impossible characters for a file name "<>/\|:*?
 function removeNonFileNameSigns(n) {
     return n.replace(/(\/|\\|\||\*|\?|:|"|<|>)/g, '');
 }
-//<-xxxx ok
 
 // Decode URI component for non-standard unicode encoding (issue-818).
 function decodeUnicodeURIComponent(s) {
