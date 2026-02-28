@@ -46,6 +46,8 @@
 // @grant        GM.info
 // @grant        GM_addStyle
 // @grant        GM_registerMenuCommand
+////xxxx ok
+// @grant        GM_download
 // ==/UserScript==
 
 //////////////////////////////////////
@@ -586,6 +588,13 @@ var variablesInit = function(c) {
     c.settings_compact_layout_bm_lists = getValue("settings_compact_layout_bm_lists", true);
     c.settings_compact_layout_pqs = getValue("settings_compact_layout_pqs", true);
     c.settings_compact_layout_list_of_pqs = getValue("settings_compact_layout_list_of_pqs", true);
+//->xxxx ok
+    c.settings_download_pqs = getValue("settings_download_pqs", true);
+    c.settings_download_pqs_replace_file_name = getValue("settings_download_pqs_replace_file_name", true);
+    c.settings_download_pqs_file_name = getValue("settings_download_pqs_file_name", "");
+    c.settings_download_pqs_replace_file_name_founds = getValue("settings_download_pqs_replace_file_name_founds", true);
+    c.settings_download_pqs_file_name_founds = getValue("settings_download_pqs_file_name_founds", "");
+//<-xxxx ok
     c.settings_compact_layout_nearest = getValue("settings_compact_layout_nearest", true);
     c.settings_compact_layout_recviewed = getValue("settings_compact_layout_recviewed", true);
     c.settings_map_links_statistic = getValue("settings_map_links_statistic", true);
@@ -3015,9 +3024,13 @@ var mainGC = function() {
                 el.value = el.value.replace(/#FavoPerc#/ig, ($('.gclh_favorite-score')[0] ? $('.gclh_favorite-score')[0].innerHTML : ''));
                 el.value = el.value.replace(/#Hints#/ig, (($('#div_hint')[0] && $('#div_hint')[0].innerHTML) ? $('#div_hint')[0].innerHTML.replace(/^(\s*)/,'').replace(/<br>/g,'\n') : ''));
                 el.value = el.value.replace(/#GCNote#/ig, $('#srOnlyCacheNote').html().replace(new RegExp('&gt;', 'g'),'>').replace(new RegExp('&lt;', 'g'),'<'));
-                // Photo file name: Remove the impossible characters for the file name "<>/\|:*?
+//xxxx ok
+//                // Photo file name: Remove the impossible characters for the file name "<>/\|:*?
+                // Photo file name: Remove impossible characters for a file name "<>/\|:*?
                 if ($(thisObject)[0].innerHTML && $(thisObject)[0].innerHTML.match(/Photo file name/)) {
-                    el.value = el.value.replace(/(\/|\\|\||\*|\?|:|"|<|>)/g, '');
+//xxxx ok
+//                    el.value = el.value.replace(/(\/|\\|\||\*|\?|:|"|<|>)/g, '');
+                    el.value = removeNonFileNameSigns(el.value);
                 }
             }
         } else {
@@ -5590,6 +5603,209 @@ var mainGC = function() {
                     $('.pq-legend')[0].remove();
                 }
             }
+
+//->xxxx ok
+            // Download selected PQs.
+            var html_green_tick = '<img class="gclh_green_tick gclh_tick gclh_hide" src="' + global_green_tick + '" title="PQ(s) downloaded" style="margin-bottom: -1px;">';
+            var html_red_tick = '<img class="gclh_red_tick gclh_tick gclh_hide" src="' + global_red_tick + '" title="PQ(s) not downloaded" style="margin-bottom: -1px;">';
+            var html_loader = '<img class="gclh_loader gclh_hide" src="' + urlImages + 'ajax-loader.gif" title="Downloading PQ(s)" style="margin-bottom: 1px;">';
+            function downloadPQs() {
+                function sleep(ms) {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
+                // Lock, unlock, hide and show elements.
+                function prepareItem(work, item) {
+                    if ($(item)[0]) {
+                        if ($(item).hasClass('gclh_green_tick')) {
+                            if (work == false) $(item).removeClass('gclh_hide');
+                            else $(item).addClass('gclh_hide');
+                        } else if ($(item).hasClass('gclh_red_tick')) {
+                            if (work == 'err') $(item).removeClass('gclh_hide');
+                            else $(item).addClass('gclh_hide');
+                        } else if ($(item).hasClass('gclh_loader')) {
+                            if (work == true) $(item).removeClass('gclh_hide');
+                            else $(item).addClass('gclh_hide');
+                        } else {
+                            if (work == true) $(item).addClass('working');
+                            else $(item).removeClass('working');
+                            if ($(item).find('input')[0]) {
+                                if (work == true) $(item).find('input')[0].setAttribute('disabled', '');
+                                else $(item).find('input')[0].removeAttribute('disabled', '');
+                            }
+                        }
+                    }
+                }
+                // Lock, unlock, hide and show checkboxes, buttons and icons.
+                function prepareScreen(work) {
+                    prepareItem(work, $('#masterCheckDL').parent());
+                    $('#uxOfflinePQTable tbody input[type*="checkbox"]').parent().each(function() {
+                        prepareItem(work, this);
+                    });
+                    prepareItem(work, $('#uxOfflinePQTable .PQDelete > a'));
+                    prepareItem(work, $('#gclh_download_btn'));
+                    $('#uxOfflinePQTable tbody tr.TableFooter img').each(function() {
+                        prepareItem(work, this);
+                    });
+                }
+                // Set progress in PQ line and behind download button.
+                function setPQProgress(work, item, on, error) {
+                    $(item).find('img').each(function() {
+                        prepareItem(work, this);
+                    });
+                    if (work == 'err') {
+                        var PQnr = $(item).find('td:nth-child(2)')[0].childNodes[0].nodeValue.trim();
+                        var errMess1 = 'PQ ' + PQnr + ' ';
+                        var errMess2 = '(' + on + ') error: ' + (error && error.error ? '"'+error.error+'"': '');
+                        var errMess3 = ' / details: ' + (error && error.details ? '"'+error.details+'"' : '');
+                        $(item).find('.gclh_red_tick')[0].setAttribute('title', errMess2 + errMess3);
+                        errMessAllPQs += errMess1 + errMess2 + '\n';
+                        console.error('GClh_ERROR (no header alert) - Download Pocket Query failed: ' + errMess1 + errMess2 + errMess3);
+                    }
+                    var selPQs = $('#uxOfflinePQTable tbody tr:not(.TableFooter) input:checked').closest('tr');
+                    var greenPQs = $(selPQs).find('td:nth-child(2) img.gclh_green_tick:not(.gclh_hide)');
+                    var redPQs = $(selPQs).find('td:nth-child(2) img.gclh_red_tick:not(.gclh_hide)');
+                    if (greenPQs.length == PQs.length) prepareScreen(false);
+                    else if ((greenPQs.length + redPQs.length) == PQs.length) {
+                        prepareScreen('err');
+                        $('#uxOfflinePQTable tbody tr.TableFooter .gclh_red_tick')[0].setAttribute('title', errMessAllPQs);
+                    }
+                }
+                // Get filename and replace the placeholder.
+                function getName(PQ) {
+                    var PQId = $(PQ).find('td:nth-child(1) input')[0].value;
+                    if (PQId == 'My finds' && settings_download_pqs_replace_file_name_founds && !settings_download_pqs_file_name_founds.trim() == '') {
+                        var name = settings_download_pqs_file_name_founds.trim();
+                    } else if (PQId != 'My finds' && settings_download_pqs_replace_file_name && !settings_download_pqs_file_name.trim() == '')  {
+                        var name = settings_download_pqs_file_name.trim();
+                    } else {
+                        return PQId + '.zip';
+                    }
+                    if (name.match(/#/)) {
+                        name = name.replace(/#PQId#/ig, PQId);
+                        name = name.replace(/#PQName#/ig, $(PQ).find('td:nth-child(3) a')[0].innerHTML.trim());
+                        var [date, time, dateTime, bigDateTime] = getDateTime();
+                        name = name.replace(/#Date#/ig, date);
+                        name = name.replace(/#Time#/ig, time.split(':')[0] + time.split(':')[1] + 'h');
+                        var [year, month, day] = determineCurrentDate();
+                        name = name.replace(/#Year#/ig, year);
+                        name = name.replace(/#Month#/ig, month);
+                        name = name.replace(/#Day#/ig, day);
+                        name = name.replace(/#Hours#/ig, time.split(':')[0]);
+                        name = name.replace(/#Minutes#/ig, time.split(':')[1]);
+                        name = name.replace(/#Seconds#/ig, bigDateTime.split(':')[2]);
+                    }
+                    name = name.trim();
+                    name = removeNonFileNameSigns(name);
+                    if (!name.match(/\.zip$/)) name += '.zip';
+                    if (name == '.zip') name = '-.zip';
+                    return name;
+                }
+                // Stop download if it's in progress.
+                if ($('#gclh_download_btn.working')[0]) return;
+                // Get selected PQs.
+                var PQs = $('#uxOfflinePQTable tbody tr:not(.TableFooter) input:checked').closest('tr');
+                if (!PQs || PQs.length == 0) return;
+                // Set counter and icons behind download button.
+                if (!$('.gclh_pq_counter')[0]) {
+                    var html = '';
+                    html += '<span class="gclh_pq_counter">';
+                    html += '<span class="gclh_pq_completed" title="Number of downloaded PQs">0</span> | ';
+                    html += '<span class="gclh_pq_started" title="Number of PQ downloads started">0</span> | ';
+                    html += '<span class="gclh_pq_total" title="Number of selected PQs">' + PQs.length + '</span>';
+                    html += html_green_tick;
+                    html += html_red_tick;
+                    html += html_loader;
+                    html += '</span>';
+                    $('#gclh_download_btn').after(html);
+                } else {
+                    $('.gclh_pq_completed')[0].innerHTML = 0;
+                    $('.gclh_pq_started')[0].innerHTML = 0;
+                    $('.gclh_pq_total')[0].innerHTML = PQs.length;
+                }
+                // Lock, unlock, hide and show checkboxes, buttons and icons before start downloading.
+                prepareScreen(true);
+                // Process all selected PQs.
+                var runningDownloads = 0;
+                var indexPQ = 0;
+                var errMessAllPQs = '';
+                (async function() {
+                    while (PQs[indexPQ]) {
+                        // Only 5 downloads at the same time.
+                        if (runningDownloads >= 5) {
+                            await sleep(10);
+                            continue;
+                        }
+                        var PQ = PQs[indexPQ];
+                        indexPQ++;
+                        setPQProgress(true, PQ);
+                        // Download PQ.
+                        (function(_PQ) {
+                            runningDownloads++;
+                            $('.gclh_pq_started')[0].innerHTML = parseInt($('.gclh_pq_started')[0].innerHTML) + 1;
+                            var name = getName(PQ);
+                            var url = $(_PQ).find('td:nth-child(3) a')[0].href;
+                            // "onerror" can be forced for example
+                            // - by deactivation of the internet connection with error "failed".
+                            // - by setting "Download mode" "disabled" in Tampermonkey settings (theme "Downloads") with error "not_enabled".
+                            // - by using a non-whitelisted ending in the name or without an ending in the name with error "not_whitelisted".
+                            // - by using a name only with an ending with error "filename must not contain illegal characters".
+                            // - by using an empty name with error "filename must not be empty".
+                            // Known problems:
+                            // - Entering a filename will be forced by setting "Download mode" "Nativ" in Tampermonkey settings (theme "Downloads").
+                            //   The download is fine, but the user still needs to confirm saving the file.
+                            GM_download({
+                                url: url,
+                                name: name,
+                                saveAs: false,
+                                onload: function() {
+                                    runningDownloads--;
+                                    $('.gclh_pq_completed')[0].innerHTML = parseInt($('.gclh_pq_completed')[0].innerHTML) + 1;
+                                    setPQProgress(false, _PQ);
+                                },
+                                onerror: function(error) {
+                                    runningDownloads--;
+                                    setPQProgress('err', _PQ, 'onerror', error);
+                                },
+                                ontimeout: function(error) {
+                                    runningDownloads--;
+                                    setPQProgress('err', _PQ, 'ontimeout', error);
+                                }
+                            });
+                        })(PQ);
+                    }
+                })();
+            }
+            // Download feature is enabled.
+            if (settings_download_pqs && $('#uxOfflinePQTable .PQDelete')[0]) {
+                // Add a checkbox if none exists (my finds PQs).
+                $('#uxOfflinePQTable tbody tr:not(.TableFooter) td:nth-child(1)').each(function() {
+                    if ($(this)[0].innerHTML.trim() == '') {
+                        $(this).append('<input type="checkbox" onclick="checkTopCBDL();" value="My finds">');
+                    }
+                });
+                // Progress icons in second column of every PQ.
+                $('#uxOfflinePQTable tbody tr:not(.TableFooter) td:nth-child(2)').each(function() {
+                    $(this).append(html_green_tick);
+                    $(this).append(html_red_tick);
+                    $(this).append(html_loader);
+                });
+                // Download button and global progress info.
+                var html = '<a id="gclh_download_btn" title="Download selected PQs to default download location" href="javascript:void(0);"><input type="button" value="Download"></a>';
+                $('#uxOfflinePQTable .PQDelete').append(html);
+                $('#gclh_download_btn')[0].addEventListener("click", downloadPQs, false);
+                // css for download feature.
+                css += '#gclh_download_btn {color: inherit !important; font: inherit !important; padding-left: 0px !important;}';
+                css += '#uxOfflinePQTable .PQDelete {width: 220px !important; max-width: 220px !important;}';
+                css += '#uxOfflinePQTable .PQDelete > span {font-size: 12px; cursor: default !important; padding-right: 8px;}';
+                css += '#uxOfflinePQTable tbody tr:not(.TableFooter) td:nth-child(2) {width: 50px;}';
+                css += '#uxOfflinePQTable tbody tr:not(.TableFooter) td:nth-child(2) img {float: right; padding-right: 4px; padding-top: 3px;}';
+                css += '#uxOfflinePQTable tbody tr:not(.TableFooter) td:nth-child(2) .gclh_tick {padding-top: 0px;}';
+                css += '#uxOfflinePQTable tbody tr.TableFooter img {padding-left: 8px;}';
+                css += '#uxOfflinePQTable .gclh_hide {display: none;}';
+                css += '#uxOfflinePQTable .working input {cursor: default !important; opacity: 0.8;}';
+            }
+//<-xxxx ok
+
             // Mark up to 10 PQs with right click in active and downloadable table.
             $('table.PocketQueryListTable tbody input[type*="checkbox"]').each(function() {
                 this.oncontextmenu = function(){return false;};
@@ -5611,7 +5827,9 @@ var mainGC = function() {
                 if ($(this).find('a')[0] && $(this).find('a')[0].innerHTML) {
                     $(this).find('a').css('color','inherit');
                     $(this).find('a').css('font','inherit');
-                    $(this).find('a')[0].innerHTML = '<input type="button" value="Delete Selected">';
+//xxxx ok
+//                    $(this).find('a')[0].innerHTML = '<input type="button" value="Delete Selected">';
+                    $(this).find('a')[0].innerHTML = '<input type="button" value="' + (settings_download_pqs ? 'Delete' : 'Delete Selected') + '">';
                 }
             });
             // Refresh button on both tabs (Active and Downloadable).
@@ -6275,7 +6493,10 @@ var mainGC = function() {
     }
 
 // Map on create pocket query page.
-    if (settings_pq_previewmap && document.location.href.match(/\.com\/pocket\/gcquery\.aspx/)) {
+//->xxxx ok
+//    if (settings_pq_previewmap && document.location.href.match(/\.com\/pocket\/gcquery\.aspx/)) {
+    if (settings_pq_previewmap && document.location.href.match(/\.com\/pocket\/gcquery\.aspx/) && !global_isBasic) {
+//<-xxxx ok
         try {
             leafletInit();
             $('.LatLongTable').after('<div style="position:absolute;top: 8px; left: 300px;height:330px;width:470px;" id="gclh_map" ></div>').parent().css("style", "relative");
@@ -17207,6 +17428,28 @@ var mainGC = function() {
             html += checkboxy('settings_fixed_pq_header', 'Show fixed header and footer') + show_help("Convenient for large list of pocket queries. With this option, you get a permanent view of the headers (weekday information) and footer (the number of running / remaining PQs) even if your list of pocket quieries is larger than your monitor.") + "<br>"
             html += checkboxy('settings_compact_layout_list_of_pqs', 'Show compact layout') + "<br>";
             html += " &nbsp; " + checkboxy('settings_both_tabs_list_of_pqs_one_page', 'Show both tabs of one page') + show_help("Show the both tabs \"Active Pocket Queries\" and \"Pocket Queries Ready for Download\" together of one page.") + "<br>";
+//->xxxx ok
+            var placeholderDescription = "Possible placeholders:<br>"
+                   + "&nbsp; #PQId# : Pocket Query identfication<br>"
+                   + "&nbsp; #PQName# : Pocket Query name<br>"
+                   + "&nbsp; #Date# : Actual date<br>"
+                   + "&nbsp; #Time# : Actual time (for example 1430h)<br>"
+                   + "&nbsp; #Year# : Actual year<br>"
+                   + "&nbsp; #Month# : Actual month<br>"
+                   + "&nbsp; #Day# : Actual day<br>"
+                   + "&nbsp; #Hours# : Actual hour<br>"
+                   + "&nbsp; #Minutes# : Actual minutes<br>"
+                   + "&nbsp; #Seconds# : Actual seconds<br>"
+                   + "(Upper and lower case is not required in the placeholders name.)";
+            var downloadDescription = '<br><br><br>General information on how browsers and script managers handle downloads:<br><br>Browsers and script managers can prevent downloads respectively downloads from being saved to the default download location without a dialog. This can result in a download not starting, it ending with an error, or a dialog prompting the user to save the download after downloading. These restrictions are security measures. They cannot and should not be changed by GC little helper II. You may need to adjust settings in your browser or script manager for downloads to work as expected.<br><br>It seems that downloads without a dialog box are possible by default in browsers such as Mozilla Firefox, Google Chrome, Microsoft Edge, and presumably others as well. The same applies to the script manager Tampermonkey.<br><br>Users of the Tampermonkey script manager who wish to force the saving of downloads only with a dialog after downloading can, for example, set the download mode to "Native" in the Downloads section of the Tampermonkey Settings.';
+            html += newParameterOn1;
+            html += checkboxy('settings_download_pqs', 'Add option to download PQs with one click to default download location') + show_help("This option allows you to activate a download button in the \"Pocket Queries Ready for Download\" area. With this button you can download selected PQs with one click to the default download location on your device.<br><br>If a download fails, the error message is saved. To view the error message, hover your mouse over the red error icon or check the browser console (function key F12, Console tab)." + downloadDescription) + "<br>";
+            html += " &nbsp; " + checkboxy('settings_download_pqs_replace_file_name', 'Replace filename for PQ downloads') + show_help("With this option you can activate the replace of filenames for normal PQ downloads. There is a separate option for \"My Finds\" PQ downloads. Several placeholders are available for generating a filename. Invalid characters in a filename are automatically removed. If no filename is specified, the standard filename from the PQ processing is used.<br><br>If a filename already exists, you can configure your browser to, for example, use numbering in brackets or replace the file.") + "&nbsp;( Possible placeholders" + show_help(placeholderDescription) + ")<br>";
+            html += " &nbsp; &nbsp; &nbsp;" + "<input class='gclh_form' type='text' size='50' id='settings_download_pqs_file_name' title='Filename' placeholder='Enter filename' value='" + repApo(getValue('settings_download_pqs_file_name', '')) + "' style='margin-top: 2px;'>" + "<br>";
+            html += " &nbsp; " + checkboxy('settings_download_pqs_replace_file_name_founds', 'Replace filename for \"My Finds\" PQ downloads') + show_help("With this option you can activate the replace of filenames for \"My Finds\" PQ downloads. There is a separate option for other PQ downloads. Several placeholders are available for generating a filename. Invalid characters in a filename are automatically removed. If no filename is specified, the standard filename from the PQ processing is used.<br><br>If a filename already exists, you can configure your browser to, for example, use numbering in brackets or replace the file.") + "&nbsp;( Possible placeholders" + show_help(placeholderDescription) + ")<br>";
+            html += " &nbsp; &nbsp; &nbsp;" + "<input class='gclh_form' type='text' size='50' id='settings_download_pqs_file_name_founds' title='Filename' placeholder='Enter filename' value='" + repApo(getValue('settings_download_pqs_file_name_founds', '')) + "' style='margin-top: 2px;'>" + "<br>";
+            html += newParameterVersionSetzen('0.17') + newParameterOff;
+//<-xxxx ok
 
             html += "<div style='margin-top: 9px; margin-left: 5px'><b>Pocket Query</b></div>";
             html += checkboxy('settings_pq_warning', "Show a message in case of wrong settings") + show_help("Show a message if one or more options are in conflict. This helps to avoid pocket queries without results.") + "<br>";
@@ -18876,6 +19119,14 @@ var mainGC = function() {
             setEvForDepPara("settings_use_gclh_layercontrol","settings_searchmap_show_cache_display_options");
             setEvForDepPara("settings_use_gclh_layercontrol_on_search_map","settings_searchmap_autoupdate_after_dragging");
             setEvForDepPara("settings_use_gclh_layercontrol_on_search_map","settings_searchmap_show_cache_display_options");
+//->xxxx ok
+            setEvForDepPara("settings_download_pqs", "settings_download_pqs_replace_file_name");
+            setEvForDepPara("settings_download_pqs", "settings_download_pqs_file_name");
+            setEvForDepPara("settings_download_pqs", "settings_download_pqs_replace_file_name_founds");
+            setEvForDepPara("settings_download_pqs", "settings_download_pqs_file_name_founds");
+            setEvForDepPara("settings_download_pqs_replace_file_name", "settings_download_pqs_file_name");
+            setEvForDepPara("settings_download_pqs_replace_file_name_founds", "settings_download_pqs_file_name_founds");
+//<-xxxx ok
 
             // Abhängigkeiten der Linklist Parameter.
             for (var i = 0; i < 100; i++) {
@@ -19067,6 +19318,10 @@ var mainGC = function() {
             setValue("settings_color_bo", document.getElementById('settings_color_bo').value.replace("#",""));
             setValue("settings_color_nv", document.getElementById('settings_color_nv').value.replace("#",""));
             setValue("settings_searchmap_improve_add_to_list_height", document.getElementById('settings_searchmap_improve_add_to_list_height').value);
+//->xxxx ok
+            setValue("settings_download_pqs_file_name", removeNonFileNameSigns(document.getElementById('settings_download_pqs_file_name').value.replace(/‌/g, "").trim()));
+            setValue("settings_download_pqs_file_name_founds", removeNonFileNameSigns(document.getElementById('settings_download_pqs_file_name_founds').value.replace(/‌/g, "").trim()));
+//<-xxxx ok
 
             // Map Layers in vorgegebener Reihenfolge übernehmen.
             var new_map_layers_available = document.getElementById('settings_maplayers_available');
@@ -19318,6 +19573,11 @@ var mainGC = function() {
                 'settings_gclherror_alert',
                 'settings_embedded_smartlink_ignorelist',
                 'settings_both_tabs_list_of_pqs_one_page',
+//->xxxx ok
+                'settings_download_pqs',
+                'settings_download_pqs_replace_file_name',
+                'settings_download_pqs_replace_file_name_founds',
+//<-xxxx ok
                 'settings_past_events_on_bm',
                 'settings_show_log_totals',
                 'settings_show_reviewer_as_vip',
@@ -21240,6 +21500,13 @@ const insertCountyInformation = (lat, lon, func) => {
         });
     } catch (e) {gclh_error("insertCountyInformation", e);}
 }
+
+//->xxxx ok
+// Remove impossible characters for a file name "<>/\|:*?
+function removeNonFileNameSigns(n) {
+    return n.replace(/(\/|\\|\||\*|\?|:|"|<|>)/g, '');
+}
+//<-xxxx ok
 
 // Decode URI component for non-standard unicode encoding (issue-818).
 function decodeUnicodeURIComponent(s) {
