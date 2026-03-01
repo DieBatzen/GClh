@@ -6481,9 +6481,6 @@ var mainGC = function() {
 // Map on create pocket query page.
     if (settings_pq_previewmap && document.location.href.match(/\.com\/pocket\/gcquery\.aspx/) && !global_isBasic) {
         try {
-            // If a PQ is deleted, then the page gets reloaded empty and therefore no map needed.
-            if (!$('.LatLongTable')[0]) return;
-
             leafletInit();
             $('.LatLongTable').after('<div style="position:absolute;top: 8px; left: 300px;height:330px;width:470px;" id="gclh_map" ></div>').parent().css("style", "relative");
             var previewMap = L.map('gclh_map', {
