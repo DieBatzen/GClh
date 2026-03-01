@@ -3627,9 +3627,11 @@ var mainGC = function() {
                     }
                 } else {waitCount++; if (waitCount <= 50) setTimeout(function(){waitForPCN(waitCount);}, 200);}
             }
-            waitForPCN(0);
-            css += '#gclh_cache_note_tpls {appearance: none; height: 20px; width: 20px; padding: 12px; margin-top: -30px; float: right; border-color: #9B9B9B; background-color: #FFFFFF; background-image: url(../../app/ui-icons/icons/global/caret-down.svg); background-position: 50% 50%;}';
-            css += '#gclh_cache_note_tpls:focus {box-shadow: rgb(74, 74, 74) 0px 0px 0px 1px;}';
+            if (settings_add_cache_note_templates) {
+                waitForPCN(0);
+                css += '#gclh_cache_note_tpls {appearance: none; height: 20px; width: 20px; padding: 12px; margin-top: -30px; float: right; border-color: #9B9B9B; background-color: #FFFFFF; background-image: url(../../app/ui-icons/icons/global/caret-down.svg); background-position: 50% 50%;}';
+                css += '#gclh_cache_note_tpls:focus {box-shadow: rgb(74, 74, 74) 0px 0px 0px 1px;}';
+            }
         } catch(e) {gclh_error("Build templates for Personal Cache Note",e);}
         // Create Character Counter for Personal Cache Note.
         try {
@@ -19374,6 +19376,7 @@ var mainGC = function() {
                 'settings_listing_add_county_to_place',
                 'settings_maps_add_county_to_place',
                 'settings_message_add_gc_code',
+                'settings_add_cache_note_templates',
             );
             for (var i = 0; i < checkboxes.length; i++) {
                 if (document.getElementById(checkboxes[i])) setValue(checkboxes[i], document.getElementById(checkboxes[i]).checked);
