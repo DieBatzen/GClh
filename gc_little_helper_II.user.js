@@ -6479,7 +6479,7 @@ var mainGC = function() {
     }
 
 // Map on create pocket query page.
-    if (settings_pq_previewmap && document.location.href.match(/\.com\/pocket\/gcquery\.aspx/) && !global_isBasic) {
+    if (settings_pq_previewmap && document.location.href.match(/\.com\/pocket\/gcquery\.aspx/) && !global_isBasic && $('.LatLongTable')[0]) {
         try {
             leafletInit();
             $('.LatLongTable').after('<div style="position:absolute;top: 8px; left: 300px;height:330px;width:470px;" id="gclh_map" ></div>').parent().css("style", "relative");
