@@ -18802,17 +18802,6 @@ var mainGC = function() {
             setEvForDepPara("settings_show_eventinfo_in_desc", "settings_show_eventdayX1");
             setEvForDepPara("settings_show_eventinfo_in_desc", "settings_show_eventtime_with_24_hoursX0");
             setEvForDepPara("settings_compact_layout_new_dashboard", "settings_row_hide_new_dashboard");
-            setEvForDepPara("settings_use_gclh_layercontrol","settings_searchmap_autoupdate_after_dragging");
-            setEvForDepPara("settings_use_gclh_layercontrol","settings_searchmap_show_cache_display_options");
-            setEvForDepPara("settings_use_gclh_layercontrol_on_search_map","settings_searchmap_autoupdate_after_dragging");
-            setEvForDepPara("settings_use_gclh_layercontrol_on_search_map","settings_searchmap_show_cache_display_options");
-            setEvForDepPara("settings_compact_layout_list_of_pqs", "settings_both_tabs_list_of_pqs_one_page");
-            setEvForDepPara("settings_download_pqs", "settings_download_pqs_replace_file_name");
-            setEvForDepPara("settings_download_pqs", "settings_download_pqs_file_name");
-            setEvForDepPara("settings_download_pqs", "settings_download_pqs_replace_file_name_founds");
-            setEvForDepPara("settings_download_pqs", "settings_download_pqs_file_name_founds");
-            setEvForDepPara("settings_download_pqs_replace_file_name", "settings_download_pqs_file_name");
-            setEvForDepPara("settings_download_pqs_replace_file_name_founds", "settings_download_pqs_file_name_founds");
             setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[0]");
             setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[0]");
             setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[1]");
@@ -18833,6 +18822,17 @@ var mainGC = function() {
             setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[8]");
             setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[9]");
             setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[9]");
+            setEvForDepPara("settings_use_gclh_layercontrol","settings_searchmap_autoupdate_after_dragging");
+            setEvForDepPara("settings_use_gclh_layercontrol","settings_searchmap_show_cache_display_options");
+            setEvForDepPara("settings_use_gclh_layercontrol_on_search_map","settings_searchmap_autoupdate_after_dragging");
+            setEvForDepPara("settings_use_gclh_layercontrol_on_search_map","settings_searchmap_show_cache_display_options");
+            setEvForDepPara("settings_compact_layout_list_of_pqs", "settings_both_tabs_list_of_pqs_one_page");
+            setEvForDepPara("settings_download_pqs", "settings_download_pqs_replace_file_name");
+            setEvForDepPara("settings_download_pqs", "settings_download_pqs_file_name");
+            setEvForDepPara("settings_download_pqs", "settings_download_pqs_replace_file_name_founds");
+            setEvForDepPara("settings_download_pqs", "settings_download_pqs_file_name_founds");
+            setEvForDepPara("settings_download_pqs_replace_file_name", "settings_download_pqs_file_name");
+            setEvForDepPara("settings_download_pqs_replace_file_name_founds", "settings_download_pqs_file_name_founds");
 
             // Abhängigkeiten der Linklist Parameter.
             for (var i = 0; i < 100; i++) {
