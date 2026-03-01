@@ -765,6 +765,7 @@ var variablesInit = function(c) {
     c.settings_listing_add_county_to_place = getValue("settings_listing_add_county_to_place", false);
     c.settings_maps_add_county_to_place = getValue("settings_maps_add_county_to_place", false);
     c.settings_message_add_gc_code = getValue("settings_message_add_gc_code", true);
+    c.settings_add_cache_note_templates = getValue("settings_add_cache_note_templates", true);
 
     tlc('START userToken');
     try {
@@ -3564,6 +3565,72 @@ var mainGC = function() {
                 observer.observe(editCacheNote, {attributes: true});
             }
         } catch(e) {gclh_error("Focus Cachenote-Textarea on Click of the Note",e);}
+        // Build templates for Personal Cache Note.
+        try {
+            function waitForPCN(waitCount) {
+                if ($('#editCacheNote')[0] && $('#ctl00_ContentBody_lnkDH')[0] && $('#div_hint')[0]) {
+                    // Script for insert personal cache note template by click.
+                    function insertCacheNoteTemplatesFunction() {
+                        var [aDate, aTime] = getDateTime();
+                        var aHints = '';
+                        if ($('#div_hint')[0].innerHTML.trim() != '') {
+                            if ($('#ctl00_ContentBody_lnkDH')[0].title == 'Decrypt') {
+                                aHints = convertROTStringWithBrackets($('#div_hint')[0].innerHTML.trim());
+                            } else {
+                                aHints = $('#div_hint')[0].innerHTML.trim();
+                            }
+                        }
+                        var code = "function gclh_insert_tpl(id){";
+                        code += "  document.getElementById('gclh_cache_note_tpls').value = -1;";
+                        code += "  var input = document.getElementById('cacheNoteText');";
+                        code += "  var aDate = '" + aDate + "';";
+                        code += "  var aTime = '" + aTime + "';";
+                        code += "  var aHints = '" + aHints + "';";
+                        code += "  var inhalt = document.getElementById(id).innerHTML;";
+                        code += "  inhalt = inhalt.replace(/\\&amp\\;/g,'&');";
+                        code += "  if (aDate) inhalt = inhalt.replace(/#Date#/ig, aDate);";
+                        code += "  if (aTime) inhalt = inhalt.replace(/#Time#/ig, aTime);";
+                        code += "  inhalt = inhalt.replace(/#Hints#/ig, aHints);";
+                        code += "  if (typeof input.selectionStart != 'undefined' && inhalt) {";
+                        code += "    var start = input.selectionStart;";
+                        code += "    var end = input.selectionEnd;";
+                        code += "    var insText = input.value.substring(start, end);";
+                        code += "    input.value = input.value.substr(0, start) + inhalt + input.value.substr(end);";
+                        code += "    var pos = start + inhalt.length;";
+                        code += "    input.selectionStart = input.selectionEnd = pos;";
+                        code += "  }";
+                        code += "  input.focus();";
+                        code += "  document.getElementById('cacheNoteText').dispatchEvent(new Event('input'));";
+                        code += "}";
+                        injectPageScript(code, 'body', 'gclh_CacheNoteTemplatesScript');
+                    }
+                    function prepareCacheNoteTemplates() {
+                        var texts = ""; var logic = "";
+                        for (var i = 0; i < anzTemplates; i++) {
+                            if (getValue("settings_cache_note_template_name["+i+"]", "") != "") {
+                                texts += "<div id='gclh_template["+i+"]' style='display: none;'>" + getValue("settings_cache_note_template["+i+"]", "") + "</div>";
+                                logic += "<option value='gclh_template["+i+"]'>" + repApo(getValue("settings_cache_note_template_name["+i+"]", "")) + "</option>";
+                            }
+                        }
+                        liste += texts;
+                        liste += "<select id='gclh_cache_note_tpls' onChange='gclh_insert_tpl(this.value);' title='Personal cache note templates'>";
+                        liste += "<option value='-1'" + (texts == "" ? "" : "style='display: none; visibility: hidden;'") + ">No templates available</option>";
+                        liste += logic;
+                        liste += "</select>";
+                    }
+                    insertCacheNoteTemplatesFunction();
+                    var liste = "";
+                    prepareCacheNoteTemplates();
+                    liste = '<div>'+liste+'</div>';
+                    if (!$('#gclh_cache_note_tpls')[0]) {
+                        $('#editCacheNote').prepend(liste);
+                    }
+                } else {waitCount++; if (waitCount <= 50) setTimeout(function(){waitForPCN(waitCount);}, 200);}
+            }
+            waitForPCN(0);
+            css += '#gclh_cache_note_tpls {appearance: none; height: 20px; width: 20px; padding: 12px; margin-top: -30px; float: right; border-color: #9B9B9B; background-color: #FFFFFF; background-image: url(../../app/ui-icons/icons/global/caret-down.svg); background-position: 50% 50%;}';
+            css += '#gclh_cache_note_tpls:focus {box-shadow: rgb(74, 74, 74) 0px 0px 0px 1px;}';
+        } catch(e) {gclh_error("Build templates for Personal Cache Note",e);}
         // Create Character Counter for Personal Cache Note.
         try {
             $('#cacheNoteText + div').append('<div id="gclh_char_count" style="float: right;"></div>');
@@ -17468,6 +17535,19 @@ var mainGC = function() {
             html += checkboxy('settings_hide_empty_cache_notes', 'Hide personal cache notes if empty') + show_help("You can hide the personal cache notes if they are empty. There will be a link to show them to add a note.") + "<br>";
             html += checkboxy('settings_hide_cache_notes', 'Hide personal cache notes completely') + show_help("You can hide the personal cache notes completely, if you don't want to use them.") + "<br>";
             html += checkboxy('settings_change_font_cache_notes', 'Change font of personal cache notes to monospace') + "<br>";
+            var placeholderDescription = "Possible placeholders:<br>"
+                   + "&nbsp; #Date# : Actual date<br>"
+                   + "&nbsp; #Time# : Actual time<br>"
+                   + "&nbsp; #Hints# : Additional hints<br>"
+                   + "(Upper and lower case is not required in the placeholders name.)";
+            html += newParameterOn1;
+            html += checkboxy('settings_add_cache_note_templates', 'Add templates for personal cache note') + show_help("Templates are predefined texts. You can save up to ten templates. All of your templates will be displayed under the personal caches note in listings. All you have to do is click on a template and it will be placed in the personal caches note. You can also use placeholders for variables that will be replaced in the personal caches note.") + " &nbsp; ( Possible placeholders" + show_help(placeholderDescription) + ")<br>";
+            for (var i = 0; i < anzTemplates; i++) {
+                html += " &nbsp; &nbsp;" + "<input class='gclh_form' type='text' size='15' id='settings_cache_note_template_name[" + i + "]' value='" + repApo(getValue('settings_cache_note_template_name[' + i + ']', '')) + "' style='margin-top: 2px;'> ";
+                html += "<a onClick=\"if (document.getElementById(\'settings_cache_note_template_div[" + i + "]\').style.display == \'\') document.getElementById(\'settings_cache_note_template_div[" + i + "]\').style.display = \'none\'; else document.getElementById(\'settings_cache_note_template_div[" + i + "]\').style.display = \'\'; return false;\" href='#'><img src='/images/stockholm/16x16/page_white_edit.gif' border='0' style='vertical-align: text-top;'></a><br>";
+                html += "<div id='settings_cache_note_template_div[" + i + "]' style='display: none; margin-top: 2px; margin-bottom: -2px;'> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<textarea class='gclh_form' rows='4' cols='54' id='settings_cache_note_template[" + i + "]'>&zwnj;" + getValue("settings_cache_note_template[" + i + "]", "") + "</textarea></div>";
+            }
+            html += newParameterVersionSetzen('0.17') + newParameterOff;
 
             html += "<div style='margin-top: 9px; margin-left: 5px'><b>Cache Detail Navigation <font class='gclh_small' style='vertical-align: text-bottom;'>(right sidebar)</font></b>" + "</div>";
             html += checkboxy('settings_log_inline', 'Log cache from listing (inline)') + show_help("With the inline log you can open a log form inside the listing, without loading a new page.<br><br>If you're using an ad-blocking add-on, such as uBlock, the embedded screen may not be allowed. To turn this off, you have to add \"www.geocaching.com\/geocache\/GC*\" to the whitelist, or something similar, of your add-on.") + "<br>";
@@ -18724,6 +18804,26 @@ var mainGC = function() {
             setEvForDepPara("settings_use_gclh_layercontrol","settings_searchmap_show_cache_display_options");
             setEvForDepPara("settings_use_gclh_layercontrol_on_search_map","settings_searchmap_autoupdate_after_dragging");
             setEvForDepPara("settings_use_gclh_layercontrol_on_search_map","settings_searchmap_show_cache_display_options");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[0]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[0]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[1]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[1]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[2]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[2]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[3]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[3]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[4]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[4]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[5]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[5]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[6]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[6]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[7]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[7]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[8]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[8]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[9]");
+            setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[9]");
 
             // Abhängigkeiten der Linklist Parameter.
             for (var i = 0; i < 100; i++) {
@@ -19292,6 +19392,16 @@ var mainGC = function() {
                 if (name && text) {
                     setValue('settings_log_template_name[' + i + ']', name.value);
                     setValue('settings_log_template[' + i + ']', text.value.replace(/‌/g, "")); // Entfernt das Steuerzeichen.
+                }
+            }
+
+            // Save personal cache note templates.
+            for (var i = 0; i < anzTemplates; i++) {
+                var name = document.getElementById('settings_cache_note_template_name[' + i + ']');
+                var text = document.getElementById('settings_cache_note_template[' + i + ']');
+                if (name && text) {
+                    setValue('settings_cache_note_template_name[' + i + ']', name.value);
+                    setValue('settings_cache_note_template[' + i + ']', text.value.replace(/‌/g, "")); // Entfernt das Steuerzeichen.
                 }
             }
 
@@ -20860,6 +20970,12 @@ var mainGC = function() {
             limitedField(textarea, $(counterelement).find('span')[0], maxLength, options.showWords);
         }, false);
         textarea.addEventListener("change", function() {
+            limitedField(textarea, $(counterelement).find('span')[0], maxLength, options.showWords);
+        }, false);
+        textarea.addEventListener("focus", function() {
+            limitedField(textarea, $(counterelement).find('span')[0], maxLength, options.showWords);
+        }, false);
+        textarea.addEventListener("input", function() {
             limitedField(textarea, $(counterelement).find('span')[0], maxLength, options.showWords);
         }, false);
     }
