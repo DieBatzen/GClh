@@ -7941,6 +7941,8 @@ var mainGC = function() {
                     } else {waitCount++; if (waitCount <= 200) setTimeout(function(){waitForLeftSidebarVip(waitCount);}, 50);}
                 }
                 waitForLeftSidebarVip(0);
+                // To stop the expand icon from flickering because the actual CSS is built later.
+                buildDashboardCss();
 
             // Friends list:
             // ----------
