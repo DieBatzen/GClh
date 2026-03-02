@@ -409,5 +409,6 @@
   "settings_default_logtype_control": true,
   "settings_listing_add_county_to_place": false,
   "settings_maps_add_county_to_place": false,
-  "settings_message_add_gc_code": true
+  "settings_message_add_gc_code": true,
+  "settings_add_cache_note_templates": true
 }
