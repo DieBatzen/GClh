@@ -1680,11 +1680,12 @@ var mainGC = function() {
         }
     } catch(e) {gclh_error("F2, F4, F10 keys",e);}
 
-// Wait for header and build up header.
-    tlc('START buildUpHeader');
+// Wait for new header and build up old header.
+    tlc('START MutationObserver');
     try {
-        function buildUpHeader(waitCount) {
+        const obs = new MutationObserver(() => {
             if ($('#gc-header, #GCHeader')[0] && !$('#ctl00_gcNavigation')[0]) {
+                obs.disconnect();
                 tlc('Header found');
                 // Integrate old header.
                 ($('#gc-header') || $('#GCHeader')).after(header_old);
@@ -1724,12 +1725,19 @@ var mainGC = function() {
                 });
                 tlc('START OK');
             }
-            waitCount++;
-            if (waitCount <= 1000) {setTimeout(function(){buildUpHeader(waitCount);}, 10);}
-            else if (!$('#ctl00_gcNavigation')[0]) {tlc('STOP No header found');}
-        }
-        buildUpHeader(0);
-    } catch(e) {gclh_error("Wait for header and build up header",e);}
+        });
+        obs.observe(document.documentElement, { childList: true, subtree: true });
+
+        // Safeguard to finish observer after 20s, throw error if no header could be found.
+        setTimeout(() => {
+            obs.disconnect();
+            if (!$('#ctl00_gcNavigation')[0]) {
+                gclh_error("Wait for header and build up header", Error('Timeout detecting header'));
+            }
+        }, 20000);
+    } catch (e) {
+        gclh_error("Wait for new header and build up old header", e);
+    }
 
 // Set user avatar, user and found count in new header.
     function setUserParameter() {
