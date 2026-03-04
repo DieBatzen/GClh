@@ -3595,7 +3595,7 @@ var mainGC = function() {
                             }
                         }
                         aHints = aHints.replace(/<br>/g, '\r\n');
-                        aHints = JSON.stringify(aHints);
+                        aHints = JSON.stringify(aHints).slice(1, -1);
                         var code = "function gclh_insert_tpl(id){";
                         code += "  document.getElementById('gclh_cache_note_tpls').value = -1;";
                         code += "  var input = document.getElementById('cacheNoteText');";
@@ -3606,7 +3606,7 @@ var mainGC = function() {
                         code += "  inhalt = inhalt.replace(/\\&amp\\;/g,'&');";
                         code += "  if (aDate) inhalt = inhalt.replace(/#Date#/ig, aDate);";
                         code += "  if (aTime) inhalt = inhalt.replace(/#Time#/ig, aTime);";
-                        code += "  inhalt = inhalt.replace(/#Hints#/ig, aHints.replace(/(^\"|\"$)/g,''));";
+                        code += "  inhalt = inhalt.replace(/#Hints#/ig, aHints);";
                         code += "  if (typeof input.selectionStart != 'undefined' && inhalt) {";
                         code += "    var start = input.selectionStart;";
                         code += "    var end = input.selectionEnd;";
