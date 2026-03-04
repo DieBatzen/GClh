@@ -3594,6 +3594,8 @@ var mainGC = function() {
                                 aHints = $('#div_hint')[0].innerHTML.trim();
                             }
                         }
+                        aHints = aHints.replace(/<br>/g, '\r\n');
+                        aHints = JSON.stringify(aHints).slice(1, -1);
                         var code = "function gclh_insert_tpl(id){";
                         code += "  document.getElementById('gclh_cache_note_tpls').value = -1;";
                         code += "  var input = document.getElementById('cacheNoteText');";
