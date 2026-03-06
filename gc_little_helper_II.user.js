@@ -1732,17 +1732,15 @@ var mainGC = function() {
             }
         });
         obs.observe(document.documentElement, { childList: true, subtree: true });
-
         // Safeguard to finish observer after 20s, throw error if no header could be found.
         setTimeout(() => {
             obs.disconnect();
             if (!$('#ctl00_gcNavigation')[0]) {
-                gclh_error("Wait for header and build up header", Error('Timeout detecting header'));
+                console.error('GClh_ERROR (no header alert) - Wait for header and build up header: Timeout detecting header');
+
             }
         }, 20000);
-    } catch (e) {
-        gclh_error("Wait for new header and build up old header", e);
-    }
+    } catch (e) { gclh_error("Wait for new header and build up old header", e); }
 
 // Set user avatar, user and found count in new header.
     function setUserParameter() {
@@ -15999,7 +15997,6 @@ var mainGC = function() {
                 CONFIG['settings_dashboard_show_browsemap'] = false;
             }
             delete CONFIG['settings_but_search_map'];
-
             if (CONFIG['settings_but_search_map_new_tab']) {
                 CONFIG['settings_dashboard_show_search_new_tab'] = true;
                 CONFIG['settings_dashboard_show_browsemap_new_tab'] = true;
@@ -16008,10 +16005,8 @@ var mainGC = function() {
                 CONFIG['settings_dashboard_show_browsemap_new_tab'] = false;
             }
             delete CONFIG['settings_but_search_map_new_tab'];
-
             CONFIG['migration_task_10'] = true;
             GM_setValue("CONFIG", JSON.stringify(CONFIG));
-
             // The migrated parameters must be initialized to take effect immediately.
             variablesInit(window);
         }
@@ -17388,13 +17383,13 @@ var mainGC = function() {
                    + "(Upper and lower case is not required in the placeholders name.)";
             var downloadDescription1 = '<br><br><br>General information on how browsers and script managers handle downloads:<br><br>Browsers and script managers can prevent downloads respectively downloads from being saved to the default download location without a dialog. This can result in a download not starting, it ending with an error, or a dialog prompting the user to save the download after downloading. These restrictions are security measures. They cannot and should not be changed by GC little helper II. You may need to adjust settings in your browser or script manager for downloads to work as expected.';
             var downloadDescription2 = '<br><br>It seems that downloads without a dialog box are possible by default in browsers such as Mozilla Firefox, Google Chrome, Microsoft Edge, and presumably others as well. The same applies to the script manager Tampermonkey.<br><br>Users of the Tampermonkey script manager who wish to force the saving of downloads only with a dialog after downloading can, for example, set the download mode to "Native" in the Downloads section of the Tampermonkey Settings. In addition, a browser setting similar to \"Ask where to save a file each time\" must be enabled.';
-            html += newParameterOn1;
+            html += newParameterOn2;
             html += checkboxy('settings_download_pqs', 'Add option to download PQs with one click to default download location') + show_help("This option allows you to activate a download button in the \"Pocket Queries Ready for Download\" area. With this button you can download selected PQs with one click to the default download location of your browser.<br><br>If a download fails, the error message is saved. To view the error message, hover your mouse over the red error icon or check the browser console (function key F12, Console tab)." + downloadDescription1 + downloadDescription2) + "<br>";
             html += " &nbsp; " + checkboxy('settings_download_pqs_replace_file_name', 'Replace filename for PQ downloads') + show_help("With this option you can activate the replace of filenames for normal PQ downloads. There is a separate option for \"My Finds\" PQ downloads. Several placeholders are available for generating a filename. Invalid characters in a filename are automatically removed. If no filename is specified, the standard filename from the PQ processing is used.<br><br>If a filename already exists, you can configure your browser to, for example, use numbering in brackets or replace the file.") + "&nbsp;( Possible placeholders" + show_help(placeholderDescription) + ")<br>";
             html += " &nbsp; &nbsp; &nbsp;" + "<input class='gclh_form' type='text' size='50' id='settings_download_pqs_file_name' title='Filename' placeholder='Enter filename' value='" + repApo(getValue('settings_download_pqs_file_name', '')) + "' style='margin-top: 2px;'>" + "<br>";
             html += " &nbsp; " + checkboxy('settings_download_pqs_replace_file_name_founds', 'Replace filename for \"My Finds\" PQ downloads') + show_help("With this option you can activate the replace of filenames for \"My Finds\" PQ downloads. There is a separate option for other PQ downloads. Several placeholders are available for generating a filename. Invalid characters in a filename are automatically removed. If no filename is specified, the standard filename from the PQ processing is used.<br><br>If a filename already exists, you can configure your browser to, for example, use numbering in brackets or replace the file.") + "&nbsp;( Possible placeholders" + show_help(placeholderDescription) + ")<br>";
             html += " &nbsp; &nbsp; &nbsp;" + "<input class='gclh_form' type='text' size='50' id='settings_download_pqs_file_name_founds' title='Filename' placeholder='Enter filename' value='" + repApo(getValue('settings_download_pqs_file_name_founds', '')) + "' style='margin-top: 2px;'>" + "<br>";
-            html += newParameterVersionSetzen('0.17') + newParameterOff;
+            html += newParameterVersionSetzen('0.18') + newParameterOff;
 
             html += "<div style='margin-top: 9px; margin-left: 5px'><b>Pocket Query</b></div>";
             html += checkboxy('settings_pq_warning', "Show a message in case of wrong settings") + show_help("Show a message if one or more options are in conflict. This helps to avoid pocket queries without results.") + "<br>";
@@ -17489,12 +17484,10 @@ var mainGC = function() {
             html += checkboxy('settings_show_button_fav_proz_cod', 'Show button to show the favorite percentage of your hidden caches') + show_help("Only for published and archived caches, not for events and unpublished caches.") + "<br>";
             html += checkboxy('settings_show_compact_certitude_information', 'Show information overview on Certitude\'s solution page') + show_help("Show a compact information overview and a Copy to Clipboard button after successfully passing a Certitude page.") + "<br>";
             html += checkboxy('settings_anonymous_on_certitude', 'Do not get listed on Certitude\'s solvers rank page') + show_help("Always activate the \"Stay anonymous\" checkbox. If the solution is correct, the nickname will not be listed in the ranking.") + "<br>";
-            html += newParameterOn2;
             html += checkboxy('settings_improve_notifications', 'Improve notification list and notifications') + "<br>";
-            html += newParameterVersionSetzen('0.15') + newParameterOff;
-            html += newParameterOn1;
+            html += newParameterOn2;
             html += checkboxy('settings_dim_lost_trackables', 'Dim lost trackables in "Search Trackables" result view') + show_help("Lost trackables in \"Search Trackables\" result view can be visually dimmed so they are easier to distinguish from active trackables.") + "<br>";
-            html += newParameterVersionSetzen('0.17') + newParameterOff;
+            html += newParameterVersionSetzen('0.18') + newParameterOff;
             html += "</div>";
 
             html += "<h4 class='gclh_headline2'>"+prepareHideable.replace("#id#","maps")+"<label for='lnk_gclh_config_maps'>Map</label></h4>";
@@ -17623,9 +17616,7 @@ var mainGC = function() {
             html += " &nbsp; " + checkboxy('settings_switch_from_google_maps_to_new_gc_map_in_same_tab', 'Switch in same browser tab') + "<br>";
             html += checkboxy('settings_add_link_google_maps_on_gc_map', 'Add link to Google Maps on Browse and Search Map') + show_help("With this option an icon is placed on the Browse Map and on the Search Map page to link to the same area in Google Maps.") + "<br>";
             html += " &nbsp; " + checkboxy('settings_switch_to_google_maps_in_same_tab', 'Switch in same browser tab') + "<br>";
-            html += newParameterOn2;
             html += checkboxy('settings_add_links_google_maps_on_google_search', 'Add link to Google Maps on maps of the Google Search Results pages') + show_help("Since March 2024 Google Maps not being linked from Google Search Results pages in the European Union. With this option some of these links to Google Maps will be restored, so that the links to GC Maps on Google Maps can be used again. In particular, the links and buttons on the maps on the Google Search Results pages have been restored, so that the maps are clickable again.<br><br>It is only relevant for the Member States of the European Union (EU) and for the Member States in the  Europäischen Wirtschaftsraum (EWS) respectively for the Google Search Results pages with their top level domains. You can find details on googles support page here: https://support.google.com/websearch/thread/261655134") + "<br>";
-            html += newParameterVersionSetzen('0.15') + newParameterOff;
             html += "<div style='margin-top: 9px; margin-left: 5px'><b>Openstreetmap Page</b></div>";
             html += checkboxy('settings_add_link_gc_map_on_osm', 'Add link to Browse Map on Openstreetmap') + show_help("With this option an icon is placed on the Openstreetmap page to link to the same area in Browse Map.") + "<br>";
             html += " &nbsp; " + checkboxy('settings_switch_from_osm_to_gc_map_in_same_tab', 'Switch in same browser tab') + "<br>";
@@ -17639,11 +17630,9 @@ var mainGC = function() {
             html += "<div style='margin-top: 9px; margin-left: 5px'><b>GeoHack Page</b></div>";
             html += checkboxy('settings_add_link_geohack_on_gc_map', 'Add link to GeoHack on Browse and Search Map') + show_help("With this option an icon is placed on the Browse Map and on the Search Map page to link to the same area in GeoHack.") + "<br>";
             html += " &nbsp; " + checkboxy('settings_switch_to_geohack_in_same_tab', 'Switch in same browser tab') + "<br>";
-            html += newParameterOn2;
             html += "<div style='margin-top: 9px; margin-left: 5px'><b>Komoot Page</b></div>";
             html += checkboxy('settings_add_link_komoot_on_gc_map', 'Add link to Komoot on Browse and Search Map') + show_help("With this option an icon is placed on the Browse Map and on the Search Map page to link to the same area in Komoot.") + "<br>";
             html += " &nbsp; " + checkboxy('settings_switch_to_komoot_in_same_tab', 'Switch in same browser tab') + "<br>";
-            html += newParameterVersionSetzen('0.15') + newParameterOff;
             html += newParameterOn1;
             html += "<div style='margin-top: 9px; margin-left: 5px'><b>Waymarked Trails Pages</b></div>";
             html += checkboxy('settings_add_link_wmthiking_on_gc_map', 'Add link to Waymarked Trails Hiking on Browse and Search Map') + show_help("With this option an icon is placed on the Browse Map and on the Search Map page to link to the same area in Waymarked Trails Hiking.") + "<br>";
@@ -17718,34 +17707,32 @@ var mainGC = function() {
 
             html += "<h4 class='gclh_headline2'>"+prepareHideable.replace("#id#","db")+"<label for='lnk_gclh_config_db'>Dashboard</label></h4>";
             html += "<div id='gclh_config_db' class='gclh_block'>";
-            html += newParameterOn1;
+            html += newParameterOn2;
             html += checkboxy('settings_dashboard_disable_all_features', 'Disable all features for dashboard') + show_help('The website operator has announced numerous dashboard changes in the coming months. This option allows you to quickly and easily disable all GC little helper II dashboard features without much effort. Only the line in the dashboard with the links to the Configurator, the Synchronizer and the Changelog should remain. This is only useful if the dashboard changes conflict with the features of GC little helper II.<br>(Status as of 24.02.2026)') + "<br>";
             html += checkboxy('settings_dashboard_build_menu_old_db_in_new_db', 'Show menu under the header as in the old dashboard') + show_help('This option allows you to show a menu below the header, similar to what you know from the old dashboard.') + "<br>";
-            html += newParameterVersionSetzen('0.17') + newParameterOff;
+            html += newParameterVersionSetzen('0.18') + newParameterOff;
             html += checkboxy('settings_compact_layout_new_dashboard', 'Show compact layout on your dashboard') + "<br>";
             html += newParameterOn3;
             html += " &nbsp; " + checkboxy('settings_row_hide_new_dashboard', 'Hide individual rows in the navigation column of your dashboard') + show_help("This feature allows you to hide individual rows in the left column (navigation column) of your dashboard. Each row has an icon for marking it. Above all rows, there's another icon for activating the configuration.") + "<br>";
             html += newParameterVersionSetzen('0.16') + newParameterOff;
-            html += newParameterOn1;
+            html += newParameterOn2;
             html += checkboxy('settings_dashboard_show_search', 'Show button "Search" on your dashboard') + "<br>";
             html += " &nbsp; " + checkboxy('settings_dashboard_show_search_new_tab', 'Open links in new browser tab') + "<br>";
             html += checkboxy('settings_dashboard_show_browsemap', 'Show button "Browse Map" on your dashboard') + "<br>";
             html += " &nbsp; " + checkboxy('settings_dashboard_show_browsemap_new_tab', 'Open links in new browser tab') + "<br>";
             html += checkboxy('settings_but_searchmap', 'Show button "Search Map" on your dashboard') + "<br>";
             html += " &nbsp; " + checkboxy('settings_but_searchmap_new_tab', 'Open links in new browser tab') + "<br>";
-            html += newParameterVersionSetzen('0.17') + newParameterOff;
+            html += newParameterVersionSetzen('0.18') + newParameterOff;
             html += checkboxy('settings_embedded_smartlink_ignorelist', 'Show link to ignore list in sidebar section \"Plan\" under link \"Lists\"') + show_help("Embedded a link in the section \"Plan\" under the link \"Lists\" to your Ignore List into the sidebar of the new dashboard.") + "<br>";
             html += checkboxy('settings_show_mail_in_allmyvips', 'Show mail link beside user in "All my VIPs/VUPs" list on your dashboard') + show_help("With this option there will be an small mail icon beside every user in the list with all your VIPs (All my VIPs) on your dashboard page. With this icon you get directly to the mail page to mail to this user.<br>(VIP: Very important person)<br><br>If VUP processing is activated, this also applies to your VUPs (All my VUPs).<br>(VUP: Very unimportant person)") + "<br>";
             html += checkboxy('settings_bookmarks_show', "Show <a class='gclh_ref' href='#gclh_linklist' title='Link to topic \"Linklist and Navigation\"' id='gclh_linklist_link_2'>Linklist</a> on your dashboard") + show_help("Show the Linklist at the sidebar on your dashboard. You can configure the links in the <a class='gclh_ref_ht_int' href='#gclh_linklist' title='Link to topic \"Linklist and Navigation\"'>Linklist</a> at the end of this configuration page.") + "<br>";
             html += checkboxy('settings_show_default_links', 'Show all default links on your dashboard') + show_help("Show all the default links for the Linklist sorted at the sidebar on your dashboard.") + "<br>";
-            html += newParameterOn2;
             html += checkboxy('settings_dashboard_hide_tb_activity', 'Hide all trackable logs in the Latest Activity') + "<br>";
-            html += newParameterVersionSetzen('0.15') + newParameterOff;
             html += checkboxy('settings_dashboard_show_logs_in_markdown', 'Show log text in Markdown as it is in cache listing') + "<br>";
             html += checkboxy('settings_show_edit_links_for_logs', 'Show edit links for your own logs') + show_help("With this option direct edit links are shown in your own logs on your dashboard. If you choose such a link, you are immediately in edit mode in your log.") + "<br>";
-            html += newParameterOn1;
+            html += newParameterOn2;
             html += checkboxy('settings_dashboard_hide_right_sidebar', 'Hide the sidebar on the far right (“Events nearby” etc.) by default') + show_help('This option allows you to hide the sidebar on the far right by default. This hides, for example, “Events nearby”, “Geocaches nearby”, “Unpublished Hides”.') + "<br>";
-            html += newParameterVersionSetzen('0.17') + newParameterOff;
+            html += newParameterVersionSetzen('0.18') + newParameterOff;
             html += checkboxy('settings_showUnpublishedHides', 'Show unpublished caches on your dashboard') + "<br>";
             html += " &nbsp; " + checkboxy('settings_set_showUnpublishedHides_sort', 'Sort unpublished caches on your dashboard') + " ";
             html += "<select class='gclh_form' id='settings_showUnpublishedHides_sort'>";
@@ -17764,14 +17751,14 @@ var mainGC = function() {
             html += checkboxy('settings_show_real_owner', 'Show real owner name') + show_help("If this option is enabled, the alias that an owner used to publish the cache is replaced with the real owner name.") + "<br>";
             html += checkboxy('settings_show_eventday', 'Show weekday of an event') + show_help("With this option the day of the week will be displayed next to the event date in the header of the cache listing and in the event info at the beginning of the cache description.") + "<br>";
             html += checkboxy('settings_show_eventtime_with_24_hours', 'Show event time in 24 hours format') + show_help("The start time and end time of an event are generated on the website using the language in which you are signed in. In English, the preferred language when using the GClh, but also in some other languages, the start time and end time of an event is shown in 12 hour format with AM and PM. If you want to change it to a 24 hour format, you can activate this parameter. It will then be changed in the header of the cache listing and in the event info at the beginning of the cache description.") + "<br>";
-            html += newParameterOn1;
+            html += newParameterOn2;
             html += checkboxy('settings_set_default_calendar_link_for_event', 'Set default calendar for event ');
             html += "<select class='gclh_form' id='settings_default_calendar_link_for_event'>";
             for (var i = 0; i < eventCalendar.length; i++) {
                 html += "  <option value='" + eventCalendar[i] + "' " + (settings_default_calendar_link_for_event == eventCalendar[i] ? "selected='selected'" : "") + "> " + eventCalendar[i] + "</option>";
             }
             html += "</select>" + show_help("Here you can set the default calendar for an event listing. A selection in the calendar popup in the event listing is no longer necessary.") + "<br>";
-            html += newParameterVersionSetzen('0.17') + newParameterOff;
+            html += newParameterVersionSetzen('0.18') + newParameterOff;
             html += checkboxy('settings_show_latest_logs_symbols', 'Show the ');
             html += "<select class='gclh_form' id='settings_show_latest_logs_symbols_count'>";
             for (var i = 1; i < 11; i++) {
@@ -17781,9 +17768,9 @@ var mainGC = function() {
             html += checkboxy('settings_show_fav_percentage', 'Show percentage of favorite points') + show_help("This option loads the favorite stats of a cache in the backround and display the percentage under the amount of favorites a cache got.") + "<br>";
             html += checkboxy('settings_show_log_totals', 'Show the log totals icons at the top') + "<br>";
             html += checkboxy('settings_log_inline_pmo4basic', 'Log cache from listing for PMO (for basic members)') + show_help("With this option you can select, if inline logs should appear for premium member only (PMO) caches althought you are a basic member.<br><br>If you're using an ad-blocking add-on, such as uBlock, the embedded screen may not be allowed. To turn this off, you have to add \"www.geocaching.com\/geocache\/GC*\" to the whitelist, or something similar, of your add-on.") + "<br>";
-            html += newParameterOn1;
+            html += newParameterOn2;
             html += checkboxy('settings_hide_treasure_success_messages', 'Hide pop-up with notification about a collected treasure') + show_help("After logging a find, you are redirected to the cache listing, where a pop-up with a notification about a collected treasure may appear. This option prevents this pop-up from being displayed.") + prem + "<br>";
-            html += newParameterVersionSetzen('0.17') + newParameterOff;
+            html += newParameterVersionSetzen('0.18') + newParameterOff;
 
             html += "<div style='margin-top: 9px; margin-left: 5px'><b>Location</b>" + "</div>";
             html += "&nbsp;" + "Highlight user changed coordinates with " + checkboxy('settings_highlight_usercoords', 'red textcolor ') + checkboxy('settings_highlight_usercoords_bb', 'underline ') + checkboxy('settings_highlight_usercoords_it', 'italic') + "<br>";
@@ -17822,14 +17809,14 @@ var mainGC = function() {
                    + "&nbsp; #Time# : Actual time<br>"
                    + "&nbsp; #Hints# : Additional hints<br>"
                    + "(Upper and lower case is not required in the placeholders name.)";
-            html += newParameterOn1;
+            html += newParameterOn2;
             html += checkboxy('settings_add_cache_note_templates', 'Add templates for personal cache note') + show_help("Templates are predefined texts. You can save up to ten templates. All of your templates will be displayed under the personal caches note in listings. All you have to do is click on a template and it will be placed in the personal caches note. You can also use placeholders for variables that will be replaced in the personal caches note.") + " &nbsp; ( Possible placeholders" + show_help(placeholderDescription) + ")<br>";
             for (var i = 0; i < anzTemplates; i++) {
                 html += " &nbsp; &nbsp;" + "<input class='gclh_form' type='text' size='15' id='settings_cache_note_template_name[" + i + "]' value='" + repApo(getValue('settings_cache_note_template_name[' + i + ']', '')) + "' style='margin-top: 2px;'> ";
                 html += "<a onClick=\"if (document.getElementById(\'settings_cache_note_template_div[" + i + "]\').style.display == \'\') document.getElementById(\'settings_cache_note_template_div[" + i + "]\').style.display = \'none\'; else document.getElementById(\'settings_cache_note_template_div[" + i + "]\').style.display = \'\'; return false;\" href='#'><img src='/images/stockholm/16x16/page_white_edit.gif' border='0' style='vertical-align: text-top;'></a><br>";
                 html += "<div id='settings_cache_note_template_div[" + i + "]' style='display: none; margin-top: 2px; margin-bottom: -2px;'> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<textarea class='gclh_form' rows='4' cols='54' id='settings_cache_note_template[" + i + "]'>&zwnj;" + getValue("settings_cache_note_template[" + i + "]", "") + "</textarea></div>";
             }
-            html += newParameterVersionSetzen('0.17') + newParameterOff;
+            html += newParameterVersionSetzen('0.18') + newParameterOff;
 
             html += "<div style='margin-top: 9px; margin-left: 5px'><b>Cache Detail Navigation <font class='gclh_small' style='vertical-align: text-bottom;'>(right sidebar)</font></b>" + "</div>";
             html += checkboxy('settings_log_inline', 'Log cache from listing (inline)') + show_help("With the inline log you can open a log form inside the listing, without loading a new page.<br><br>If you're using an ad-blocking add-on, such as uBlock, the embedded screen may not be allowed. To turn this off, you have to add \"www.geocaching.com\/geocache\/GC*\" to the whitelist, or something similar, of your add-on.") + "<br>";
@@ -18074,7 +18061,6 @@ var mainGC = function() {
             html += newParameterVersionSetzen('0.16') + newParameterOff;
             html += checkboxy('settings_after_new_logging_view_log', 'After sending or edit a non draft related cache log, automatic view log') + show_help('If it was not a draft related cache log or it was an edit of a cache log, you can enable this option to automatic go to view log page, instead of going to cache listing.') + "<br>";
             var placeholderDescription = "Possible placeholders:<br>&nbsp; #Found# : Your founds + 1 (reduce it with a minus followed by a number)<br>&nbsp; #Found_no# : Your founds (reduce it with a minus followed by a number)<br>&nbsp; #Me# : Your username<br>&nbsp; #Owner# : Username of the owner<br>&nbsp; #Date# : Actual date<br>&nbsp; #Time# : Actual time in format hh:mm<br>&nbsp; #DateTime# : Actual date actual time<br>&nbsp; #GCTBName# : Cache or trackable name<br>&nbsp; #GCTBLink# : Cache or trackable link<br>&nbsp; #GCTBNameLink# : Cache or trackable name as a link<br>&nbsp; #GCType# : Cache type<br>&nbsp; #LogDate# : Content of field \"Date Logged\"<br>&nbsp; #DraftLogDate# : Log date of draft (1) (2)<br>&nbsp; #DraftLogTime# : Log time of draft (1) (2)<br>(1) Only available in new log form.<br>(2) No data, then empty.<br>(Upper and lower case is not required in the placeholders name.)";
-            html += newParameterOn2;
             html += checkboxy('settings_hide_locked_tbs_log_form', 'Hide locked trackables from trackable inventory') + show_help("A trackable can be marked as locked in the trackable listing. Locked trackables cannot be logged. With this option you can hide such trackables from trackable inventory.<br><br>This feature is only available for the first 20 trackables displayed in the trackable inventory.") + "<br>";
             html += checkboxy('settings_hide_own_tbs_log_form', 'Hide own trackables from trackable inventory') + show_help("With this option you can hide your own trackables from trackable inventory.<br><br>This feature is only available for the first 20 trackables displayed in the trackable inventory.") + "<br>";
             html += checkboxy('settings_hide_share_log_button_log_view', 'Hide \"Share log\" button on view log page') + show_help("With this option you can hide the \"Share log\" button on page view geocache log.<br><br>If you just want to hide the social sharing icons for Facebook, Twitter (X) behind the \"Share log\" button instead, you can do this with the parameter \"Hide social sharing via Facebook, Twitter (X)\" in the \"Global - Hiding\" area.") + "<br>";
@@ -18084,23 +18070,18 @@ var mainGC = function() {
             html += checkboxy('settings_larger_content_width_log_form', 'Larger page width') + show_help("With this option you can expand the page width according to the setting in the parameter \"Page width\" in the \"Global\" section.") + "<br>";
             html += checkboxy('settings_less_space_log_lines_log_form', 'Less space between the lines of the log') + "<br>";
             html += checkboxy('settings_add_log_templates', 'Add log templates') + show_help("Log templates are predefined texts. All of your templates will be displayed on the log form. All you have to do is click on a template and it will be placed in your log. You can also use placeholders for variables that will be replaced in the log.") + " &nbsp; ( Possible placeholders" + show_help(placeholderDescription) + ")<br>";
-            html += newParameterVersionSetzen('0.15') + newParameterOff;
             html += "<font class='gclh_small' style='font-style: italic; margin-left: 240px; margin-top: 25px; width: 320px; position: absolute; z-index: -1;' >Please note that log templates are useful for automatically entering the number of finds, the date of discovery and the like in the log, but that cache owners are people who are happy about individual logs for their cache. Geocaching is not just about pushing your own statistics, but also about experiencing something. Please take some time to give something back to the owners by telling them about your experiences and writing them good logs. Then there will also be cachers in the future who like to take the trouble to set up new caches. The log templates are useful, but can never replace a complete log.</font>";
             for (var i = 0; i < anzTemplates; i++) {
                 html += " &nbsp; &nbsp;" + "<input class='gclh_form' type='text' size='15' id='settings_log_template_name[" + i + "]' value='" + repApo(getValue('settings_log_template_name[' + i + ']', '')) + "' style='margin-top: 2px;'> ";
                 html += "<a onClick=\"if (document.getElementById(\'settings_log_template_div[" + i + "]\').style.display == \'\') document.getElementById(\'settings_log_template_div[" + i + "]\').style.display = \'none\'; else document.getElementById(\'settings_log_template_div[" + i + "]\').style.display = \'\'; return false;\" href='#'><img src='/images/stockholm/16x16/page_white_edit.gif' border='0' style='vertical-align: text-top;'></a><br>";
                 html += "<div id='settings_log_template_div[" + i + "]' style='display: none; margin-top: 2px; margin-bottom: -2px;'> &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;<textarea class='gclh_form' rows='4' cols='54' id='settings_log_template[" + i + "]'>&zwnj;" + getValue("settings_log_template[" + i + "]", "") + "</textarea></div>";
             }
-            html += newParameterOn2;
             html += "&nbsp;&nbsp;" + checkboxy('settings_add_cache_log_signature_as_log_template', 'Add cache log signature as a log template') + "<br>";
             html += "&nbsp;&nbsp;" + checkboxy('settings_add_tb_log_signature_as_log_template', 'Add trackable log signature as a log template') + "<br>";
             html += checkboxy('settings_add_cache_log_signature', 'Add cache log signature') + show_help("The signature is automatically added to your logs. You can also use placeholders for variables that will be replaced in the log.") + " &nbsp; ( Possible placeholders" + show_help(placeholderDescription) + ")<br>";
-            html += newParameterVersionSetzen('0.15') + newParameterOff;
             html += " &nbsp; &nbsp;" + "<textarea class='gclh_form' rows='3' cols='56' id='settings_log_signature'>&zwnj;" + getValue("settings_log_signature", "") + "</textarea><br>";
             html += "&nbsp;&nbsp;" + checkboxy('settings_log_signature_on_fieldnotes', 'Add cache log signature on drafts logs') + show_help('If this option is disabled, the log signature will not be used by logs coming from drafts. You can use it, if you already have an signature in your drafts.') + "<br>";
-            html += newParameterOn2;
             html += checkboxy('settings_add_tb_log_signature', 'Add trackable log signature') + show_help("The signature is automatically added to your trackable logs. You can also use placeholders for variables that will be replaced in the log.") + " &nbsp; ( Possible placeholders" + show_help("Possible placeholders:<br>&nbsp; #Found# : Your founds + 1 (reduce it with a minus followed by a number)<br>&nbsp; #Found_no# : Your founds (reduce it with a minus followed by a number)<br>&nbsp; #Me# : Your username<br>&nbsp; #Owner# : Username of the owner<br>&nbsp; #Date# : Actual date<br>&nbsp; #Time# : Actual time in format hh:mm<br>&nbsp; #DateTime# : Actual date actual time<br>&nbsp; #GCTBName# : Cache or trackable name<br>&nbsp; #GCTBLink# : Cache or trackable link<br>&nbsp; #GCTBNameLink# : Cache or trackable name as a link<br>&nbsp; #LogDate# : Content of field \"Date Logged\"<br>(Upper and lower case is not required in the placeholders name.)") + ")<br>";
-            html += newParameterVersionSetzen('0.15') + newParameterOff;
             html += " &nbsp; &nbsp;" + "<textarea class='gclh_form' rows='3' cols='56' id='settings_tb_signature' style='margin-top: 2px;'>&zwnj;" + getValue("settings_tb_signature", "") + "</textarea><br>";
             html += newParameterOn3;
             html += checkboxy('settings_default_logtype_control', 'Set default log types') + "<br>";
@@ -18308,6 +18289,7 @@ var mainGC = function() {
                     var outTitle = (typeof(bookmarks_orig_title[num]) != "undefined" && bookmarks_orig_title[num] != "" ? bookmarks_orig_title[num] : bookmarks[i]['title']);
                     html += ">" + outTitle + "</a>";
                     // if (num >= 75 && num <= 88) html += newParameterLL1; // Zeile belassen als Beispiel für zukünftige Einträge.
+                    if (num == 89) html += newParameterLL2;
                 }
                 html += "  </td>";
                 // Zweite linke Spalte mit abweichenden Bezeichnungen:
@@ -18317,6 +18299,7 @@ var mainGC = function() {
                 } else {
                     html += "<input style='padding-left: 2px !important; padding-right: 2px !important;' class='gclh_form' title='Differing description for standard link' id='bookmarks_name[" + num + "]' type='text' size='15' value='" + repApo(getValue("settings_bookmarks_title[" + num + "]", "")) + "'>";
                     // if (num >= 75 && num <= 88) html += newParameterLLVersionSetzen("0.10"); // Zeile belassen als Beispiel für zukünftige Einträge.
+                    if (num == 89) html += newParameterLLVersionSetzen('0.18');
                 }
                 html += "  </td></tr>";
             }
@@ -19755,12 +19738,12 @@ var mainGC = function() {
     var d = "<div  class='gclh_new_para#' style='width: 100%; height: 100%; padding: 2px 0px 2px 2px; margin-left: -2px;'>";
     var s = "<span class='gclh_new_para#' style='float: right; padding-top: 25px; width: 100%; margin: -22px 2px 0px 0px;'></span>";
 //--> $$001
-    newParameterOn1 = d.replace("#", "10");
-    newParameterOn2 = d.replace("#", "03");
-    newParameterOn3 = d.replace("#", "06");
-    newParameterLL1 = s.replace("#", "10");
-    newParameterLL2 = s.replace("#", "03");
-    newParameterLL3 = s.replace("#", "06");
+    newParameterOn1 = d.replace("#", "06");
+    newParameterOn2 = d.replace("#", "10");
+    newParameterOn3 = d.replace("#", "03");
+    newParameterLL1 = s.replace("#", "06");
+    newParameterLL2 = s.replace("#", "10");
+    newParameterLL3 = s.replace("#", "03");
 //<-- $$001
     function newParameterVersionSetzen(version) {
         var newParameterVers = "<span style='font-size: 70%; font-style: italic; float: right; margin-top: -14px; margin-right: 4px;' ";
@@ -19771,7 +19754,7 @@ var mainGC = function() {
     }
     newParameterOff = "</div>";
     function newParameterLLVersionSetzen(version) {
-        var newParameterVers = '<span style="font-size: 70%; font-style: italic; margin-top: 13px; margin-left: ' + (browser == "chrome" ? "-180px" : "-165px") + '; position: absolute; cursor: default;"';
+        var newParameterVers = '<span style="font-size: 70%; font-style: italic; margin-top: 12px; margin-left: -184px; position: absolute; cursor: default;"';
         if (version != "") newParameterVers += 'title="Implemented with version ' + version + '">' + version + '</span>';
         else newParameterVers += '></span>';
         if (settings_hide_colored_versions) newParameterVers = "";
