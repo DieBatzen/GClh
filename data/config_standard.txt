@@ -114,6 +114,8 @@
   "settings_faster_profile_trackables": false,
   "settings_show_eventday": true,
   "settings_show_eventtime_with_24_hours": true,
+  "settings_set_default_calendar_link_for_event": false,
+  "settings_default_calendar_link_for_event": "Google",
   "settings_show_eventinfo_in_desc": true,
   "settings_show_eventinfo_in_desc_bold": true,
   "settings_show_google_maps": true,
