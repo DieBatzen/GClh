@@ -287,6 +287,7 @@ var constInit = function(c) {
     bookmark("Published Events", "/play/owner/published/events", c.bookmarks);
     bookmark("Unpublished Events", "/play/owner/unpublished/events", c.bookmarks);
     bookmark("Archived Events", "/play/owner/archived/events", c.bookmarks);
+    bookmark("Treasures", "/play/treasure", c.bookmarks);
     // Custom Bookmark-title.
     c.bookmarks_orig_title = new Array();
     for (var i = 0; i < c.bookmarks.length; i++) {
