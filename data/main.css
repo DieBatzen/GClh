@@ -76,6 +76,9 @@ gclh_nav ul {
     list-style: none;
     list-style-image: none;
 }
+gclh_nav ul.menu {
+    display: flex;
+}
 .menu {
     align-items: center;
     background: none;
@@ -91,7 +94,6 @@ gclh_nav ul {
     overflow: initial;
     white-space: initial;
     text-overflow: ellipsis;
-    height: 37px;
 }
 .menu>li.mobile {
     display: none;
@@ -392,6 +394,9 @@ gclh_nav .profile-panel ul::after {
 .gclh_open ul.submenu {
     visibility: visible;
     display: block !important;
+}
+ul.menu .submenu {
+	margin-top: 14px !important;
 }
 
 /* Toggle. */
