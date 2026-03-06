@@ -385,6 +385,7 @@ var variablesInit = function(c) {
     c.settings_show_smaller_gc_link = getValue("settings_show_smaller_gc_link", true);
     c.settings_show_message = getValue("settings_show_message", true);
     c.settings_hide_view_treasures_link = getValue("settings_hide_view_treasures_link", false);
+    c.settings_hide_treasure_success_messages = getValue("settings_hide_treasure_success_messages", false);
     c.settings_show_remove_ignoring_link = getValue("settings_show_remove_ignoring_link", true);
     c.settings_use_one_click_ignoring = getValue("settings_use_one_click_ignoring", true);
     c.settings_show_common_lists_in_zebra = getValue("settings_show_common_lists_in_zebra", true);
@@ -2679,9 +2680,18 @@ var mainGC = function() {
         appendCssStyle('.qtip.qtip-light.qtip-pos-rc:not(.qtip-shadow):not(.pop-modal) {display: none !important;}');
     }
 
-// Hide "View Treasures" link.
-    if (is_page("cache_listing") && settings_hide_view_treasures_link) {
-        $('#ctl00_ContentBody_GeoNav_uxViewTreasuresBtn').hide();
+// Hide treasure things.
+    if (is_page("cache_listing")) {
+        try {
+            // Hide "View Treasures" link.
+            if (settings_hide_view_treasures_link) {
+                $('#ctl00_ContentBody_GeoNav_uxViewTreasuresBtn').hide();
+            }
+            // Hide treasure success messages (small sliding popups from the right).
+            if (settings_hide_treasure_success_messages && $('#uxViewNewLogLink')[0]) {
+                appendCssStyle('#noty_topRight_layout_container li:has(a[href*="/play/treasure"]) {display: none !important;}');
+            }
+        } catch(e) {gclh_error("Hide treasure things",e);}
     }
 
 // Improve Ignore, Stop Ignoring button handling.
@@ -17745,6 +17755,9 @@ var mainGC = function() {
             html += checkboxy('settings_show_fav_percentage', 'Show percentage of favorite points') + show_help("This option loads the favorite stats of a cache in the backround and display the percentage under the amount of favorites a cache got.") + "<br>";
             html += checkboxy('settings_show_log_totals', 'Show the log totals icons at the top') + "<br>";
             html += checkboxy('settings_log_inline_pmo4basic', 'Log cache from listing for PMO (for basic members)') + show_help("With this option you can select, if inline logs should appear for premium member only (PMO) caches althought you are a basic member.<br><br>If you're using an ad-blocking add-on, such as uBlock, the embedded screen may not be allowed. To turn this off, you have to add \"www.geocaching.com\/geocache\/GC*\" to the whitelist, or something similar, of your add-on.") + "<br>";
+            html += newParameterOn1;
+            html += checkboxy('settings_hide_treasure_success_messages', 'Hide pop-up with notification about a collected treasure') + show_help("After logging a find, you are redirected to the cache listing, where a pop-up with a notification about a collected treasure may appear. This option prevents this pop-up from being displayed.") + prem + "<br>";
+            html += newParameterVersionSetzen('0.17') + newParameterOff;
 
             html += "<div style='margin-top: 9px; margin-left: 5px'><b>Location</b>" + "</div>";
             html += "&nbsp;" + "Highlight user changed coordinates with " + checkboxy('settings_highlight_usercoords', 'red textcolor ') + checkboxy('settings_highlight_usercoords_bb', 'underline ') + checkboxy('settings_highlight_usercoords_it', 'italic') + "<br>";
@@ -19315,6 +19328,7 @@ var mainGC = function() {
                 'settings_menu_float_right',
                 'settings_show_message',
                 'settings_hide_view_treasures_link',
+                'settings_hide_treasure_success_messages',
                 'settings_show_remove_ignoring_link',
                 'settings_use_one_click_ignoring',
                 'settings_show_common_lists_in_zebra',
