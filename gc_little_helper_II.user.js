@@ -1737,7 +1737,6 @@ var mainGC = function() {
             obs.disconnect();
             if (!$('#ctl00_gcNavigation')[0]) {
                 console.error('GClh_ERROR (no header alert) - Wait for header and build up header: Timeout detecting header');
-
             }
         }, 20000);
     } catch (e) { gclh_error("Wait for new header and build up old header", e); }
