@@ -121,6 +121,7 @@ function collectionInit(c) {
         {name: 'GPS Adventures Maze Exhibit', icon: '1304', isEvent: true},
         {name: 'Mega-Event Cache', icon: '453', isEvent: true}
     ];
+    c.eventCalendar = new Array("Google", "Outlook / iCal", "Windows Live", "Yahoo");
 }
 
 function layersInit(c) {
