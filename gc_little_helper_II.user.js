@@ -472,6 +472,8 @@ var variablesInit = function(c) {
     c.settings_faster_profile_trackables = getValue("settings_faster_profile_trackables", false);
     c.settings_show_eventday = getValue("settings_show_eventday", true);
     c.settings_show_eventtime_with_24_hours = getValue("settings_show_eventtime_with_24_hours", false);
+    c.settings_set_default_calendar_link_for_event = getValue("settings_set_default_calendar_link_for_event", false);
+    c.settings_default_calendar_link_for_event = getValue("settings_default_calendar_link_for_event", "Google");
     c.settings_show_eventinfo_in_desc = getValue("settings_show_eventinfo_in_desc", true);
     c.settings_show_eventinfo_in_desc_bold = getValue("settings_show_eventinfo_in_desc_bold", true);
     c.settings_show_google_maps = getValue("settings_show_google_maps", true);
@@ -2337,17 +2339,32 @@ var mainGC = function() {
         } catch(e) {gclh_error("Disabled and archived",e);}
     }
 
-// Improve calendar link in events. (Im Google Link den Cache Link von &location nach &details verschieben.)
-    if (is_page("cache_listing") && document.getElementById("calLinks")) {
+// Improve calendar in an event listing.
+    if (is_page("cache_listing") && $('#calLinks')[0]) {
         try {
+            var css= '';
             function impCalLink(waitCount) {
-                if ($('#calLinks').find('a[title*="Google"]')[0]) {
-                    var calL = $('#calLinks').find('a[title*="Google"]')[0];
-                    if (calL && calL.href) calL.href = calL.href.replace(/&det(.*)&loc/, "&loc").replace(/%20\(http/, "&details=http").replace(/\)&spr/, "&spr");
+                if ($('#calLinks .icalendar_popup_text')[0] && $('#calLinks a[title*="Google"]')[0]) {
+                    // In the Google Link, move the cache link from &location to &details.
+                    var calL = $('#calLinks a[title*="Google"]')[0];
+                    calL.href = calL.href.replace(/&det(.*)&loc/, "&loc").replace(/%20\(http/, "&details=http").replace(/\)&spr/, "&spr");
+                    // Build calendar link as direct link without selection in popup.
+                    if (settings_set_default_calendar_link_for_event && settings_default_calendar_link_for_event != '' && $('#calLinks a[title*="' + settings_default_calendar_link_for_event + '"]')[0]) {
+                        var calText = $('#calLinks .icalendar_popup_text')[0].innerHTML;
+                        var calLink = $('#calLinks a[title*="' + settings_default_calendar_link_for_event + '"]').clone();
+                        $('#calLinks').after('<div id="gclh_calLink"></div>');
+                        $('#gclh_calLink').append(calLink);
+                        $('#gclh_calLink a').prepend('<span>' + calText + ' </span>');
+                        $('#gclh_calLink a')[0].title = calText + ' ' + $('#gclh_calLink a')[0].title;
+                        css += '#calLinks {display: none !important;}';
+                        css += '#gclh_calLink {display: inline; margin-left: 8px;}';
+                        css += '#gclh_calLink > a > span:nth-child(2) {display: inline-block; width: 16px; height: 16px; vertical-align: text-bottom;}';
+                    }
                 } else {waitCount++; if (waitCount <= 20) setTimeout(function(){impCalLink(waitCount);}, 100);}
             }
             impCalLink(0);
-        } catch(e) {gclh_error("Improve calendar link",e);}
+            if (css != '') appendCssStyle(css);
+        } catch(e) {gclh_error("Improve calendar in an event listing",e);}
     }
 
 // Improve event date and event time in cache listing.
@@ -17747,6 +17764,14 @@ var mainGC = function() {
             html += checkboxy('settings_show_real_owner', 'Show real owner name') + show_help("If this option is enabled, the alias that an owner used to publish the cache is replaced with the real owner name.") + "<br>";
             html += checkboxy('settings_show_eventday', 'Show weekday of an event') + show_help("With this option the day of the week will be displayed next to the event date in the header of the cache listing and in the event info at the beginning of the cache description.") + "<br>";
             html += checkboxy('settings_show_eventtime_with_24_hours', 'Show event time in 24 hours format') + show_help("The start time and end time of an event are generated on the website using the language in which you are signed in. In English, the preferred language when using the GClh, but also in some other languages, the start time and end time of an event is shown in 12 hour format with AM and PM. If you want to change it to a 24 hour format, you can activate this parameter. It will then be changed in the header of the cache listing and in the event info at the beginning of the cache description.") + "<br>";
+            html += newParameterOn1;
+            html += checkboxy('settings_set_default_calendar_link_for_event', 'Set default calendar for event ');
+            html += "<select class='gclh_form' id='settings_default_calendar_link_for_event'>";
+            for (var i = 0; i < eventCalendar.length; i++) {
+                html += "  <option value='" + eventCalendar[i] + "' " + (settings_default_calendar_link_for_event == eventCalendar[i] ? "selected='selected'" : "") + "> " + eventCalendar[i] + "</option>";
+            }
+            html += "</select>" + show_help("Here you can set the default calendar for an event listing. A selection in the calendar popup in the event listing is no longer necessary.") + "<br>";
+            html += newParameterVersionSetzen('0.17') + newParameterOff;
             html += checkboxy('settings_show_latest_logs_symbols', 'Show the ');
             html += "<select class='gclh_form' id='settings_show_latest_logs_symbols_count'>";
             for (var i = 1; i < 11; i++) {
@@ -19056,6 +19081,7 @@ var mainGC = function() {
             setEvForDepPara("settings_show_eventinfo_in_desc", "settings_show_eventinfo_in_desc_bold");
             setEvForDepPara("settings_show_eventinfo_in_desc", "settings_show_eventdayX1");
             setEvForDepPara("settings_show_eventinfo_in_desc", "settings_show_eventtime_with_24_hoursX0");
+            setEvForDepPara("settings_set_default_calendar_link_for_event", "settings_default_calendar_link_for_event");
             setEvForDepPara("settings_compact_layout_new_dashboard", "settings_row_hide_new_dashboard");
             setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template_name[0]");
             setEvForDepPara("settings_add_cache_note_templates","settings_cache_note_template[0]");
@@ -19281,6 +19307,7 @@ var mainGC = function() {
             setValue("settings_searchmap_improve_add_to_list_height", document.getElementById('settings_searchmap_improve_add_to_list_height').value);
             setValue("settings_download_pqs_file_name", removeNonFileNameSigns(document.getElementById('settings_download_pqs_file_name').value.replace(/‌/g, "").trim()));
             setValue("settings_download_pqs_file_name_founds", removeNonFileNameSigns(document.getElementById('settings_download_pqs_file_name_founds').value.replace(/‌/g, "").trim()));
+            setValue("settings_default_calendar_link_for_event", document.getElementById('settings_default_calendar_link_for_event').value);
 
             // Map Layers in vorgegebener Reihenfolge übernehmen.
             var new_map_layers_available = document.getElementById('settings_maplayers_available');
@@ -19320,6 +19347,7 @@ var mainGC = function() {
                 'settings_show_bbcode',
                 'settings_show_eventday',
                 'settings_show_eventtime_with_24_hours',
+                'settings_set_default_calendar_link_for_event',
                 'settings_show_eventinfo_in_desc',
                 'settings_show_eventinfo_in_desc_bold',
                 'settings_show_mail',
