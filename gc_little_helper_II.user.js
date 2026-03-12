@@ -1841,14 +1841,15 @@ var mainGC = function() {
                     css += "ul.#m {line-height: 16px; display: block;}";
                     // Zwischen Menüname und Submenü keine Lücke lassen, sonst klappts nicht mit einfachem Aufklappen.
                     css += ".#m li a, .#m li a:link, .#m li a:visited {margin-bottom: 13px;} .#m ul.#sm {margin-top: -6px;}";
-                    // Horizontales Menü ausrichten.
+                // Horizontales Menü ausrichten.
                 } else {
                     // Menüzeilenhöhe.
                     css += "ul.#m {line-height: 16px !important;}";
-                    css += "ul.#m > li{margin-bottom: 2px;}";
                     // Zeilenabstand in Abhängigkeit von Anzahl Zeilen.
                     if      (settings_menu_number_of_lines == 2) css += "ul.#m li a {padding-top: 4px !important; padding-bottom: 4px !important;}";
                     else if (settings_menu_number_of_lines == 3) css += "ul.#m li a {padding-top: 1px !important; padding-bottom: 1px !important;}";
+                    // ...
+                    css += ".menu>li {height: unset;}";
                 }
                 // Message Center Icon entfernen.
                 if (settings_remove_message_in_header) $('.messagecenterheaderwidget').remove();
@@ -1889,9 +1890,10 @@ var mainGC = function() {
                         if (is_page("map") && settings_menu_float_right) css += "#navi_search {margin: 0 !important;}";
                     // Horizontales Menü ausrichten in Abhängigkeit von Anzahl Zeilen.
                     } else {
-                        if      (settings_menu_number_of_lines == 1) css += "ul.#m {top:   4px !important; position: inherit;}";
-                        else if (settings_menu_number_of_lines == 2) css += "ul.#m {top:  -8px !important; position: inherit; flex-wrap: wrap;}";
-                        else if (settings_menu_number_of_lines == 3) css += "ul.#m {top: -13px !important; position: inherit; flex-wrap: wrap;}";
+                        css += ".#m ul.#sm {margin-top: 0px; margin-left: 32px !important;} .#m .submenu::after {left: 4px; width: 26px;}";
+                        if      (settings_menu_number_of_lines == 1) css += "ul.#m {top:   0px !important; position: inherit;}";
+                        else if (settings_menu_number_of_lines == 2) css += "ul.#m {top:  -8px !important; position: inherit; flex-wrap: wrap;} gclh_nav ul.menu>li>a {height: auto !important}";
+                        else if (settings_menu_number_of_lines == 3) css += "ul.#m {top: -13px !important; position: inherit; flex-wrap: wrap;} gclh_nav ul.menu>li>a {height: auto !important}";
                     }
                     // Prevent the user area in the header from moving to the left on narrow screens.
                     css += "ul.menu {order: unset;} #ctl00_uxLoginStatus_divSignedIn {height: auto;} .messagecenterheaderwidget.li-messages {position: static;}";
@@ -1922,9 +1924,10 @@ var mainGC = function() {
                         }
                     // Horizontales Menü ausrichten in Abhängigkeit von Anzahl Zeilen.
                     } else {
-                        if      (settings_menu_number_of_lines == 1) css += "ul.#m {top:   4px !important; position: inherit;}";
-                        else if (settings_menu_number_of_lines == 2) css += "ul.#m {top:  -8px !important; position: inherit; flex-wrap: wrap;}";
-                        else if (settings_menu_number_of_lines == 3) css += "ul.#m {top: -13px !important; position: inherit; flex-wrap: wrap;}";
+                        css += ".#m ul.#sm {margin-top: 0px; margin-left: 32px !important;} .#m .submenu::after {left: 4px; width: 26px;}";
+                        if      (settings_menu_number_of_lines == 1) css += "ul.#m {top:   0px !important; position: inherit;}";
+                        else if (settings_menu_number_of_lines == 2) css += "ul.#m {top:  -8px !important; position: inherit; flex-wrap: wrap;} gclh_nav ul.menu>li>a {height: auto !important}";
+                        else if (settings_menu_number_of_lines == 3) css += "ul.#m {top: -13px !important; position: inherit; flex-wrap: wrap;} gclh_nav ul.menu>li>a {height: auto !important}";
                     }
                 }
                 // Alle Seiten: Platzhalter umsetzen:
