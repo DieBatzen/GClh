@@ -65,7 +65,7 @@ gclh_nav .wrapper {
     padding-left: 32px;
     padding-right: 32px;
     width: 100%;
-    z-index: 9000;
+    z-index: 2500;
 }
 gclh_nav ul {
     list-style: none;
