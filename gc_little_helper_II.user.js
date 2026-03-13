@@ -8238,7 +8238,7 @@ var mainGC = function() {
                     }
                 }
                 function waitForLeftSidebarVip(waitCount) {
-                    if ($('#sidebarNavigation > nav')[0]) {
+                    if ($('#sidebar-nav-root > nav')[0]) {
                         build_box_vipvup("vip");
                         fill_box_vipvup(global_vips, "vip");
                         if (settings_process_vup) {
@@ -9587,9 +9587,9 @@ var mainGC = function() {
                 css += "#quickLinks ul:not(.link-block):not(.gclh) li {padding: 1px 0 1px 0 !important;}";
                 css += "#quickLinks ul:not(.link-block):not(.gclh) li > a {padding: 4px 8px !important;}";
                 // Secondary navigation links in further blocks in the left column.
-                css += "#sidebarNavigation > nav ul:not(.gclh) {margin-bottom: 0px !important; padding-bottom: 5px !important;}";
-                css += "#sidebarNavigation > nav ul:not(.gclh) li {padding-top: 2px !important;}";
-                css += "#sidebarNavigation > nav ul:not(.gclh) ul {padding-top: 0px !important; padding-bottom: 0px !important; margin-top: 0px !important; gap: 0px !important;}";
+                css += "#sidebar-nav-root > nav ul:not(.gclh) {margin-bottom: 0px !important; padding-bottom: 5px !important;}";
+                css += "#sidebar-nav-root > nav ul:not(.gclh) li {padding-top: 2px !important;}";
+                css += "#sidebar-nav-root > nav ul:not(.gclh) ul {padding-top: 0px !important; padding-bottom: 0px !important; margin-top: 0px !important; gap: 0px !important;}";
                 css += "button[aria-controls='trackableInventoryItems'] {margin-top: -2px !important;}";
                 css += "button[aria-controls='trackableInventoryItems'] svg {margin-right: 5px !important;}";
                 // clickSum button to display or hide the configuration to hide rows in left column.
@@ -9597,8 +9597,8 @@ var mainGC = function() {
                 css += ".clickSum svg {height: 20px; width: 20px; fill: #777; transition: all .3s ease; transform-origin: 50% 50%;}";
                 css += ".clickSumHide .clickSum svg {transform: rotate(90deg);}";
                 // Adjust position of clickSum button if cover/avatar (.bio_data) is hiding.
-                css += ".no_bio_data {padding-top: 12px !important;}";
-                css += ".no_bio_data .clickSum {margin-top: -11px !important;}";
+                css += ".gclh_no_bio_data {padding-top: 12px !important;}";
+                css += ".gclh_no_bio_data .clickSum {margin-top: -11px !important;}";
                 // Buttons to mark rows for display or hide in left column.
                 css += ".clickPoint {position: absolute; padding: 2px 3px 0px 2px !important; cursor: pointer; color: rgb(110, 110, 110);}";
                 css += ".bio-data .clickPoint {margin: 120px 0px 0px -1px !important; display: block;}";
@@ -9606,11 +9606,11 @@ var mainGC = function() {
                 css += "#user-bio-root .gclh_parent_profile_button .clickPoint {margin: 15px 0px 0px -17px !important;}";
                 css += "#user-bio-root .gclh_parent_profile_button a {display: block !important;}";
                 css += "#quickLinks ul .clickPoint {margin: 3px 0px 0px -17px !important;}";
-                css += "#sidebarNavigation > nav ul .clickPoint {margin: -1px 0px 0px -24px !important;}";
+                css += "#sidebar-nav-root > nav ul .clickPoint {margin: -1px 0px 0px -24px !important;}";
                 css += ".clickPoint:hover {background-color: rgb(245 245 245);}";
                 css += ".clickPoint svg {height: 12px !important; width: 12px !important; opacity: 0.4;}";
                 css += ".clickPointHide svg {opacity: 1;}";
-                css += "#sidebarNavigation nav {overflow: unset;}";
+                css += "#sidebar-nav-root nav {overflow: unset;}";
                 // Hide rows which are marked for hide in left column.
                 css += ".clickSumHide .clickPointHide, .clickSumHide .clickPoint {display: none !important;}";
                 // In the middle and in the right column.
@@ -9627,7 +9627,7 @@ var mainGC = function() {
                 css += ".event-list-item > div:not(.event-list-item-details) > div:not(.event-list-item-map) {padding-top: 8px !important; padding-bottom: 3px !important;}";
                 css += "#EventsList > div > div:not(.events-list-container) {padding: 5px 40px !important;}";
                 // Hide tips and instruction container in the right column.
-                css += "#_GeocachesNearbyContainer a[href*='/sites/education/'] {display: none !important;}";
+                css += "#sidebar-right-root a[href*='/sites/education/'] {display: none !important;}";
             }
 
             // Save uid of own trackables from new dashboard.
@@ -9708,15 +9708,15 @@ var mainGC = function() {
                 }
 
                 // Add link to Ignore List into dashboard sidebar.
-                if (settings_embedded_smartlink_ignorelist && $("#user-bio-root")[0].innerHTML.match(/Premium/) && $('#sidebarNavigation > nav ul:not(".gclh") li a[href*="/plan/lists"]')[0]) {
-                    var ignorelist = $( $('#sidebarNavigation > nav ul:not(".gclh") li a[href*="/plan/lists"]').closest('li') ).clone()[0];
+                if (settings_embedded_smartlink_ignorelist && $("#user-bio-root")[0].innerHTML.match(/Premium/) && $('#sidebar-nav-root > nav ul:not(".gclh") li a[href*="/plan/lists"]')[0]) {
+                    var ignorelist = $( $('#sidebar-nav-root > nav ul:not(".gclh") li a[href*="/plan/lists"]').closest('li') ).clone()[0];
                     $(ignorelist).find('a')[0].href = $(ignorelist).find('a')[0].href + '/ignored';
                     $(ignorelist).find('a')[0].innerHTML = 'Ignore List';
-                    $('#sidebarNavigation > nav ul:not(".gclh") li a[href*="/plan/lists"]').closest('li').after(ignorelist);
+                    $('#sidebar-nav-root > nav ul:not(".gclh") li a[href*="/plan/lists"]').closest('li').after(ignorelist);
                 }
 
                 // Build Show/Hide buttons for areas in left column.
-                var list = $('#sidebarNavigation > nav > h3:not(.gclh), #sidebarNavigation > nav > ul:not(.gclh)');
+                var list = $('#sidebar-nav-root > nav > h3:not(.gclh), #sidebar-nav-root > nav > ul:not(.gclh)');
                 var ident = 0;
                 for (var i = 0; i < list.length; i=i+2) {
                     ident++;
@@ -9737,8 +9737,8 @@ var mainGC = function() {
                         $('.clickSum')[0].title = 'Click here to hide the configuration for hiding rows';
                     }
                     // Adjust position of clickSum button if cover/avatar (.bio_data) is hiding.
-                    if ($('.clickSumHide')[0] && $('.bio-data.clickPointHide')[0]) $('.clickSum').parent().parent().addClass('no_bio_data');
-                    else $('.clickSum').parent().parent().removeClass('no_bio_data');
+                    if ($('.clickSumHide')[0] && $('.bio-data.clickPointHide')[0]) $('.clickSum').parent().parent().addClass('gclh_no_bio_data');
+                    else $('.clickSum').parent().parent().removeClass('gclh_no_bio_data');
                 }
                 function saveClickSumDB() {
                     if ($('.clickSumHide')[0]) setValue('show_box_dashboard_0', false);
@@ -9760,7 +9760,7 @@ var mainGC = function() {
                     else setValue($(this).attr('name'), true);
                     setClickPointDB(this);
                 }
-                if (settings_compact_layout_new_dashboard && settings_row_hide_new_dashboard && $('.bio-data')[0] && $('#user-bio-root')[0] && $('#quickLinks ul li')[0] && $('#sidebarNavigation > nav > ul li')[0]) {
+                if (settings_compact_layout_new_dashboard && settings_row_hide_new_dashboard && $('.bio-data')[0] && $('#user-bio-root')[0] && $('#quickLinks ul li')[0] && $('#sidebar-nav-root > nav > ul li')[0]) {
                     // Build button to display or hide the configuration to hide rows.
                     if ($('#user-bio-root')[0]) {
                         $($('#user-bio-root')[0]).prepend('<span class="clickSum"><svg><use xlink:href="/account/app/ui-icons/sprites/global.svg#icon-expand-svg-fill" title=""</use></svg></span>');
@@ -9807,7 +9807,7 @@ var mainGC = function() {
                         }
                         buildButtonsForUserDataInList(0);
                         // Build buttons for primary links (quick links) and for secondary links (without gclh areas).
-                        var rows = $('#quickLinks ul > li, #sidebarNavigation > nav > ul:not(.gclh) > li');
+                        var rows = $('#quickLinks ul > li, #sidebar-nav-root > nav > ul:not(.gclh) > li');
                         if (rows) {
                             for (var i = 0; i < rows.length; i++) {
                                 if ($(rows[i]).find('a:first')[0] && $(rows[i]).find('a:first')[0].href) {
@@ -9852,7 +9852,7 @@ var mainGC = function() {
             }
 
             function waitForLeftSidebar(waitCount) {
-                if ($('.container')[0] && $('#DashboardSidebar')[0] && $('.user-bio')[0] && $('#user-bio-root')[0] && $('#quickLinks ul')[0] && $('#sidebarNavigation > nav')[0]) {
+                if ($('.container')[0] && $('#DashboardSidebar')[0] && $('.user-bio')[0] && $('#user-bio-root')[0] && $('#quickLinks ul')[0] && $('#sidebar-nav-root > nav')[0]) {
                     saveUidOfOwnTrackables();
                     buildMenuOfOldDBInNewDB();
                     improveLeftSidebar();
@@ -10019,8 +10019,8 @@ var mainGC = function() {
 
             // Show unpublished hides.
             if (settings_showUnpublishedHides) {
-                function waitForGeocachesNearbyContainer(waitCount) {
-                    if ($('#sidebarNavigation > nav')[0] && $('#_GeocachesNearbyContainer svg')[0]) {
+                function waitForUnpublishedPlace(waitCount) {
+                    if ($('#sidebar-right-root')[0] && $('.sidebar-right button')[0] && $('.sidebar-right use[href*=#chevron-small--inline]').closest('button')[0]) {
                         var panel = '<div id="gclh_unpublishedCaches" class="panel collapsible">';
                         panel += '    <div class="panel-header isActive">';
                         panel += '        <h1 class="h5 no-margin">Unpublished Hides</h1>';
@@ -10030,8 +10030,8 @@ var mainGC = function() {
                         panel += '        </div>';
                         panel += '    </div>';
                         panel += '</div>';
-                        $('#_GeocachesNearbyContainer').after(panel);
-                        var button = $( $('#_EventsContainer button')[0] ).clone()[0];
+                        $('#sidebar-right-root').after(panel);
+                        var button = $( $('.sidebar-right use[href*=#chevron-small--inline]').closest('button')[0] ).clone()[0];
                         $('#gclh_unpublishedCaches .panel-header')[0].append(button);
                         if (!getValue('unpublishedCaches_visible', false)) {
                             $('#gclh_unpublishedCaches .panel-header').removeClass('isActive');
@@ -10184,9 +10184,9 @@ var mainGC = function() {
                             dnfHtml += '</div>';
                             $('#gclh_unpublishedCaches_body').html(dnfHtml);
                         }
-                    } else {waitCount++; if (waitCount <= 1000) setTimeout(function(){waitForGeocachesNearbyContainer(waitCount);}, 100);}
+                    } else {waitCount++; if (waitCount <= 1000) setTimeout(function(){waitForUnpublishedPlace(waitCount);}, 100);}
                 }
-                waitForGeocachesNearbyContainer(0);
+                waitForUnpublishedPlace(0);
                 css += '#gclh_unpublishedCaches {margin-bottom: 0;}';
                 css += '#gclh_unpublishedCaches_body {min-height: unset;}';
                 css += '#gclh_unpublishedCaches_body dt {margin: 0 3px 0 0; padding: 0;}';
@@ -16159,11 +16159,11 @@ var mainGC = function() {
 // Build box for VIPS, VUPS, All Links, Linklist on dashboard and the standard boxes.
     function buildDashboardCss() {
         var css = "";
-        css += "#sidebarNavigation > nav ul.gclh {padding-top: 2px !important;}";
-        css += "#sidebarNavigation > nav ul.isHide {display: none !important} .link-block {border-bottom: unset;}";
-        css += "#sidebarNavigation > nav h3.gclh {cursor: pointer; margin-top: 4px !important;}";
-        css += "#sidebarNavigation > nav h3.gclh svg {height: 23px; width: 22px; fill: #777; float: right; margin-top: -3px; margin-right: -2px; transition: all .3s ease; transform-origin: 50% 50%;}";
-        css += "#sidebarNavigation > nav h3.gclh.isHide svg {transform: rotate(90deg);}";
+        css += "#sidebar-nav-root > nav ul.gclh {padding-top: 2px !important;}";
+        css += "#sidebar-nav-root > nav ul.isHide {display: none !important} .link-block {border-bottom: unset;}";
+        css += "#sidebar-nav-root > nav h3.gclh {cursor: pointer; margin-top: 4px !important;}";
+        css += "#sidebar-nav-root > nav h3.gclh svg {height: 23px; width: 22px; fill: #777; float: right; margin-top: -3px; margin-right: -2px; transition: all .3s ease; transform-origin: 50% 50%;}";
+        css += "#sidebar-nav-root > nav h3.gclh.isHide svg {transform: rotate(90deg);}";
         appendCssStyle(css);
     }
     function buildBoxDashboard(ident, name, title) {
@@ -16177,11 +16177,11 @@ var mainGC = function() {
         box.setAttribute("class", (getValue("show_box_dashboard_" + ident, true) == true ? "link-block gclh" : "link-block gclh isHide") + " pl-2");
         box.setAttribute("name", "box_" + ident);
         if (ident == 'vip') {
-            $("#sidebarNavigation > nav > ul:not(.gclh)").last().after(box).after(head);
+            $("#sidebar-nav-root > nav > ul:not(.gclh)").last().after(box).after(head);
         } else if (ident == 'vup') {
-            $("#sidebarNavigation > nav > ul[name*='box_vip']").after(box).after(head);
+            $("#sidebar-nav-root > nav > ul[name*='box_vip']").after(box).after(head);
         } else {
-            $("#sidebarNavigation > nav > ul").last().after(box).after(head);
+            $("#sidebar-nav-root > nav > ul").last().after(box).after(head);
         }
     }
     function buildCopyOfBookmarks() {
