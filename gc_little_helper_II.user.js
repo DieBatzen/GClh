@@ -1841,14 +1841,17 @@ var mainGC = function() {
                     css += "ul.#m {line-height: 16px; display: block;}";
                     // Zwischen Menüname und Submenü keine Lücke lassen, sonst klappts nicht mit einfachem Aufklappen.
                     css += ".#m li a, .#m li a:link, .#m li a:visited {margin-bottom: 13px;} .#m ul.#sm {margin-top: -6px;}";
-                    // Horizontales Menü ausrichten.
+                // Horizontales Menü ausrichten.
                 } else {
                     // Menüzeilenhöhe.
                     css += "ul.#m {line-height: 16px !important;}";
-                    css += "ul.#m > li{margin-bottom: 2px;}";
                     // Zeilenabstand in Abhängigkeit von Anzahl Zeilen.
                     if      (settings_menu_number_of_lines == 2) css += "ul.#m li a {padding-top: 4px !important; padding-bottom: 4px !important;}";
                     else if (settings_menu_number_of_lines == 3) css += "ul.#m li a {padding-top: 1px !important; padding-bottom: 1px !important;}";
+                    css += "gclh_nav ul.menu {display: flex;}";
+                    css += "gclh_nav ul.menu>li>a {height: 60px; display: flex !important; align-items: center;}";
+                    css += ".menu>li {height: unset;}";
+                    css += "#l {flex: none !important; flex-basis: 32px;}";
                 }
                 // Message Center Icon entfernen.
                 if (settings_remove_message_in_header) $('.messagecenterheaderwidget').remove();
@@ -1889,9 +1892,10 @@ var mainGC = function() {
                         if (is_page("map") && settings_menu_float_right) css += "#navi_search {margin: 0 !important;}";
                     // Horizontales Menü ausrichten in Abhängigkeit von Anzahl Zeilen.
                     } else {
-                        if      (settings_menu_number_of_lines == 1) css += "ul.#m {top:   4px !important; position: inherit;}";
-                        else if (settings_menu_number_of_lines == 2) css += "ul.#m {top:  -8px !important; position: inherit; flex-wrap: wrap;}";
-                        else if (settings_menu_number_of_lines == 3) css += "ul.#m {top: -13px !important; position: inherit; flex-wrap: wrap;}";
+                        css += ".#m ul.#sm {margin-top: 0px; margin-left: 32px !important;} .#m .submenu::after {left: 4px; width: 26px;}";
+                        if      (settings_menu_number_of_lines == 1) css += "ul.#m {top:   0px !important; position: inherit;}";
+                        else if (settings_menu_number_of_lines == 2) css += "ul.#m {top:  -8px !important; position: inherit; flex-wrap: wrap;} gclh_nav ul.menu>li>a {height: auto !important}";
+                        else if (settings_menu_number_of_lines == 3) css += "ul.#m {top: -13px !important; position: inherit; flex-wrap: wrap;} gclh_nav ul.menu>li>a {height: auto !important}";
                     }
                     // Prevent the user area in the header from moving to the left on narrow screens.
                     css += "ul.menu {order: unset;} #ctl00_uxLoginStatus_divSignedIn {height: auto;} .messagecenterheaderwidget.li-messages {position: static;}";
@@ -1922,9 +1926,10 @@ var mainGC = function() {
                         }
                     // Horizontales Menü ausrichten in Abhängigkeit von Anzahl Zeilen.
                     } else {
-                        if      (settings_menu_number_of_lines == 1) css += "ul.#m {top:   4px !important; position: inherit;}";
-                        else if (settings_menu_number_of_lines == 2) css += "ul.#m {top:  -8px !important; position: inherit; flex-wrap: wrap;}";
-                        else if (settings_menu_number_of_lines == 3) css += "ul.#m {top: -13px !important; position: inherit; flex-wrap: wrap;}";
+                        css += ".#m ul.#sm {margin-top: 0px; margin-left: 32px !important;} .#m .submenu::after {left: 4px; width: 26px;}";
+                        if      (settings_menu_number_of_lines == 1) css += "ul.#m {top:   0px !important; position: inherit;}";
+                        else if (settings_menu_number_of_lines == 2) css += "ul.#m {top:  -8px !important; position: inherit; flex-wrap: wrap;} gclh_nav ul.menu>li>a {height: auto !important}";
+                        else if (settings_menu_number_of_lines == 3) css += "ul.#m {top: -13px !important; position: inherit; flex-wrap: wrap;} gclh_nav ul.menu>li>a {height: auto !important}";
                     }
                 }
                 // Alle Seiten: Platzhalter umsetzen:
@@ -2124,7 +2129,7 @@ var mainGC = function() {
                     code += "  else document.location.href = '/seek/nearest.aspx?navi_search='+search;";
                     code += "}";
                     injectPageScript(code, "body");
-                    var searchfield = "<li><input onKeyDown='if (event.keyCode==13 && event.altKey == false && event.shiftKey == false) {gclh_search_logs(!!event.ctrlKey); return false;}' type='text' size='" + (browser == 'firefox' ? "9":"7") + "' name='navi_search' id='navi_search' style='margin-bottom: -1px; padding: 1px; font-weight: bold; font-family: sans-serif; border-radius: 7px 7px 7px 7px;' value='" + settings_bookmarks_search_default + "'></li>";
+                    var searchfield = "<li><input onKeyDown='if (event.keyCode==13 && event.altKey == false && event.shiftKey == false) {gclh_search_logs(!!event.ctrlKey); return false;}' type='text' size='" + (browser == 'firefox' ? "9":"7") + "' name='navi_search' id='navi_search' style='margin: 0px; padding: 1px; font-weight: bold; font-family: sans-serif; border-radius: 7px 7px 7px 7px;' value='" + settings_bookmarks_search_default + "'></li>";
                     $(".Menu, .menu").append(searchfield);
                 }
 
