@@ -1852,6 +1852,7 @@ var mainGC = function() {
                     css += "gclh_nav ul.menu>li>a {height: 60px; display: flex !important; align-items: center;}";
                     css += ".menu>li {height: unset;}";
                     css += "#l {flex: none !important; flex-basis: 32px;}";
+                    css += "#navi_search {margin: 0px !important}";
                 }
                 // Message Center Icon entfernen.
                 if (settings_remove_message_in_header) $('.messagecenterheaderwidget').remove();
@@ -2129,7 +2130,7 @@ var mainGC = function() {
                     code += "  else document.location.href = '/seek/nearest.aspx?navi_search='+search;";
                     code += "}";
                     injectPageScript(code, "body");
-                    var searchfield = "<li><input onKeyDown='if (event.keyCode==13 && event.altKey == false && event.shiftKey == false) {gclh_search_logs(!!event.ctrlKey); return false;}' type='text' size='" + (browser == 'firefox' ? "9":"7") + "' name='navi_search' id='navi_search' style='margin: 0px; padding: 1px; font-weight: bold; font-family: sans-serif; border-radius: 7px 7px 7px 7px;' value='" + settings_bookmarks_search_default + "'></li>";
+                    var searchfield = "<li><input onKeyDown='if (event.keyCode==13 && event.altKey == false && event.shiftKey == false) {gclh_search_logs(!!event.ctrlKey); return false;}' type='text' size='" + (browser == 'firefox' ? "9":"7") + "' name='navi_search' id='navi_search' style='margin-bottom: -1px; padding: 1px; font-weight: bold; font-family: sans-serif; border-radius: 7px 7px 7px 7px;' value='" + settings_bookmarks_search_default + "'></li>";
                     $(".Menu, .menu").append(searchfield);
                 }
 
