@@ -2644,15 +2644,15 @@ var mainGC = function() {
 // Highlight usercoords. Improve screen "Enter solved coordinates" (only in english).
     if (is_page("cache_listing")) {
         try {
+            // Highlight usercoords.
             var css = (settings_highlight_usercoords ? ".myLatLon {color: #FF0000; " : ".myLatLon {color: unset; ")
                     + (settings_highlight_usercoords_bb ? "border-bottom: 2px solid #999; " : "border-bottom: unset; ")
                     + (settings_highlight_usercoords_it ? "font-style: italic;}" : "font-style: unset;}");
-            if ($('#tmpl_CacheCoordinateUpdate')[0] && $('#tmpl_CacheCoordinateUpdate')[0].innerHTML.match(/Enter solved coordinates/)) {
-                css += '#coordinateParse dl dd {padding-bottom: 7px;}';
-                css += '#newCoordinates {width: 75%; padding: 6px 6px; margin-top: -7px; margin-bottom: 0px;}';
-                css += '#updatedCoords {font-style: normal;}';
-                $('#tmpl_CacheCoordinateUpdate')[0].innerHTML = $('#tmpl_CacheCoordinateUpdate')[0].innerHTML.replace('size="35"', 'size="30"');
-            }
+            // Improve screen "Enter solved coordinates" (only in english).
+            css += '#coordinate-update-root div > dl > dd > input {width: 72%; font-size: 100%; padding: 4px 6px; margin: -7px 0px 0px -7px;}';
+            css += '#coordinate-update-root div > dl > dd:has(.cc-verify) {padding-bottom: 19px;}';
+            css += '#coordinate-update-root div > dl > dd .cc-verify {font-style: normal !important;}';
+            css += '#coordinate-update-root button {margin-right: 6px;}';
             appendCssStyle(css);
         } catch(e) {gclh_error("Highlight usercoords",e);}
     }
