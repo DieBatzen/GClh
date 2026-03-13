@@ -2710,10 +2710,10 @@ var mainGC = function() {
     }
 
 // Improve Ignore, Stop Ignoring button handling.
-    if (is_page("cache_listing") && (settings_show_remove_ignoring_link && settings_use_one_click_ignoring)) {
+    if (is_page("cache_listing") && (settings_show_remove_ignoring_link && settings_use_one_click_ignoring) && !global_isBasic) {
         appendCssStyle("#ignoreSaved {display: none; color: #E0B70A; float: right; padding-left: 0px;}");
     }
-    if (is_page("cache_listing") && settings_show_remove_ignoring_link && $('#ctl00_ContentBody_GeoNav_uxIgnoreBtn')[0]) {
+    if (is_page("cache_listing") && settings_show_remove_ignoring_link && $('#ctl00_ContentBody_GeoNav_uxIgnoreBtn')[0] && !global_isBasic) {
         try {
             // Set Ignore.
             changeIgnoreButton('Ignore');
@@ -2728,14 +2728,6 @@ var mainGC = function() {
                 saved.setAttribute('id', 'ignoreSaved');
                 saved.appendChild(document.createTextNode('saved'));
                 $('#ctl00_ContentBody_GeoNav_uxIgnoreBtn')[0].append(saved);
-            }
-            // Set Stop Ignoring.
-            var bmLs = $('.BookmarkList').last().find('li a[href*="/bookmarks/view.aspx?guid="], li a[href*="/plan/lists/"], li a[href*="/profile/?guid="], li a[href*="/p/?guid="]');
-            for (var i=0; (i+1) < bmLs.length; i=i+2) {
-                if (bmLs[i].innerHTML.match(/^Ignore List$/) && bmLs[i+1] && bmLs[i+1].innerHTML == global_me) {
-                    changeIgnoreButton('Stop Ignoring');
-                    break;
-                }
             }
         } catch(e) {gclh_error("Improve Ignore, Stop Ignoring button handling",e);}
     }
@@ -2800,7 +2792,7 @@ var mainGC = function() {
     }
 
 // Improve Add to list in cache listing.
-    if (is_page("cache_listing") && settings_improve_add_to_list && $('.btn-add-to-list')[0]) {
+    if (is_page("cache_listing") && settings_improve_add_to_list && $('.btn-add-to-list')[0] && !global_isBasic) {
         try {
             var height = ((parseInt(settings_improve_add_to_list_height) < 100) ? parseInt(100) : parseInt(settings_improve_add_to_list_height));
             var css = ".add-list {max-height: " + height + "px !important;}"
@@ -2815,25 +2807,27 @@ var mainGC = function() {
             // Improve clickability on list names of add to list pop up.
             css += '.add-list li button {width: 100%; text-align: left;}';
             appendCssStyle(css);
-            $('.btn-add-to-list').addClass('working');
-            function check_for_add_to_list(waitCount) {
-                if ( typeof $('#fancybox-loading')[0] !== "undefined") {
-                    $('.btn-add-to-list').removeClass('working');
-                    $('.btn-add-to-list')[0].addEventListener("click", function() {
-                        window.scroll(0, 0);
-                        setFocusToField(0, '#newListName');
-                    });
-                    $('.btn-add-to-list')[0].innerHTML = '<a href="' + $('.btn-add-to-list').attr('data-href') + '" style="padding-left: unset;">' + $('.btn-add-to-list')[0].innerHTML + '</a>';
-                    if ($('.sidebar')[0] && $('#ctl00_ContentBody_GeoNav_uxAddToListBtn')[0]) {
-                        var [ownBMLsCount, ownBMLsText, ownBMLsList] = getOwnBMLs($('.sidebar')[0]);
-                        $('#ctl00_ContentBody_GeoNav_uxAddToListBtn a')[0].append($('<span class="add_to_list_count">(' + ownBMLsCount + ')</span>')[0]);
-                        $('.btn-add-to-list a')[0].setAttribute('title', ownBMLsText);
-                        $('.add_to_list_count')[0].setAttribute('title', ownBMLsList);
-                    }
-                } else {waitCount++; if (waitCount <= 100) setTimeout(function(){check_for_add_to_list(waitCount);}, 100);}
+            $('.btn-add-to-list')[0].addEventListener("click", function() {
+                window.scroll(0, 0);
+                setFocusToField(0, '#newListName');
+            });
+            $('.btn-add-to-list')[0].innerHTML = '<a href="' + $('.btn-add-to-list').attr('data-href') + '" style="padding-left: unset;">' + $('.btn-add-to-list')[0].innerHTML + '</a>';
+            // Prepare the display of count and names of own BMLs of the cache.
+            $('.btn-add-to-list a').addClass('gclh_ownBMLs_link');
+            $('.btn-add-to-list a')[0].append($('<span class="gclh_ownBMLs_count"></span>')[0]);
+        } catch(e) {gclh_error("Improve Add to list in cache listing",e);}
+    }
+
+// Get ignore status and count and names of own BMLs of the cache.
+    if (is_page("cache_listing") && $('.btn-add-to-list')[0] && !global_isBasic) {
+        try {
+            if (settings_show_remove_ignoring_link || settings_improve_add_to_list) {
+                if ($('.btn-add-to-list').attr('data-href') && $('.btn-add-to-list').attr('data-href').match(/guid=(.*)$/)) {
+                    var cacheGuidWptTypeID = $('.btn-add-to-list').attr('data-href').match(/guid=(.*)$/)[1];
+                    getOwnBMLs(cacheGuidWptTypeID);
+                }
             }
-            check_for_add_to_list(0);
-        } catch(e) {gclh_error("Improve Add to list",e);}
+        } catch(e) {gclh_error("Get ignore status and count and names of own BMLs of the cache",e);}
     }
 
 // Add link to waypoint list and cache logs to right sidebar.
@@ -12228,15 +12222,19 @@ var mainGC = function() {
                         new_text += '<p style="margin-top: 5px; margin-bottom: 0px;"><span class="coordinates current" title="'+corrected+'Coordinates">' + coords + '</span>' + original_coords_span + '</p>';
                     }
 
-                    // Create Element and insert everything.
-                    if (!(document.getElementsByClassName("geocache-owner")[0] || document.getElementsByClassName("gclhOwner")[0])) return;
+                    // Create element with the enhancements.
                     var text_element = document.createElement("div");
                     text_element.innerHTML = new_text;
                     searchmap_sidebar_enhancements.appendChild(text_element);
                     searchmap_sidebar_enhancements_loading.setAttribute("style", "display: none;");
-                    // Just to be sure we are starting from scratch.
-                    removeElement(document.querySelector('#searchmap_sidebar_enhancements'));
-                    insertAfter(searchmap_sidebar_enhancements, (document.getElementsByClassName("geocache-owner")[0] || document.getElementsByClassName("gclhOwner")[0]));
+                    // Insert element with the enhancements if it is the same gc_code.
+                    if ($('.cache-metadata-code')[0] && local_gc_code == $('.cache-metadata-code')[0].innerHTML) {
+                        // Just to be sure we are starting from scratch.
+                        removeElement(document.querySelector('#searchmap_sidebar_enhancements'));
+                        if (document.getElementsByClassName("geocache-owner")[0] || document.getElementsByClassName("gclhOwner")[0]) {
+                            insertAfter(searchmap_sidebar_enhancements, (document.getElementsByClassName("geocache-owner")[0] || document.getElementsByClassName("gclhOwner")[0]));
+                        }
+                    }
 
                     // Open latest logs and personal cache note slightly late so it doesn't flutter.
                     function doNotFlutter(pos) {
@@ -12252,15 +12250,15 @@ var mainGC = function() {
                             })
                         });
                     }
-                    doNotFlutter('.gclh_latest_log');
-                    doNotFlutter('.gclh_cache_note');
+                    doNotFlutter($(searchmap_sidebar_enhancements).find('.gclh_latest_log'));
+                    doNotFlutter($(searchmap_sidebar_enhancements).find('.gclh_cache_note'));
 
                     // Add Copy to Clipboard Links.
                     if (settings_show_enhanced_map_coords) {
                         if (original_coords != "") {
-                            addCopyToClipboardLink(original_coords, $('span.coordinates.original .anker')[0], "original Coordinates", style='vertical-align: sub;');
+                            addCopyToClipboardLink(original_coords, $(searchmap_sidebar_enhancements).find('span.coordinates.original .anker')[0], "original Coordinates", style='vertical-align: sub;');
                         }
-                        addCopyToClipboardLink(coords, $('span.coordinates.current')[0], corrected+"Coordinates", style='vertical-align: sub;');
+                        addCopyToClipboardLink(coords, $(searchmap_sidebar_enhancements).find('span.coordinates.current')[0], corrected+"Coordinates", style='vertical-align: sub;');
                     }
 
                     // Build buffer for the enhancement block.
@@ -12296,12 +12294,10 @@ var mainGC = function() {
                         } catch(e) {gclh_error("Add county (Landkreis) to place",e);}
                     }
 
-                    // Get count and names of own bookmarklists.
-                    if ($('.cache-preview-action-menu ul li.add-to-list button[aria-haspopup="dialog"] span')[0]) {
-                        var [ownBMLsCount, ownBMLsText, ownBMLsList] = getOwnBMLs(text);
-                        sidebar_enhancements_addToList_buffer[local_gc_code] = $('<span class="add_to_list_count" title="' + ownBMLsList + '"> (' + ownBMLsCount + ')</span>')[0];
-                        $('.add_to_list_count').each(function(){removeElement(this);});
-                        $('.cache-preview-action-menu ul li.add-to-list button[aria-haspopup="dialog"] span')[0].append(sidebar_enhancements_addToList_buffer[local_gc_code]);
+                    // Get count and names of own BMLs of the cache.
+                    if ($(text).find('.btn-add-to-list') && $(text).find('.btn-add-to-list').attr('data-href') && $(text).find('.btn-add-to-list').attr('data-href').match(/guid=(.*)$/) && !global_isBasic) {
+                        var cacheGuidWptTypeID = $(text).find('.btn-add-to-list').attr('data-href').match(/guid=(.*)$/)[1];
+                        getOwnBMLs(cacheGuidWptTypeID, local_gc_code);
                     }
 
                     // Show Weekday for Events.
@@ -12311,8 +12307,10 @@ var mainGC = function() {
                             var date = new Date(matchDate[1], matchDate[2]-1, matchDate[3]);
                             if (date != "Invalid Date") {
                                 sidebar_enhancements_weekday_buffer[new_gc_code] = `<span class="gclh_weekday">(${date.getWeekday()})</span>`;
-                                if ($('.gclhOwner')[0]) $('.gclhOwner').after(sidebar_enhancements_weekday_buffer[new_gc_code]);
-                                else if ($('.geocache-placed-date span[data-testid="placed-on-value"]')[0]) $('.geocache-placed-date span[data-testid="placed-on-value"]').after(sidebar_enhancements_weekday_buffer[new_gc_code]);
+                                if ($('.cache-metadata-code')[0] && local_gc_code == $('.cache-metadata-code')[0].innerHTML) {
+                                    if ($('.gclhOwner')[0]) $('.gclhOwner').after(sidebar_enhancements_weekday_buffer[local_gc_code]);
+                                    else if ($('.geocache-placed-date span[data-testid="placed-on-value"]')[0]) $('.geocache-placed-date span[data-testid="placed-on-value"]').after(sidebar_enhancements_weekday_buffer[local_gc_code]);
+                                }
                             }
                         }
                     }
@@ -13559,14 +13557,18 @@ var mainGC = function() {
                             doNotFlutter('.gclh_latest_log');
                             doNotFlutter('.gclh_cache_note');
 
-                            // Get count and names of own bookmarklists.
-                            if ($('#popup_additional_info_' + local_gc_code).closest('.map-item')[0]) {
+                            // Get count and names of own BMLs of the cache.
+                            if ($('#popup_additional_info_' + local_gc_code).closest('.map-item')[0] && !global_isBasic) {
                                 var item = $('#popup_additional_info_' + local_gc_code).closest('.map-item')[0];
                                 if ( !$(item).find('#ownBMLsCount')[0] && $(item).find('.btn-add-to-list > span')[0] ) {
-                                    var [ownBMLsCount, ownBMLsText, ownBMLsList] = getOwnBMLs(text);
-                                    $(item).find('.btn-add-to-list')[0].after($('<span id="ownBMLsCount"> (' + ownBMLsCount + ')</span>')[0]);
-                                    $(item).find('.btn-add-to-list > span')[0].setAttribute('title', ownBMLsText);
-                                    $(item).find('#ownBMLsCount')[0].setAttribute('title', ownBMLsList);
+                                    // Prepare the display of count and names of own BMLs of the cache.
+                                    $(item).find('.btn-add-to-list').addClass('gclh_ownBMLs_link');
+                                    $(item).find('.btn-add-to-list')[0].after($('<span class="gclh_ownBMLs_count"></span>')[0]);
+                                    // Get count and names of own BMLs of the cache.
+                                    if ($('.btn-add-to-list').attr('href') && $('.btn-add-to-list').attr('href').match(/guid=(.*)$/)) {
+                                        var cacheGuidWptTypeID = $('.btn-add-to-list').attr('href').match(/guid=(.*)$/)[1];
+                                        getOwnBMLs(cacheGuidWptTypeID);
+                                    }
                                 }
                             }
 
@@ -16434,27 +16436,57 @@ var mainGC = function() {
         else return "";
     }
 
-// Get count and names of own bookmarklists.
-    function getOwnBMLs(content) {
+// Build Search Map buffer for count and names of own BMLs of the cache and display it.
+    function buildAddToListBufferForSearchMap(text, list, count, gc_code) {
+        if (typeof(sidebar_enhancements_addToList_buffer) != 'object') return;
+        sidebar_enhancements_addToList_buffer[gc_code] = $('<span class="ownBMLsCount" title="' + list + '"> (' + count + ')</span>')[0];
+        if ($('.cache-metadata-code')[0] && gc_code == $('.cache-metadata-code')[0].innerHTML && $('.cache-preview-action-menu ul li.add-to-list button[aria-haspopup="dialog"] span')[0]) {
+            $('.ownBMLsCount').each(function(){removeElement(this);});
+            $('.cache-preview-action-menu ul li.add-to-list button[aria-haspopup="dialog"] span')[0].append(sidebar_enhancements_addToList_buffer[gc_code]);
+        }
+    }
+// Get ignore status and count and names of own BMLs of a cache.
+    function getOwnBMLs(cacheGuidWptTypeID, gcCodeFromSearchMap) {
+        if (!cacheGuidWptTypeID || cacheGuidWptTypeID == '') return;
         var count = 0;
         var text = '';
         var ary = [];
         var list = '';
-        $(content).find('ul.BookmarkList li').each(function() {
-            if ( $(this).find('a[href*="/profile/?guid="], a[href*="/p/?guid="]')[0] && $(this).find('a[href*="/profile/?guid="], a[href*="/p/?guid="]')[0].innerHTML.match(global_me) &&
-                 $(this).find('a[href*="/bookmarks/view.aspx?guid="], a[href*="/plan/lists/BM"]')[0] && $(this).find('a[href*="/bookmarks/view.aspx?guid="], a[href*="/plan/lists/BM"]')[0].innerHTML                                           ) {
-                if (!ary.includes($(this).find('a[href*="/bookmarks/view.aspx?guid="], a[href*="/plan/lists/BM"]')[0].innerHTML)) {
-                    count++;
-                    ary.push($(this).find('a[href*="/bookmarks/view.aspx?guid="], a[href*="/plan/lists/BM"]')[0].innerHTML);
+        var ignore = false;
+        $.get('https://www.geocaching.com/bookmarks/default.aspx?guid='+cacheGuidWptTypeID, null, function(text) {
+            $(text).find('tbody a[href*="/p/?guid="]').closest('td').each(function() {
+                if ($(this).find('a[href*="/p/?guid="]')[0].innerHTML.match(global_me)) {
+                    if ($(this).find('a[href*="/plan/lists/BM"]')[0].innerHTML == 'Ignore List') {
+                        ignore = true;
+                    } else {
+                        if (!ary.includes($(this).find('a[href*="/plan/lists/BM"]')[0].innerHTML)) {
+                            count++;
+                            ary.push($(this).find('a[href*="/plan/lists/BM"]')[0].innerHTML);
+                        }
+                    }
+                }
+            });
+            ary.sort(caseInsensitiveSort);
+            for (var i = 0; i < ary.length; i++) {
+                list += (list == '' ? '' : '\n') + ary[i];
+            }
+            text = 'Currently available in ' + count + (count == 1 ? ' own list' : ' own lists');
+            // Search Map call.
+            if (gcCodeFromSearchMap) {
+                buildAddToListBufferForSearchMap(text, list, count, gcCodeFromSearchMap);
+            } else {
+                if ($('.gclh_ownBMLs_link')[0]) {
+                    $('.gclh_ownBMLs_link')[0].setAttribute('title', text);
+                }
+                if ($('.gclh_ownBMLs_count')[0]) {
+                    $('.gclh_ownBMLs_count')[0].setAttribute('title', list);
+                    $('.gclh_ownBMLs_count')[0].innerHTML = ' (' + count + ')';
+                }
+                if (ignore && settings_show_remove_ignoring_link && $('#ctl00_ContentBody_GeoNav_uxIgnoreBtn a')[0]) {
+                    changeIgnoreButton('Stop Ignoring');
                 }
             }
         });
-        ary.sort(caseInsensitiveSort);
-        for (var i = 0; i < ary.length; i++) {
-            list += (list == '' ? '' : '\n') + ary[i];
-        }
-        text = 'Currently available in ' + count + (count == 1 ? ' own list' : ' own lists');
-        return [count, text, list];
     }
 
 // Build dropdown with caret-down icon and own specified dropdown entries for gclh stuff.
