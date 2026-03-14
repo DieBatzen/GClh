@@ -1,3 +1,4 @@
+<a href="#v018" title="GClh II version 0.18 (15.03.2026)">v0.18</a> &nbsp;
 <a href="#v01714" title="GClh II version 0.17.14 (16.02.2026)">v0.17.14</a> &nbsp;
 <a href="#v01713" title="GClh II version 0.17.13 (08.02.2026)">v0.17.13</a> &nbsp;
 <a href="#v01712" title="GClh II version 0.17.12 (22.01.2026)">v0.17.12</a> &nbsp;
@@ -37,6 +38,50 @@
 <a href="#v015" title="GClh II version 0.15 (26.11.2023)">v0.15</a> &nbsp;
 <a href="changelog_before.md" title="Go to earlier changelog">Earlier changelog</a> &nbsp;
 <span id="readme"></span>
+
+---
+## v0.18:
+&nbsp; &nbsp; <img src="../images/flag_ua.png" alt="" title="Stand with Ukraine"><br>
+
+### Pocket Query:
+<ul>
+	<li>
+		<strong>New:</strong> [New Dashboard] Show menu under the header as in the old dashboard. [<a href="https://github.com/2Abendsegler/GClh/issues/2953" title="Issue 2953">2953</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+		This option allows you to show a menu below the header, similar to what you know from the old dashboard.<br>
+		<img src="../images/0.17.14/Screen01.jpg" alt="Screen01.jpg"><br>
+		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_dashboard_build_menu_old_db_in_new_db" title="Link to your GClh II Config">Settings -> Dashboard:<br>
+		<img src="../images/0.17.14/Screen02.jpg" alt="Screen02.jpg"></a><br>
+		If you want to use this feature, you have to activate it.<br><br>
+	</li>
+	<li>
+		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+</ul>
+
+### Listing:
+<ul>
+	<li>
+		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+</ul>
+
+### Dashboard:
+<ul>
+	<li>
+		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+</ul>
+
+### Others:
+<ul>
+	<li>
+		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+</ul>
+<br>
+(15.03.2026)<br>
+released by <a href="https://www.geocaching.com/profile/?u=2Abendsegler">2Abendsegler</a><br>
+<br>
 
 ---
 ## v0.17.14:
