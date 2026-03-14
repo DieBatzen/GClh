@@ -15613,11 +15613,11 @@ var mainGC = function() {
 
 // Hide header in map.
     function hide_map_header() {
-        if ($('nav')[0].style.display != "none") {
-            $('nav')[0].style.display = "none";
+        if ($('gclh_nav')[0].style.display != "none") {
+            $('gclh_nav')[0].style.display = "none";
             $('#Content')[0].style.top = 0;
         } else {
-            $('nav')[0].style.display = "block";
+            $('gclh_nav')[0].style.display = "block";
             $('#Content')[0].style.top = "80px";
         }
     }
