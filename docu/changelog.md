@@ -65,7 +65,7 @@
 <ul>
 	<li>
 		<strong>New:</strong> [Cache Listing] Personal cache note templates. [<a href="https://github.com/2Abendsegler/GClh/issues/2705" title="Issue 2705">2705</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
-		Templates are predefined texts. You can save up to ten templates. All of your templates will be displayed under the personal caches note in listings. With a click it will be placed in the personal caches note.<br>
+		Templates are predefined texts. You can save up to ten templates. All of your templates will be displayed under the personal caches note in listings. With a click it will be placed in the personal caches note.<br><br>
 		<img src="../images/0.18/Screen04.gif" alt="Screen04.gif"><br><br>
 		 You can also use placeholders for variables that will be replaced in the personal caches note.<br>
 		<img src="../images/0.18/Screen06.jpg" alt="Screen06.jpg"><br>
@@ -75,7 +75,7 @@
 	</li>
 	<li>
 		<strong>New:</strong> [Event Listing] Set default calendar in an event listing. [<a href="https://github.com/2Abendsegler/GClh/issues/2850" title="Issue 2850">2850</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
-		With this option you can set the default calendar for an event listing. A selection in the calendar popup in the event listing is no longer necessary.<br>
+		With this option you can set the default calendar for an event listing. A selection in the calendar popup in the event listing is no longer necessary.<br><br>
 		<img src="../images/0.18/Screen09.jpg" alt="Screen09.jpg"><br><br>
 		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_set_default_calendar_link_for_event" title="Link to your GClh II Config">Settings -> Listing - Listing Header:<br>
 		<img src="../images/0.18/Screen10.jpg" alt="Screen10.jpg"></a><br>
@@ -83,7 +83,7 @@
 	</li>
 	<li>
 		<strong>New:</strong> [Cache Listing] Hide pop-up with notification about a collected treasure. [<a href="https://github.com/2Abendsegler/GClh/issues/3004" title="Issue 3004">3004</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
-		After logging a find, you are redirected to the cache listing, where a pop-up with a notification about a collected treasure may appear. This option prevents this pop-up from being displayed.<br>
+		After logging a find, you are redirected to the cache listing, where a pop-up with a notification about a collected treasure may appear. This option prevents this pop-up from being displayed.<br><br>
 		<img src="../images/0.18/Screen07.jpg" alt="Screen07.jpg"><br><br>
 		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_hide_treasure_success_messages" title="Link to your GClh II Config">Settings -> Listing - Listing Header:<br>
 		<img src="../images/0.18/Screen08.jpg" alt="Screen08.jpg"></a><br>
@@ -148,7 +148,7 @@
 ### Others:
 <ul>
 	<li>
-		<strong>New:</strong> [Search Trackables] Extension of feature to dim lost trackables for owned trackables view to search trackables view. [<a href="https://github.com/2Abendsegler/GClh/issues/2977" title="Issue 2977">2977</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+		<strong>New:</strong> [Search Trackables] Extension of feature to dim lost trackables for owned trackables view to search trackables view. [<a href="https://github.com/2Abendsegler/GClh/issues/2977" title="Issue 2977">2977</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
 		<img src="../images/0.18/Screen15.jpg" alt="Screen15.jpg"><br><br>
 		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_dim_lost_trackables" title="Link to your GClh II Config">Settings -> Others:<br>
 		<img src="../images/0.18/Screen16.jpg" alt="Screen16.jpg"></a><br>
