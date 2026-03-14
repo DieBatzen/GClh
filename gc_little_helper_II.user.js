@@ -17746,9 +17746,11 @@ var mainGC = function() {
             html += "<h4 class='gclh_headline2'>"+prepareHideable.replace("#id#","db")+"<label for='lnk_gclh_config_db'>Dashboard</label></h4>";
             html += "<div id='gclh_config_db' class='gclh_block'>";
             html += newParameterOn2;
-            html += checkboxy('settings_dashboard_disable_all_features', 'Disable all features for dashboard') + show_help('The website operator has announced numerous dashboard changes in the coming months. This option allows you to quickly and easily disable all GC little helper II dashboard features without much effort. Only the line in the dashboard with the links to the Configurator, the Synchronizer and the Changelog should remain. This is only useful if the dashboard changes conflict with the features of GC little helper II.<br>(Status as of 24.02.2026)') + "<br>";
-            html += checkboxy('settings_dashboard_build_menu_old_db_in_new_db', 'Show menu under the header as in the old dashboard') + show_help('This option allows you to show a menu below the header, similar to what you know from the old dashboard.') + "<br>";
+            html += checkboxy('settings_dashboard_disable_all_features', 'Disable all features for dashboard') + show_help('The website operator has announced numerous dashboard changes in the coming months. This option allows you to quickly and easily disable all GC little helper II dashboard features without much effort. Only the line in the dashboard with the links to the Configurator, the Synchronizer and the Changelog should remain. This is only useful if the dashboard website changes conflict with the features of GC little helper II.<br>(Status as of 24.02.2026)') + "<br>";
             html += newParameterVersionSetzen('0.18') + newParameterOff;
+            html += newParameterOn1;
+            html += checkboxy('settings_dashboard_build_menu_old_db_in_new_db', 'Show menu under the header as in the old dashboard') + show_help('This option allows you to show a menu below the header, similar to what you know from the old dashboard.') + "<br>";
+            html += newParameterVersionSetzen('0.17') + newParameterOff;
             html += checkboxy('settings_compact_layout_new_dashboard', 'Show compact layout on your dashboard') + "<br>";
             html += newParameterOn3;
             html += " &nbsp; " + checkboxy('settings_row_hide_new_dashboard', 'Hide individual rows in the navigation column of your dashboard') + show_help("This feature allows you to hide individual rows in the left column (navigation column) of your dashboard. Each row has an icon for marking it. Above all rows, there's another icon for activating the configuration.") + "<br>";
