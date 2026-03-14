@@ -183,7 +183,7 @@ Or you can create a note in one of the forums or on our discussions page. See <a
 <a id="11-en"></a>
 ## 11. Information about Pocket Query Downloads.
 Generated Pocket Queries can be automatically downloaded via a download button. The files are saved automatically and without dialog in the browser's default download location. They are saved in zip  format. Several placeholders are available for generating the filenames. The configuration in the GC little helper II is done <a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_download_pqs" title="Link to your GClh II Config">here</a>.<br><br>
-If a download fails, the error message is saved. To view the error message, hover your mouse over the red error icon or check the browser console (function key F12, Console tab).<br><br>
+If a download fails, the error message is saved. To view the error message, hover the mouse over the red error icon or check the browser console (function key F12, Console tab).<br><br>
 Settings for this are available in the browser and the script manager. These settings allow you to restrict downloads or saving files without a dialog. These settings cannot, of course, be changed by GC little helper II. It may be necessary to adjust settings in the browser or the script manager.<br><br>
 In the browser, for example, the default download directory is defined. It can be specified whether files in zip format may be saved without a dialog or whether the user is asked each time. It can also be specified whether a download history is created. The browser settings can usually be searched using a search term such as "download".<br><br>
 The script manager usually allows you to define how a download is performed and whether downloads are permitted for files in zip format. These settings can be found in the Downloads section of the script manager settings (not in the script settings).<br><br>
@@ -192,15 +192,15 @@ We were unable to examine all browsers and script managers and their combination
 <a id="11-en-special-notes"></a>Special notes regarding the Pocket Query Downloads:<br>
 <ul>
 	<li>
-		Tampermonkey script manager:<br>
+		Script manager Tampermonkey:<br>
 		Information on the settings can be found <a href="https://www.tampermonkey.net/faq.php?locale=en#Q302" title="Tampermonkey FAQ 302">here</a>.
 	</li>
 	<li>
-		Violentmonkey script manager:<br>
+		Script manager Violentmonkey:<br>
 		Download settings do not appear to be available. Downloads seem to be possible only via a dialog box.
 	</li>
 	<li>
-		Vivaldi browser with Tampermonkey script manager:<br>
+		Browser Vivaldi with script manager Tampermonkey:<br>
 		In the script manager, the download mode must be set to "Browser API".
 	</li>
 </ul>
@@ -371,4 +371,29 @@ Oder du kannst dich in einem der Foren oder auf unserer Diskussions Seite melden
 2. Alternativ zu 1. können auch nur die notwendigen Cookies von geocaching.com akzeptiert werden, wenn gleichzeitig die Cookie Verarbeitung blockiert wird. Dazu kann beispielsweise im Add on "uBlock Origin" in "Meine Filter" der Eintrag "cookiebot.com" aufgenommen werden.<br><br>
 3. Ist das Add on "Ghostery" installiert, muss "Never Consent" für "geocaching.com" ausgeschaltet werden.<br><br>
 4. Ist das Add on "GeocachingUtils" installiert, werden die Logs im Listing nicht immer angezeigt. Im Add on werden Änderungen vorgenommen, die es dem GClh nicht mehr ermöglichen die Logs anzuzeigen. Wir planen keine Anpassung um das Problem zu beheben.<br><br>
+
+<a id="11-de"></a>
+## 11. Informationen zu Pocket Query Downloads.
+Erzeugte Pocket Queries können über einen Download Button automatisch heruntergeladen werden. Gespeichert werden die Dateien automatisch und ohne Dialog im Standard Download Verzeichnis des Browsers. Die Speicherung erfolgt im zip Format. Für die Generierung der Dateinamen stehen einige Platzhalter zur Verfügung. Die Konfiguration im GC little helper II erfolgt <a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_download_pqs" title="Link to your GClh II Config">hier</a>.<br><br>
+Schlägt ein Download fehl, wird die Fehlermeldung gespeichert. Um die Fehlermeldung anzuzeigen, bewegt man die Maus über das rote Fehlersymbol oder öffnet die Browserkonsole (Funktionstaste F12, Konsole Tab).<br><br>
+Im Browser und im Skriptmanager sind dazu Einstellungen vorhanden. Über diese Einstellungen können Downloads bzw. das Speichern von Dateien ohne Dialog eingeschränkt werden. Diese Einstellungen können natürlich nicht vom GC little helper II geändert werden. Gegebenenfalls ist es notwendig im Browser oder im Skriptmanager Einstellungen vorzunehmen.<br><br>
+Im Browser wird beispielsweise das Standard Download Verzeichnis definiert. Es kann definiert werden, ob Dateien im zip Format ohne Dialog gespeichert werden dürfen oder ob jedes Mal nachgefragt wird. Und es kann angegeben werden, ob eine Download-Chronik erzeugt wird. Die Einstellungen des Browsers können in der Regel mit einem Suchbegriff wie etwa "download" durchsucht werden.<br><br>
+Im Skriptmanager kann in der Regel definiert werden, wie ein Download erfolgt und ob ein Download für Dateien im zip Format erfolgen darf. Entsprechende Einstellungen sind im Kapitel Downloads bei den Einstellungen zum Skriptmanager (nicht bei den Einstellungen zum Skript) zu finden.<br><br>
+Bei den Browsern Mozilla Firefox, Google Chrome und Microsoft Edge mit dem Skriptmanager Tampermonkey sind alle Einstellungen standardmäßig so vorhanden, dass die Downloads wie beabsichtigt erfolgen können.<br>
+Wir konnten nicht alle Browser und Skriptmanager und deren Kombinationen untersuchen.<br><br>
+<a id="11-de-Besonderheiten"></a>Besonderheiten zu den Pocket Query Downloads:<br>
+<ul>
+	<li>
+		Skripmanager Tampermonkey:<br>
+		Informationen zu den Einstellungen gibt es <a href="https://www.tampermonkey.net/faq.php?locale=en#Q302" title="Tampermonkey FAQ 302">hier</a>.
+	</li>
+	<li>
+		Skriptmanager Violentmonkey:<br>
+		Einstellungen zu den Downloads scheinen nicht möglich. Downloads scheinen nur mit Dialog möglich.
+	</li>
+	<li>
+		Browser Vivaldi mit Skripmanager Tampermonkey:<br>
+		Im Skripmanager muss der Download Modus auf "Browser API" eingestellt werden.
+	</li>
+</ul>
 <br>
