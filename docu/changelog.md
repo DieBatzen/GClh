@@ -46,9 +46,9 @@
 ### Pocket Query:
 <ul>
 	<li>
-		<strong>New:</strong> [Pocket Query] Download generated PQs with one click to the default download location. [<a href="https://github.com/2Abendsegler/GClh/issues/2866" title="Issue 2866">2866</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
+		<strong>New:</strong> [Pocket Query] Download generated PQs with one click to the default download location. [<a href="https://github.com/2Abendsegler/GClh/issues/2866" title="Issue 2866">2866</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 		Generated Pocket Queries can be automatically downloaded via a download button. The files are saved automatically and without dialog in the browser's default download location. They are saved in zip format.<br>
-		Further information on Pocket Query downloads and what to consider in the browser and script manager can be found <a href="../docu/faq.md#11-en" title="Link to 'FAQ 11. Information about Pocket Query Downloads.'">here</a>.<br>
+		Further information on Pocket Query downloads and what to consider in the browser and script manager can be found <a href="../docu/faq.md#11-en" title="Link to 'FAQ 11. Information about Pocket Query Downloads.'">here</a>.<br><br>
 		<img src="../images/0.18/Screen01.gif" alt="Screen01.gif"><br><br>
 		Several placeholders are available for generating the filenames.<br>
 		<img src="../images/0.18/Screen03.jpg" alt="Screen03.jpg"><br>
@@ -64,7 +64,7 @@
 ### Listing:
 <ul>
 	<li>
-		<strong>New:</strong> [Cache Listing] Personal cache note templates. [<a href="https://github.com/2Abendsegler/GClh/issues/2705" title="Issue 2705">2705</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
+		<strong>New:</strong> [Cache Listing] Personal cache note templates. [<a href="https://github.com/2Abendsegler/GClh/issues/2705" title="Issue 2705">2705</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 		Templates are predefined texts. You can save up to ten templates. All of your templates will be displayed under the personal caches note in listings. With a click it will be placed in the personal caches note.<br>
 		<img src="../images/0.18/Screen04.gif" alt="Screen04.gif"><br><br>
 		 You can also use placeholders for variables that will be replaced in the personal caches note.<br>
@@ -74,7 +74,7 @@
 		If you want to use this feature, you may need to do some customization.<br><br>
 	</li>
 	<li>
-		<strong>New:</strong> [Event Listing] Set default calendar in an event listing. [<a href="https://github.com/2Abendsegler/GClh/issues/2850" title="Issue 2850">2850</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
+		<strong>New:</strong> [Event Listing] Set default calendar in an event listing. [<a href="https://github.com/2Abendsegler/GClh/issues/2850" title="Issue 2850">2850</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 		With this option you can set the default calendar for an event listing. A selection in the calendar popup in the event listing is no longer necessary.<br>
 		<img src="../images/0.18/Screen09.jpg" alt="Screen09.jpg"><br><br>
 		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_set_default_calendar_link_for_event" title="Link to your GClh II Config">Settings -> Listing - Listing Header:<br>
@@ -82,7 +82,7 @@
 		If you want to use this feature, you have to activate it.<br><br>
 	</li>
 	<li>
-		<strong>New:</strong> [Cache Listing] Hide pop-up with notification about a collected treasure. [<a href="https://github.com/2Abendsegler/GClh/issues/3004" title="Issue 3004">3004</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
+		<strong>New:</strong> [Cache Listing] Hide pop-up with notification about a collected treasure. [<a href="https://github.com/2Abendsegler/GClh/issues/3004" title="Issue 3004">3004</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 		After logging a find, you are redirected to the cache listing, where a pop-up with a notification about a collected treasure may appear. This option prevents this pop-up from being displayed.<br>
 		<img src="../images/0.18/Screen07.jpg" alt="Screen07.jpg"><br><br>
 		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_hide_treasure_success_messages" title="Link to your GClh II Config">Settings -> Listing - Listing Header:<br>
@@ -106,20 +106,20 @@
 ### Dashboard:
 <ul>
 	<li>
-		<strong>New:</strong> [New Dashboard] Option to disable all features for dashboard. [<a href="https://github.com/2Abendsegler/GClh/issues/2982" title="Issue 2982">2982</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
+		<strong>New:</strong> [New Dashboard] Option to disable all features for dashboard. [<a href="https://github.com/2Abendsegler/GClh/issues/2982" title="Issue 2982">2982</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 		This option allows you to quickly and easily disable all GC little helper II dashboard features without much effort. This is only useful if the dashboard website changes conflict with the features of GC little helper II.<br>
 		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_dashboard_disable_all_features" title="Link to your GClh II Config">Settings -> Dashboard:<br>
 		<img src="../images/0.18/Screen11.jpg" alt="Screen11.jpg"></a><br>
 		If you want to use this feature, you have to activate it.<br><br>
 	</li>
 	<li>
-		<strong>New:</strong> [New Dashboard, Config] Reorganizing the dashboard configuration. [<a href="https://github.com/2Abendsegler/GClh/issues/2970" title="Issue 2970">2970</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
+		<strong>New:</strong> [New Dashboard, Config] Reorganizing the dashboard configuration. [<a href="https://github.com/2Abendsegler/GClh/issues/2970" title="Issue 2970">2970</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 		The dashboard configuration has been rewritten. The parameters for the old dashboard have been removed.<br>
 		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#gclh_config_db" title="Link to your GClh II Config">Settings -> Dashboard:<br>
 		<img src="../images/0.18/Screen12.jpg" alt="Screen12.jpg"></a><br><br>
 	</li>
 	<li>
-		<strong>New:</strong> [New Dashboard] Split Search and Browse Map quick links. [<a href="https://github.com/2Abendsegler/GClh/issues/2989" title="Issue 2989">2989</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a>]<br><br>
+		<strong>New:</strong> [New Dashboard] Split Search and Browse Map quick links. [<a href="https://github.com/2Abendsegler/GClh/issues/2989" title="Issue 2989">2989</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a>]<br>
 		Split the single config parameter to show "Search" and "Browse Map" as quick links into two separate parameters and migrate the settings from the old to the new parameters.<br>
 		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_dashboard_show_search" title="Link to your GClh II Config">Settings -> Dashboard:<br>
 		<img src="../images/0.18/Screen13.jpg" alt="Screen13.jpg"></a><br>
