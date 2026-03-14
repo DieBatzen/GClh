@@ -187,8 +187,7 @@ If a download fails, the error message is saved. To view the error message, hove
 Settings for downloads are available in the browser and the script manager. These settings allow you to restrict downloads or saving files without a dialog. These settings cannot, of course, be changed by GC little helper II. It may be necessary to adjust settings in the browser or the script manager.<br><br>
 In the browser, for example, the default download directory is defined. It can be specified whether files in zip format may be saved without a dialog or whether the user is asked each time. It can also be specified whether a download history is created. The browser settings can usually be searched using a search term such as "download".<br><br>
 The script manager usually allows you to define how a download is performed and whether downloads are permitted for files in zip format. These settings can be found in the Downloads section of the script manager settings (not in the script settings).<br><br>
-In the browsers Mozilla Firefox, Google Chrome, and Microsoft Edge, all settings are configured by default to allow downloads to proceed as intended.<br>
-We were unable to examine all browsers and script managers and their combinations.<br><br>
+In the browsers Mozilla Firefox, Google Chrome, and Microsoft Edge, all settings are configured by default to allow downloads to proceed as intended. We were unable to examine all browsers and script managers and their combinations.<br><br>
 <a id="11-en-special-notes"></a>Special notes regarding the Pocket Query Downloads:<br>
 <ul>
 	<li>
@@ -379,8 +378,7 @@ Schlägt ein Download fehl, wird die Fehlermeldung gespeichert. Um die Fehlermel
 Im Browser und im Skriptmanager sind zu den Downloads Einstellungen vorhanden. Über diese Einstellungen können Downloads bzw. das Speichern von Dateien ohne Dialog eingeschränkt werden. Diese Einstellungen können natürlich nicht vom GC little helper II geändert werden. Gegebenenfalls ist es notwendig im Browser oder im Skriptmanager Einstellungen vorzunehmen.<br><br>
 Im Browser wird beispielsweise das Standard Download Verzeichnis angegeben. Es kann definiert werden, ob Dateien im zip Format ohne Dialog gespeichert werden dürfen oder ob jedes Mal nachgefragt wird. Und es kann angegeben werden, ob eine Download-Chronik erzeugt wird. Die Einstellungen des Browsers können in der Regel mit einem Suchbegriff wie etwa "download" durchsucht werden.<br><br>
 Im Skriptmanager kann in der Regel definiert werden, wie ein Download erfolgt und ob ein Download für Dateien im zip Format erfolgen darf. Entsprechende Einstellungen sind im Kapitel Downloads bei den Einstellungen zum Skriptmanager (nicht bei den Einstellungen zum Skript) zu finden.<br><br>
-Bei den Browsern Mozilla Firefox, Google Chrome und Microsoft Edge mit dem Skriptmanager Tampermonkey sind alle Einstellungen standardmäßig so vorhanden, dass die Downloads wie beabsichtigt erfolgen können.<br>
-Wir konnten nicht alle Browser und Skriptmanager und deren Kombinationen untersuchen.<br><br>
+Bei den Browsern Mozilla Firefox, Google Chrome und Microsoft Edge mit dem Skriptmanager Tampermonkey sind alle Einstellungen standardmäßig so vorhanden, dass die Downloads wie beabsichtigt erfolgen können. Wir konnten nicht alle Browser und Skriptmanager und deren Kombinationen untersuchen.<br><br>
 <a id="11-de-Besonderheiten"></a>Besonderheiten zu den Pocket Query Downloads:<br>
 <ul>
 	<li>
