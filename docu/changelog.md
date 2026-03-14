@@ -57,7 +57,7 @@
 		If you want to use this feature, you may need to do some customization.<br><br>
 	</li>
 	<li>
-		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+		<strong>Fix:</strong> [Pocket Query] Prevent map error after PQ deletion. [<a href="https://github.com/2Abendsegler/GClh/issues/2998" title="Issue 2998">2998</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a>]<br>
 	</li>
 </ul>
 
@@ -98,6 +98,9 @@
 	<li>
 		<strong>Fix:</strong> [Cache Listing] Page width of exceeds readable area. [<a href="https://github.com/2Abendsegler/GClh/issues/2979" title="Issue 2979">2979</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
+	<li>
+		<strong>Fix:</strong> [Cache Listing] Improve screen "Enter solved coordinates" again. [<a href="https://github.com/2Abendsegler/GClh/issues/3017" title="Issue 3017">3017</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
 </ul>
 
 ### Dashboard:
@@ -134,6 +137,12 @@
 	<li>
 		<strong>Fix:</strong> [New Dashboard] Option to hide/show the right sidebar no longer works. [<a href="https://github.com/2Abendsegler/GClh/issues/2972" title="Issue 2972">2972</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a>]<br>
 	</li>
+	<li>
+		<strong>Fix:</strong> [New Dashboard] Stop the expand icons in VIP, VUP lists from flickering. [<a href="https://github.com/2Abendsegler/GClh/issues/2996" title="Issue 2996">2996</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+	<li>
+		<strong>Fix:</strong> [New Dashboard] Hide of individual rows in the left column doesn't work on very small screens. [<a href="https://github.com/2Abendsegler/GClh/issues/2975" title="Issue 2975">2975</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
 </ul>
 
 ### Others:
@@ -162,6 +171,15 @@
 	</li>
 	<li>
 		<strong>Fix:</strong> [Global] Prevent user menu from disappearing behind page elements. [<a href="https://github.com/2Abendsegler/GClh/issues/2992" title="Issue 2992">2992</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a>]<br>
+	</li>
+	<li>
+		<strong>Fix:</strong> [Config] Improve table alignment for "Show custom links in sidebar". [<a href="https://github.com/2Abendsegler/GClh/issues/2995" title="Issue 2995">2995</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+	<li>
+		<strong>Fix:</strong> [Profile] "Use old links to finds and hides caches" no longer works for the links in the cache types. [<a href="https://github.com/2Abendsegler/GClh/issues/2991" title="Issue 2991">2991</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+	<li>
+		<strong>Fix:</strong> [Profile] Count of trackables is splitting. [<a href="https://github.com/2Abendsegler/GClh/issues/2976" title="Issue 2976">2976</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
 </ul>
 <br>
