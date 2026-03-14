@@ -169,6 +169,7 @@ var constInit = function(c) {
     c.urlFaq = "https://github.com/2Abendsegler/GClh/blob/master/docu/faq.md#readme";
     c.urlFaqHelp = "https://github.com/2Abendsegler/GClh/blob/master/docu/faq.md#8-en";
     c.urlFaqReport = "https://github.com/2Abendsegler/GClh/blob/master/docu/faq.md#9-en";
+    c.urlFaqPQDownload = "https://github.com/2Abendsegler/GClh/blob/master/docu/faq.md#11-en";
     c.urlDocu = "https://github.com/2Abendsegler/GClh/blob/master/docu/";
     c.urlImages = "https://raw.githubusercontent.com/2Abendsegler/GClh/master/images/";
     c.urlImagesSvg = "https://rawgit.com/2Abendsegler/GClh/master/images/";
@@ -2647,7 +2648,7 @@ var mainGC = function() {
         } catch(e) {gclh_error("Show favorite percentage",e);}
     }
 
-// Highlight usercoords. Improve screen "Enter solved coordinates" (only in english).
+// Highlight usercoords and improve screen "Enter solved coordinates" (only in english).
     if (is_page("cache_listing")) {
         try {
             // Highlight usercoords.
@@ -2660,7 +2661,7 @@ var mainGC = function() {
             css += '#coordinate-update-root div > dl > dd .cc-verify {font-style: normal !important;}';
             css += '#coordinate-update-root button {margin-right: 6px;}';
             appendCssStyle(css);
-        } catch(e) {gclh_error("Highlight usercoords",e);}
+        } catch(e) {gclh_error('Highlight usercoords and improve screen "Enter solved coordinates"',e);}
     }
 
 // Show other coord formats cache listing.
@@ -17418,13 +17419,13 @@ var mainGC = function() {
                    + "&nbsp; #Minutes# : Actual minutes<br>"
                    + "&nbsp; #Seconds# : Actual seconds<br>"
                    + "(Upper and lower case is not required in the placeholders name.)";
-            var downloadDescription1 = '<br><br><br>General information on how browsers and script managers handle downloads:<br><br>Browsers and script managers can prevent downloads respectively downloads from being saved to the default download location without a dialog. This can result in a download not starting, it ending with an error, or a dialog prompting the user to save the download after downloading. These restrictions are security measures. They cannot and should not be changed by GC little helper II. You may need to adjust settings in your browser or script manager for downloads to work as expected.';
-            var downloadDescription2 = '<br><br>It seems that downloads without a dialog box are possible by default in browsers such as Mozilla Firefox, Google Chrome, Microsoft Edge, and presumably others as well. The same applies to the script manager Tampermonkey.<br><br>Users of the Tampermonkey script manager who wish to force the saving of downloads only with a dialog after downloading can, for example, set the download mode to "Native" in the Downloads section of the Tampermonkey Settings. In addition, a browser setting similar to \"Ask where to save a file each time\" must be enabled.';
+            var downloadDescription1 = "This option allows you to activate a download button in the \"Pocket Queries Ready for Download\" area. With this button you can download generated Pocket Queries with one click to the default download location of your browser.<br><br>If a download fails, the error message is saved. To view the error message, hover your mouse over the red error icon or check the browser console (function key F12, Console tab).";
+            var downloadDescription2 = "<br><br>Further information on Pocket Query downloads and what to consider in the browser and script manager can be found <a href='"+urlFaqPQDownload+"' title='Information about Pocket Query Downloads (GitHub)' target='_blank'>here</a> (or <a href='"+urlFaqPQDownload.replace('11-en', '11-de')+"' title='Informationen zu Pocket Query Downloads (GitHub)' target='_blank'>here</a> in German).";
             html += newParameterOn2;
-            html += checkboxy('settings_download_pqs', 'Add option to download PQs with one click to default download location') + show_help("This option allows you to activate a download button in the \"Pocket Queries Ready for Download\" area. With this button you can download selected PQs with one click to the default download location of your browser.<br><br>If a download fails, the error message is saved. To view the error message, hover your mouse over the red error icon or check the browser console (function key F12, Console tab)." + downloadDescription1 + downloadDescription2) + "<br>";
-            html += " &nbsp; " + checkboxy('settings_download_pqs_replace_file_name', 'Replace filename for PQ downloads') + show_help("With this option you can activate the replace of filenames for normal PQ downloads. There is a separate option for \"My Finds\" PQ downloads. Several placeholders are available for generating a filename. Invalid characters in a filename are automatically removed. If no filename is specified, the standard filename from the PQ processing is used.<br><br>If a filename already exists, you can configure your browser to, for example, use numbering in brackets or replace the file.") + "&nbsp;( Possible placeholders" + show_help(placeholderDescription) + ")<br>";
+            html += checkboxy('settings_download_pqs', 'Add option to download PQs with one click to default download location') + show_help(downloadDescription1 + downloadDescription2) + "<br>";
+            html += " &nbsp; " + checkboxy('settings_download_pqs_replace_file_name', 'Replace filename for PQ downloads') + show_help("With this option you can activate the replace of filenames for normal PQ downloads. There is a separate option for \"My Finds\" PQ downloads. Several placeholders are available for generating a filename. Invalid characters in a filename are automatically removed. If no filename is specified, the standard filename from the PQ processing is used.") + "&nbsp;( Possible placeholders" + show_help(placeholderDescription) + ")<br>";
             html += " &nbsp; &nbsp; &nbsp;" + "<input class='gclh_form' type='text' size='50' id='settings_download_pqs_file_name' title='Filename' placeholder='Enter filename' value='" + repApo(getValue('settings_download_pqs_file_name', '')) + "' style='margin-top: 2px;'>" + "<br>";
-            html += " &nbsp; " + checkboxy('settings_download_pqs_replace_file_name_founds', 'Replace filename for \"My Finds\" PQ downloads') + show_help("With this option you can activate the replace of filenames for \"My Finds\" PQ downloads. There is a separate option for other PQ downloads. Several placeholders are available for generating a filename. Invalid characters in a filename are automatically removed. If no filename is specified, the standard filename from the PQ processing is used.<br><br>If a filename already exists, you can configure your browser to, for example, use numbering in brackets or replace the file.") + "&nbsp;( Possible placeholders" + show_help(placeholderDescription) + ")<br>";
+            html += " &nbsp; " + checkboxy('settings_download_pqs_replace_file_name_founds', 'Replace filename for \"My Finds\" PQ downloads') + show_help("With this option you can activate the replace of filenames for \"My Finds\" PQ downloads. There is a separate option for other PQ downloads. Several placeholders are available for generating a filename. Invalid characters in a filename are automatically removed. If no filename is specified, the standard filename from the PQ processing is used.") + "&nbsp;( Possible placeholders" + show_help(placeholderDescription) + ")<br>";
             html += " &nbsp; &nbsp; &nbsp;" + "<input class='gclh_form' type='text' size='50' id='settings_download_pqs_file_name_founds' title='Filename' placeholder='Enter filename' value='" + repApo(getValue('settings_download_pqs_file_name_founds', '')) + "' style='margin-top: 2px;'>" + "<br>";
             html += newParameterVersionSetzen('0.18') + newParameterOff;
 
