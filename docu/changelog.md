@@ -107,15 +107,32 @@
 		<strong>New:</strong> [New Dashboard, Config] Reorganizing the dashboard configuration. [<a href="https://github.com/2Abendsegler/GClh/issues/2970" title="Issue 2970">2970</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
 		The dashboard configuration has been rewritten. The parameters for the old dashboard have been removed.<br>
 		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#gclh_config_db" title="Link to your GClh II Config">Settings -> Dashboard:<br>
-		<img src="../images/0.18/Screen12.jpg" alt="Screen12.jpg"></a><br>
+		<img src="../images/0.18/Screen12.jpg" alt="Screen12.jpg"></a><br><br>
 	</li>
 	<li>
-		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+		<strong>New:</strong> [New Dashboard] Split Search and Browse Map quick links. [<a href="https://github.com/2Abendsegler/GClh/issues/2989" title="Issue 2989">2989</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a>]<br><br>
+		Split the single config parameter to show "Search" and "Browse Map" as quick links into two separate parameters and migrate the settings from the old to the new parameters.<br>
+		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_dashboard_show_search" title="Link to your GClh II Config">Settings -> Dashboard:<br>
+		<img src="../images/0.18/Screen13.jpg" alt="Screen13.jpg"></a><br>
+		If you want to use this feature, you may need to activate it.<br><br>
+	</li>
+	<li>
+		<strong>Remove:</strong> [Old Dashboard] Remove the code from the old dashboard. [<a href="https://github.com/2Abendsegler/GClh/issues/2971" title="Issue 2971">2971</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
 </ul>
 
 ### Others:
 <ul>
+	<li>
+		<strong>New:</strong> [Global, Config] Add "Treasures" as a link to the Linklist. [<a href="https://github.com/2Abendsegler/GClh/issues/3006" title="Issue 3006">3006</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+	<li>
+		<strong>New:</strong> [Search Trackables] Extension of feature to dim lost trackables for owned trackables view to search trackables view. [<a href="https://github.com/2Abendsegler/GClh/issues/2977" title="Issue 2977">2977</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+		<img src="../images/0.18/Screen15.jpg" alt="Screen15.jpg"><br><br>
+		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_dim_lost_trackables" title="Link to your GClh II Config">Settings -> Others:<br>
+		<img src="../images/0.18/Screen16.jpg" alt="Screen16.jpg"></a><br>
+		This parameter is not new. If you want to use this feature, maybe you have to activate it.<br><br>
+	</li>
 	<li>
 		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
