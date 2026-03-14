@@ -82,12 +82,33 @@
 		If you want to use this feature, you have to activate it.<br><br>
 	</li>
 	<li>
+		<strong>New:</strong> [Cache Listing] Hide pop-up with notification about a collected treasure. [<a href="https://github.com/2Abendsegler/GClh/issues/3004" title="Issue 3004">3004</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
+		After logging a find, you are redirected to the cache listing, where a pop-up with a notification about a collected treasure may appear. This option prevents this pop-up from being displayed.<br>
+		<img src="../images/0.18/Screen07.jpg" alt="Screen07.jpg"><br><br>
+		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_hide_treasure_success_messages" title="Link to your GClh II Config">Settings -> Listing - Listing Header:<br>
+		<img src="../images/0.18/Screen08.jpg" alt="Screen08.jpg"></a><br>
+		If you want to use this feature, you have to activate it.<br><br>
+	</li>
+	<li>
 		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
 </ul>
 
 ### Dashboard:
 <ul>
+	<li>
+		<strong>New:</strong> [New Dashboard] Option to disable all features for dashboard. [<a href="https://github.com/2Abendsegler/GClh/issues/2982" title="Issue 2982">2982</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
+		This option allows you to quickly and easily disable all GC little helper II dashboard features without much effort. This is only useful if the dashboard website changes conflict with the features of GC little helper II.<br>
+		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_dashboard_disable_all_features" title="Link to your GClh II Config">Settings -> Dashboard:<br>
+		<img src="../images/0.18/Screen11.jpg" alt="Screen11.jpg"></a><br>
+		If you want to use this feature, you have to activate it.<br><br>
+	</li>
+	<li>
+		<strong>New:</strong> [New Dashboard, Config] Reorganizing the dashboard configuration. [<a href="https://github.com/2Abendsegler/GClh/issues/2970" title="Issue 2970">2970</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
+		The dashboard configuration has been rewritten. The parameters for the old dashboard have been removed.<br>
+		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#gclh_config_db" title="Link to your GClh II Config">Settings -> Dashboard:<br>
+		<img src="../images/0.18/Screen12.jpg" alt="Screen12.jpg"></a><br>
+	</li>
 	<li>
 		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
