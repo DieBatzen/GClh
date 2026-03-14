@@ -57,7 +57,7 @@
 		If you want to use this feature, you may need to do some customization.<br><br>
 	</li>
 	<li>
-		<strong>Fix:</strong> [Pocket Query] Prevent map error after PQ deletion. [<a href="https://github.com/2Abendsegler/GClh/issues/2998" title="Issue 2998">2998</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a>]<br>
+		<strong>Fix:</strong> [Pocket Query] Prevent map error after PQ deletion. [<a href="https://github.com/2Abendsegler/GClh/issues/2998" title="Issue 2998">2998</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a>]<br><br>
 	</li>
 </ul>
 
@@ -99,7 +99,7 @@
 		<strong>Fix:</strong> [Cache Listing] Page width of exceeds readable area. [<a href="https://github.com/2Abendsegler/GClh/issues/2979" title="Issue 2979">2979</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
 	<li>
-		<strong>Fix:</strong> [Cache Listing] Improve screen "Enter solved coordinates" again. [<a href="https://github.com/2Abendsegler/GClh/issues/3017" title="Issue 3017">3017</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+		<strong>Fix:</strong> [Cache Listing] Improve screen "Enter solved coordinates" again. [<a href="https://github.com/2Abendsegler/GClh/issues/3017" title="Issue 3017">3017</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
 	</li>
 </ul>
 
@@ -141,21 +141,21 @@
 		<strong>Fix:</strong> [New Dashboard] Stop the expand icons in VIP, VUP lists from flickering. [<a href="https://github.com/2Abendsegler/GClh/issues/2996" title="Issue 2996">2996</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
 	<li>
-		<strong>Fix:</strong> [New Dashboard] Hide of individual rows in the left column doesn't work on very small screens. [<a href="https://github.com/2Abendsegler/GClh/issues/2975" title="Issue 2975">2975</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+		<strong>Fix:</strong> [New Dashboard] Hide of individual rows in the left column doesn't work on very small screens. [<a href="https://github.com/2Abendsegler/GClh/issues/2975" title="Issue 2975">2975</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
 	</li>
 </ul>
 
 ### Others:
 <ul>
 	<li>
-		<strong>New:</strong> [Global, Config] Add "Treasures" as a link to the Linklist. [<a href="https://github.com/2Abendsegler/GClh/issues/3006" title="Issue 3006">3006</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
-	</li>
-	<li>
 		<strong>New:</strong> [Search Trackables] Extension of feature to dim lost trackables for owned trackables view to search trackables view. [<a href="https://github.com/2Abendsegler/GClh/issues/2977" title="Issue 2977">2977</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 		<img src="../images/0.18/Screen15.jpg" alt="Screen15.jpg"><br><br>
 		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_dim_lost_trackables" title="Link to your GClh II Config">Settings -> Others:<br>
 		<img src="../images/0.18/Screen16.jpg" alt="Screen16.jpg"></a><br>
 		This parameter is not new. If you want to use this feature, maybe you have to activate it.<br><br>
+	</li>
+	<li>
+		<strong>New:</strong> [Global] Add "Treasures" as a link to the Linklist. [<a href="https://github.com/2Abendsegler/GClh/issues/3006" title="Issue 3006">3006</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
 	</li>
 	<li>
 		<strong>Fix:</strong> [Search Map] Matrix links from difficulty and terrain statistics grid are not working as expected. [<a href="https://github.com/2Abendsegler/GClh/issues/2973" title="Issue 2973">2973</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a>]<br>
