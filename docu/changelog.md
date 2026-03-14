@@ -46,12 +46,15 @@
 ### Pocket Query:
 <ul>
 	<li>
-		<strong>New:</strong> [New Dashboard] Show menu under the header as in the old dashboard. [<a href="https://github.com/2Abendsegler/GClh/issues/2953" title="Issue 2953">2953</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
-		This option allows you to show a menu below the header, similar to what you know from the old dashboard.<br>
-		<img src="../images/0.17.14/Screen01.jpg" alt="Screen01.jpg"><br>
-		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_dashboard_build_menu_old_db_in_new_db" title="Link to your GClh II Config">Settings -> Dashboard:<br>
-		<img src="../images/0.17.14/Screen02.jpg" alt="Screen02.jpg"></a><br>
-		If you want to use this feature, you have to activate it.<br><br>
+		<strong>New:</strong> [Pocket Query] Download generated PQs with one click to the default download location. [<a href="https://github.com/2Abendsegler/GClh/issues/2866" title="Issue 2866">2866</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
+		Generated Pocket Queries can be automatically downloaded via a download button. The files are saved automatically and without dialog in the browser's default download location. They are saved in zip format.<br>
+		Further information on Pocket Query downloads and what to consider in the browser and script manager can be found <a href="../docu/faq.md#11-en" title="Link to 'FAQ 11. Information about Pocket Query Downloads.'">here</a>.<br>
+		<img src="../images/0.18/Screen01.gif" alt="Screen01.gif"><br><br>
+		Several placeholders are available for generating the filenames.<br>
+		<img src="../images/0.18/Screen03.jpg" alt="Screen03.jpg"><br>
+		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_download_pqs" title="Link to your GClh II Config">Settings -> Pocket Query - List of Pocket Queries:<br>
+		<img src="../images/0.18/Screen02.jpg" alt="Screen02.jpg"></a><br>
+		If you want to use this feature, you may need to do some customization.<br><br>
 	</li>
 	<li>
 		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
@@ -60,6 +63,24 @@
 
 ### Listing:
 <ul>
+	<li>
+		<strong>New:</strong> [Cache Listing] Personal cache note templates. [<a href="https://github.com/2Abendsegler/GClh/issues/2705" title="Issue 2705">2705</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
+		Templates are predefined texts. You can save up to ten templates. All of your templates will be displayed under the personal caches note in listings. With a click it will be placed in the personal caches note.<br>
+		<img src="../images/0.18/Screen04.gif" alt="Screen04.gif"><br><br>
+		 You can also use placeholders for variables that will be replaced in the personal caches note.<br>
+		<img src="../images/0.18/Screen06.jpg" alt="Screen06.jpg"><br>
+		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_add_cache_note_templates" title="Link to your GClh II Config">Settings -> Listing - Personal Cache Note:<br>
+		<img src="../images/0.18/Screen05.jpg" alt="Screen05.jpg"></a><br>
+		If you want to use this feature, you may need to do some customization.<br><br>
+	</li>
+	<li>
+		<strong>New:</strong> [Event Listing] Set default calendar in an event listing. [<a href="https://github.com/2Abendsegler/GClh/issues/2850" title="Issue 2850">2850</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br><br>
+		With this option you can set the default calendar for an event listing. A selection in the calendar popup in the event listing is no longer necessary.<br>
+		<img src="../images/0.18/Screen09.jpg" alt="Screen09.jpg"><br><br>
+		<a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_set_default_calendar_link_for_event" title="Link to your GClh II Config">Settings -> Listing - Listing Header:<br>
+		<img src="../images/0.18/Screen10.jpg" alt="Screen10.jpg"></a><br>
+		If you want to use this feature, you have to activate it.<br><br>
+	</li>
 	<li>
 		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
