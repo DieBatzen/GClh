@@ -60,7 +60,6 @@
 		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
 </ul>
-<br>
 
 ### Listing:
 <ul>
@@ -91,10 +90,15 @@
 		If you want to use this feature, you have to activate it.<br><br>
 	</li>
 	<li>
-		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+		<strong>Fix:</strong> [Cache Listing] Add to list feature no longer works properly. [<a href="https://github.com/2Abendsegler/GClh/issues/3016" title="Issue 3016">3016</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+	<li>
+		<strong>Fix:</strong> [Cache Listing] One click ignoring/restoring feature no longer works properly. [<a href="https://github.com/2Abendsegler/GClh/issues/3011" title="Issue 3011">3011</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+	<li>
+		<strong>Fix:</strong> [Cache Listing] Page width of exceeds readable area. [<a href="https://github.com/2Abendsegler/GClh/issues/2979" title="Issue 2979">2979</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
 </ul>
-<br>
 
 ### Dashboard:
 <ul>
@@ -121,8 +125,16 @@
 	<li>
 		<strong>Remove:</strong> [Old Dashboard] Remove the code from the old dashboard. [<a href="https://github.com/2Abendsegler/GClh/issues/2971" title="Issue 2971">2971</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
+	<li>
+		<strong>Fix:</strong> [New Dashboard] Some features don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2981" title="Issue 2981">2981</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+	<li>
+		<strong>Fix:</strong> [New Dashboard] Some features don't work because of new dashboard release (12.03.2026). [<a href="https://github.com/2Abendsegler/GClh/issues/3014" title="Issue 3014">3014</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+	<li>
+		<strong>Fix:</strong> [New Dashboard] Option to hide/show the right sidebar no longer works. [<a href="https://github.com/2Abendsegler/GClh/issues/2972" title="Issue 2972">2972</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a>]<br>
+	</li>
 </ul>
-<br>
 
 ### Others:
 <ul>
@@ -137,7 +149,19 @@
 		This parameter is not new. If you want to use this feature, maybe you have to activate it.<br><br>
 	</li>
 	<li>
-		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+		<strong>Fix:</strong> [Search Map] Matrix links from difficulty and terrain statistics grid are not working as expected. [<a href="https://github.com/2Abendsegler/GClh/issues/2973" title="Issue 2973">2973</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a>]<br>
+	</li>
+	<li>
+		<strong>Fix:</strong> [Maps] Add to list feature no longer works properly. [<a href="https://github.com/2Abendsegler/GClh/issues/3016" title="Issue 3016">3016</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+	<li>
+		<strong>Fix:</strong> [Global] Misaligned header content in the horizontal menu. [<a href="https://github.com/2Abendsegler/GClh/issues/3009" title="Issue 3009">3009</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
+	</li>
+	<li>
+		<strong>Fix:</strong> [Global] GClh header is built with a delay, improve header handling. [<a href="https://github.com/2Abendsegler/GClh/issues/2993" title="Issue 2993">2993</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a>]<br>
+	</li>
+	<li>
+		<strong>Fix:</strong> [Global] Prevent user menu from disappearing behind page elements. [<a href="https://github.com/2Abendsegler/GClh/issues/2992" title="Issue 2992">2992</a> / <a href="https://www.geocaching.com/profile/?u=Die Batzen" title="Thanks to Die Batzen">Die Batzen</a>]<br>
 	</li>
 </ul>
 <br>
