@@ -2077,6 +2077,10 @@ var mainGC = function() {
                     appendCssStyle(".menu > li, .Menu > li {height: 100%; padding-top: 2.0em;} .submenu, .SubMenu {margin-top: 2.0em;}");
                 }
             }
+            // On browse map, if Change Header Layout is disabled, ensure that search field is aligned correctly.
+            if (!settings_change_header_layout && is_page("map")) {
+                appendCssStyle(".menu input, .Menu input {margin: 0;}");
+            }
             if (settings_bookmarks_on_top && $('.Menu, .menu').length > 0) {
                 var nav_list = $('.Menu, .menu')[0];
                 var menu = document.createElement("li");
