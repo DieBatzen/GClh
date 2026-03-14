@@ -60,6 +60,7 @@
 		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
 </ul>
+<br>
 
 ### Listing:
 <ul>
@@ -93,6 +94,7 @@
 		<strong>Fix:</strong> [New Dashboard] Some features in left navigation sidebar don't work because of new dashboard release. [<a href="https://github.com/2Abendsegler/GClh/issues/2928" title="Issue 2928">2928</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
 </ul>
+<br>
 
 ### Dashboard:
 <ul>
@@ -120,6 +122,7 @@
 		<strong>Remove:</strong> [Old Dashboard] Remove the code from the old dashboard. [<a href="https://github.com/2Abendsegler/GClh/issues/2971" title="Issue 2971">2971</a> / <a href="https://www.geocaching.com/profile/?u=2Abendsegler" title="Thanks to 2Abendsegler">2Abendsegler</a>]<br>
 	</li>
 </ul>
+<br>
 
 ### Others:
 <ul>
