@@ -181,19 +181,19 @@ Or you can create a note in one of the forums or on our discussions page. See <a
 <br>
 
 <a id="11-en"></a>
-## 9. Information about Pocket Query Downloads.
-Generated Pocket Queries can be automatically downloaded via a download button. The files are saved automatically and without dialog in the browser's default download location. They are saved in zip  format. Several placeholders are available for generating the filenames. The configuration in the GC little helper II is done <a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_download_pqs" title="Link to your GClh II Config" target="_blank">here</a>.<br><br>
+## 11. Information about Pocket Query Downloads.
+Generated Pocket Queries can be automatically downloaded via a download button. The files are saved automatically and without dialog in the browser's default download location. They are saved in zip  format. Several placeholders are available for generating the filenames. The configuration in the GC little helper II is done <a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_download_pqs" title="Link to your GClh II Config">here</a>.<br><br>
 If a download fails, the error message is saved. To view the error message, hover your mouse over the red error icon or check the browser console (function key F12, Console tab).<br><br>
 Settings for this are available in the browser and the script manager. These settings allow you to restrict downloads or saving files without a dialog. These settings cannot, of course, be changed by GC little helper II. It may be necessary to adjust settings in the browser or the script manager.<br><br>
 In the browser, for example, the default download directory is defined. It can be specified whether files in zip format may be saved without a dialog or whether the user is asked each time. It can also be specified whether a download history is created. The browser settings can usually be searched using a search term such as "download".<br><br>
 The script manager usually allows you to define how a download is performed and whether downloads are permitted for files in zip format. These settings can be found in the Downloads section of the script manager settings (not in the script settings).<br><br>
 In the browsers Mozilla Firefox, Google Chrome, and Microsoft Edge, all settings are configured by default to allow downloads to proceed as intended.<br>
 We were unable to examine all browsers and script managers and their combinations.<br><br>
-Notes and special features regarding downloads:<br>
+Special notes regarding the downloads:<br>
 <ul>
 	<li>
 		Tampermonkey script manager:<br>
-		Information on the settings can be found <a href="https://www.tampermonkey.net/faq.php?locale=en#Q302" title="Tampermonkey FAQ 302" target="_blank">here</a>.
+		Information on the settings can be found <a href="https://www.tampermonkey.net/faq.php?locale=en#Q302" title="Tampermonkey FAQ 302">here</a>.
 	</li>
 	<li>
 		Violentmonkey script manager:<br>
