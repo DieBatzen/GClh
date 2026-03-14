@@ -12,6 +12,7 @@
 <a href="#8-en">8. Where can I get help with the GClh?</a> | <a href="#8-de">8. Wo bekomme ich Hilfe zum GClh?</a>
 <a href="#9-en">9. How can I report a bug or a feature request?</a> | <a href="#9-de">9. Wie kann ich einen Fehler melden oder eine Anfrage zu einem neuen Feature stellen?</a>
 <a href="#10-en">10. What can I do if individual features don't work or don't always work?</a> | <a href="#10-de">10. Was kann ich tun, wenn einzelne Features nicht oder nicht immer funktionieren?</a>
+<a href="#11-en">11. Information about Pocket Query Downloads.</a> | <a href="#11-de">11. Informationen zu Pocket Query Downloads.</a>
 
 ---
 <a id="en" href="#en"><img src="../images/flag_en.png"></a>
@@ -177,6 +178,32 @@ Or you can create a note in one of the forums or on our discussions page. See <a
 2. Alternatively to 1. only the necessary cookies can be accepted by geocaching.com if cookie processing is blocked at the same time. For example, the entry "cookiebot.com" can be included in "My Filters" in the "uBlock Origin" add-on.<br><br>
 3. If the "Ghostery" add-on is installed, "Never Consent" must be switched off for "geocaching.com".<br><br>
 4. If the "GeocachingUtils" add-on is installed, the logs are not always displayed in the listing. Changes are made in the add-on that no longer allow GClh to display the logs. We are not planning to make any adjustments to fix the problem.<br><br>
+<br>
+
+<a id="11-en"></a>
+## 9. Information about Pocket Query Downloads.
+Generated Pocket Queries can be automatically downloaded via a download button. The files are saved automatically and without dialog in the browser's default download location. They are saved in zip  format. Several placeholders are available for generating the filenames. The configuration in the GC little helper II is done <a href="https://www.geocaching.com/my/#GClhShowConfig#a#settings_download_pqs" title="Link to your GClh II Config" target="_blank">here</a>.<br><br>
+If a download fails, the error message is saved. To view the error message, hover your mouse over the red error icon or check the browser console (function key F12, Console tab).<br><br>
+Settings for this are available in the browser and the script manager. These settings allow you to restrict downloads or saving files without a dialog. These settings cannot, of course, be changed by GC little helper II. It may be necessary to adjust settings in the browser or the script manager.<br><br>
+In the browser, for example, the default download directory is defined. It can be specified whether files in ZIP format may be saved without a dialog or whether the user is asked each time. It can also be specified whether a download history is created. The browser settings can usually be searched using a search term such as "download".<br><br>
+The script manager usually allows you to define how a download is performed and whether downloads are permitted for files in zip format. These settings can be found in the Downloads section of the script manager settings (not in the script settings).<br><br>
+In the browsers Mozilla Firefox, Google Chrome, and Microsoft Edge, all settings are configured by default to allow downloads to proceed as intended.<br>
+We were unable to examine all browsers and script managers and their combinations.<br><br>
+Notes and special features regarding downloads:<br>
+<ul>
+	<li>
+		Tampermonkey script manager:
+		Information on the settings can be found <a href="https://www.tampermonkey.net/faq.php?locale=en#Q302" title="Tampermonkey FAQ 302" target="_blank">here</a>.
+	</li>
+	<li>
+		Violentmonkey script manager:
+		Download settings do not appear to be available. Downloads seem to be possible only via a dialog box.
+	</li>
+	<li>
+		Vivaldi browser with Tampermonkey script manager:
+		In the script manager, the download mode must be set to "Browser API".
+	</li>
+</ul>
 <br>
 <br>
 
