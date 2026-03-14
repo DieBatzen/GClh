@@ -189,7 +189,7 @@ In the browser, for example, the default download directory is defined. It can b
 The script manager usually allows you to define how a download is performed and whether downloads are permitted for files in zip format. These settings can be found in the Downloads section of the script manager settings (not in the script settings).<br><br>
 In the browsers Mozilla Firefox, Google Chrome, and Microsoft Edge, all settings are configured by default to allow downloads to proceed as intended.<br>
 We were unable to examine all browsers and script managers and their combinations.<br><br>
-Special notes regarding the Pocket Query Downloads:<br>
+<a id="11-en-special-notes"></a>Special notes regarding the Pocket Query Downloads:<br>
 <ul>
 	<li>
 		Tampermonkey script manager:<br>
